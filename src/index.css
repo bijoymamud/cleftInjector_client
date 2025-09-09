@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+@import "tailwindcss";
+
+:root {
+    font-family: "Urbanist", sans-serif;
+
+    --color-title: #66412D;
+    --color-tagline: #FF792C;
+    --color-label: #434242;
+    --color-background: #FBFEFE;
+    --color-dark-gray: #6A707C;
+}
+
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
+@import "tailwindcss";
+
+:root {
+    font-family: "Space Grotesk", sans-serif;
+
+    /* 🎨 Color variables (same naming as your object) */
+    --color-title: #66412D;
+    --color-tagline: #FF792C;
+    --color-label: #434242;
+    --color-background: #FBFEFE;
+    --color-paragraph: #dce1eb;
+}
+
+/* Optional: utility classes to mimic Tailwind’s text/bg usage */
+.text-title {
+    color: var(--color-title);
+}
+
+.bg-title {
+    background-color: var(--color-title);
+}
+
+.text-tagline {
+    color: var(--color-tagline);
+}
+
+.bg-accent {
+    background-color: var(--color-accent);
+}
+
+.text-label {
+    color: var(--color-label);
+}
+
+.bg-foreground {
+    background-color: var(--color-foreground);
+}
+
+.text-background {
+    color: var(--color-background);
+}
+
+.bg-background {
+    background-color: var(--color-background);
+}
+
+.text-dark-gray {
+    color: var(--color-dark-gray);
+}
+
+.bg-dark-gray {
+    background-color: var(--color-dark-gray);
+}
