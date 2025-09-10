@@ -107,7 +107,7 @@ const FAQAccordion = () => {
           Frequently Asked Questions
         </h2>
         <p className="text-gray-600 text-lg">
-          Everything you need to know about our aesthetic provider directory
+          Everything you need to know about our cleft lip injectors
         </p>
       </div>
 
@@ -124,7 +124,7 @@ const FAQAccordion = () => {
               aria-controls={`content-${item.id}`}
             >
               <div className="flex items-center">
-                <span className="text-gray-900 font-semibold text-base leading-relaxed pr-4">
+                <span className="text-gray-800   text-base leading-relaxed pr-4">
                   {item.question}
                 </span>
               </div>

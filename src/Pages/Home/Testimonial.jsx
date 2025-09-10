@@ -1,3 +1,4 @@
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useCallback } from "react";
 
 const testimonials = [
@@ -93,19 +94,7 @@ export default function Testimonials() {
               aria-label="Previous testimonials"
               disabled={isFirstPage}
             >
-              <svg
-                className="w-4 h-4 text-orange-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
+              <ChevronLeft size={22} className="text-orange-600" />
             </button>
             <button
               onClick={nextTestimonial}
@@ -115,19 +104,7 @@ export default function Testimonials() {
               aria-label="Next testimonials"
               disabled={isLastPage}
             >
-              <svg
-                className="w-4 h-4 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
+              <ChevronRight size={22} className="text-white" />
             </button>
           </div>
         </div>

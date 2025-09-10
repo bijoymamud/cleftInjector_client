@@ -5,6 +5,7 @@ import Specialist_Query from "./Specialist_Query";
 import Injectors from "./Injectors";
 import Testimonials from "./Testimonial";
 import Faq from "./Faq";
+import DirectoryCallToAction from "./DirectoryCallToAction";
 
 const Home = () => {
   return (
@@ -15,6 +16,7 @@ const Home = () => {
       <Injectors />
       <Testimonials />
       <Faq />
+      <DirectoryCallToAction />
     </section>
   );
 };
