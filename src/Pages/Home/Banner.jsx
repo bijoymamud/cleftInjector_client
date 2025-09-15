@@ -1,4 +1,6 @@
-import React from "react";
+import { Button } from "@/components/ui/button";
+import { CiSearch } from "react-icons/ci";
+import { FaRegUser } from "react-icons/fa6";
 
 const Banner = () => {
   return (
@@ -20,12 +22,14 @@ const Banner = () => {
               qualified and trained cleft lip injectors near them.
             </p>
             <div className="space-x-4">
-              <button className="border cursor-pointer px-10 border-white hover:bg-white hover:text-black py-3 rounded-[12px] font-medium">
-                Learn More
-              </button>
-              <button className="bg-[#E26C29] cursor-pointer px-10 hover:bg-[#cf5a16] py-3 rounded-[12px]">
-                Get Started
-              </button>
+              <Button className="border cursor-pointer text-md font-[550] w-[200px] border-white hover:bg-white hover:text-black py-6 rounded-[12px] ">
+                <CiSearch size={40} />
+                Find Injector
+              </Button>
+              <Button className="border cursor-pointer text-md font-[550] w-[200px] border-white bg-[#E26C29] hover:bg-[#d35913]  py-6 rounded-[12px] ">
+                <FaRegUser size={20} />
+                Get Listed
+              </Button>
             </div>
           </div>
         </div>

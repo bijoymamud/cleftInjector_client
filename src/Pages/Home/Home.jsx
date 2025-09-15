@@ -16,7 +16,6 @@ const Home = () => {
       <Injectors />
       <Testimonials />
       <Faq />
-      <DirectoryCallToAction />
     </section>
   );
 };
