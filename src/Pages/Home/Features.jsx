@@ -33,7 +33,7 @@ const Features = () => {
             <h1 className="text-[48px] font-bold text-title py-5">
               A Trusted Netwrok of Professional
             </h1>
-            <p className="text-label">
+            <p className="text-label text-lg">
               we connect patients with verified cleft lip injection specialist
               worldwide, ensuring quality care and peace of mind.
             </p>
@@ -52,7 +52,7 @@ const Features = () => {
                   <h1 className="text-[#251913] pb-3 text-[20px] font-medium">
                     {feature?.title}
                   </h1>
-                  <p className="text-[#3F3F3F] text-sm ">
+                  <p className="text-[#3F3F3F] text-base ">
                     {feature?.description}
                   </p>
                 </div>

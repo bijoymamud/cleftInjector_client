@@ -9,7 +9,7 @@ const Footer = () => {
         <h1 className="text-white  text-center text-[48px] font-bold pt-2">
           Get Listed In Our Directory
         </h1>
-        <p className="text-white text-center py-3">
+        <p className="text-white text-center py-3 text-lg">
           Join our network of certified cleft lip injectors and connect with
           patients seeking your expertise.
         </p>
@@ -31,7 +31,7 @@ const Footer = () => {
           <div>
             <img src="https://i.ibb.co.com/tp5FFNsL/Frame-2.png" alt="" />
 
-            <div className="max-w-md text-center md:text-left text-sm leading-relaxed pt-5 text-[#C0C0C0]">
+            <div className="max-w-md text-center md:text-left text-base leading-relaxed pt-5 text-[#C0C0C0]">
               CleftInject global directory of certified cleft lip injectors. We
               connect patients with trained professionals who provide safe and
               effective treatment.
