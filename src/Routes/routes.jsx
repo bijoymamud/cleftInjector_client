@@ -10,8 +10,8 @@ import ResetPassowrd from "@/Pages/Authentication/ResetPassowrd";
 import LoadingScreen from "@/LoadingPages/LoadingScreen";
 import About_us from "@/Pages/AboutUs/About_us";
 const Home = React.lazy(() => import("../Pages/Home/Home"));
-
 const Directory = React.lazy(() => import("../Pages/Directory/Directory"));
+const Profile = React.lazy(() => import("../Pages/Directory/Profile"));
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -26,6 +26,14 @@ export const router = createBrowserRouter([
         element: (
           <Suspense fallback={<LoadingScreen />}>
             <Directory />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/profile/:id",
+        element: (
+          <Suspense fallback={<LoadingScreen />}>
+            <Profile />
           </Suspense>
         ),
       },

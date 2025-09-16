@@ -17,15 +17,19 @@ const Banner = () => {
             <h1 className="text-4xl md:text-6xl font-bold mb-4 tracking-wide">
               Find A Certified Cleft Lip Injector
             </h1>
-            <p className="text-lg md:text-xl max-w-2xl font-thin mb-6">
+            <p className="text-lg md:text-xl max-w-2xl  mb-6 ">
               This feature allows patients and families to easily search for
               qualified and trained cleft lip injectors near them.
             </p>
             <div className="space-x-4">
-              <Button className="border cursor-pointer text-md font-[550] w-[200px] border-white hover:bg-white hover:text-black py-6 rounded-[12px] ">
+              <Button
+                variant="ghost"
+                className="border cursor-pointer text-md font-[550] w-[200px] bg-none border-white hover:bg-white hover:text-black py-6 rounded-[12px] "
+              >
                 <CiSearch size={40} />
                 Find Injector
               </Button>
+
               <Button className="border cursor-pointer text-md font-[550] w-[200px] border-white bg-[#E26C29] hover:bg-[#d35913]  py-6 rounded-[12px] ">
                 <FaRegUser size={20} />
                 Get Listed

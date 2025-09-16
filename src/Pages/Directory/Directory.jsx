@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 
 import { useForm } from "react-hook-form";
 import { MdVerified } from "react-icons/md";
+import { Link } from "react-router";
 
 export default function Directory() {
   const {
@@ -81,7 +82,7 @@ export default function Directory() {
 
   return (
     <div className="min-h-screen ">
-      <div className="relative my-14 bg-white rounded-2xl shadow-lg overflow-hidden w-full container mx-auto">
+      <div className="relative mb-14 mt-24 bg-white rounded-2xl shadow-lg overflow-hidden w-full container mx-auto">
         <div className="relative h-[50vh] w-full bg-center bg-cover bg-[url('https://i.ibb.co.com/0pzPpQms/Frame-1707482902.jpg')] rounded-2xl">
           <div className="absolute inset-0 bg-black/60" />
 
@@ -271,20 +272,20 @@ export default function Directory() {
                             </span>
                           </div>
                         </div>
-                        <div className="mt-5 flex gap-2">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="flex-1 py-5 hover:bg-gray-100 rounded-[12px] border cursor-pointer border-[#E26C29] bg-transparent"
+
+                        <div className="mt-5 flex gap-3">
+                          <Link
+                            to={`/profile/${doctor?.id}`}
+                            className="flex-1 text-center py-3 rounded-[12px] border border-[#E26C29] text-[#E26C29] font-medium hover:bg-[#E26C29]/10 transition"
                           >
                             View Profile
-                          </Button>
-                          <Button
-                            className="bg-orange-500 rounded-[12px] cursor-pointer py-5 hover:bg-orange-600 text-white flex-1"
-                            size="sm"
+                          </Link>
+                          <Link
+                            to={`/consultation_details/${doctor?.id}`}
+                            className="flex-1 text-center py-3 rounded-[12px] bg-orange-500 text-white font-medium hover:bg-orange-600 transition"
                           >
                             Book Consultation
-                          </Button>
+                          </Link>
                         </div>
                       </div>
                     </div>

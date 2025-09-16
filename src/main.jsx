@@ -13,7 +13,7 @@ function DelayedFallback({ children }) {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowApp(true);
-    }, 4000); // change to 10000 for 10 seconds
+    }, 4000);
 
     return () => clearTimeout(timer);
   }, []);

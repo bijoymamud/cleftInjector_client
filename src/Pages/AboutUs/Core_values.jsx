@@ -43,7 +43,7 @@ const Core_values = () => {
           {values.map((value) => (
             <div
               key={value?.id}
-              className="shadow-md shadow-gray-200 text-center p-10 drop-shadow-xl rounded-[20px] bg-white"
+              className="shadow-md shadow-gray-200 text-center p-10 drop-shadow-md rounded-[20px] bg-white"
             >
               <img
                 src={value?.image}

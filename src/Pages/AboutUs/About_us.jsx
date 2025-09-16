@@ -2,13 +2,16 @@ import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import React from "react";
 import Core_values from "./Core_values";
-import Certification_process from "./Certification_process";
+import Certification_process from "./Impact";
+import Impact from "./Impact";
+import Certification_Process from "./Certification_process";
+import Our_Vision from "./Our_Vision";
 
 const About_us = () => {
   return (
     <section className="min-h-screen">
       {/* Hero Section */}
-      <div className="relative my-14 bg-white rounded-2xl shadow-lg overflow-hidden w-full container mx-auto">
+      <div className="relative my-14 mt-24 bg-white rounded-2xl shadow-lg overflow-hidden w-full container mx-auto">
         <div className="relative h-[50vh] w-full bg-center bg-cover bg-[url('https://i.ibb.co.com/vxV6j5Xk/Frame-1707482945.jpg')] rounded-2xl">
           <div className="absolute inset-0 bg-black/60" />
 
@@ -72,7 +75,9 @@ const About_us = () => {
       </div>
 
       <Core_values />
-      <Certification_process />
+      <Impact />
+      <Certification_Process />
+      <Our_Vision />
     </section>
   );
 };
