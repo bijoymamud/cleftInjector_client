@@ -15,12 +15,12 @@ import {
   AwardIcon,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router";
 
-export default function DoctorProfile() {
+export default function Profile() {
   return (
     <div className="min-h-screen bg-gray-50 p-4 py-20">
       <div className="container mx-auto">
-        {/* Header Section */}
         <div className="mb-6 border-b border-dashed border-gray-300">
           <div className="p-6">
             <div className="flex flex-col md:flex-row gap-6">
@@ -74,19 +74,18 @@ export default function DoctorProfile() {
                   </div>
                 </div>
 
-                <div className="flex gap-3">
+                <Link to="/book-consultation" className="flex gap-3">
                   <Button className="bg-orange-500 hover:bg-orange-600 text-md flex cursor-pointer items-center gap-2">
                     <Calendar className="w-4 h-4" />
                     Book Consultation
                   </Button>
-                </div>
+                </Link>
               </div>
             </div>
           </div>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
-          {/* Left Column */}
           <div className="space-y-6">
             {/* About Section */}
             <div>
@@ -204,7 +203,6 @@ export default function DoctorProfile() {
             </div>
           </div>
 
-          {/* Right Column */}
           <div className="space-y-6">
             {/* Contact Information */}
             <div>
