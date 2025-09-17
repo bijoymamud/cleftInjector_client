@@ -33,7 +33,7 @@ const Specialist_Query = () => {
             <h1 className="text-[48px] font-bold text-title">
               Find Your Specialist
             </h1>
-            <p className="text-label text-lg tracking-wide">
+            <p className="text-label text-xl tracking-wide">
               Search our comprehensive directory of certified cleft lip
               injection specialists
             </p>

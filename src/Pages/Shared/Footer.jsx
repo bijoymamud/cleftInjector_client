@@ -5,11 +5,12 @@ const Footer = () => {
   return (
     <section className="bg-[#101828]">
       <div className="bg-[#101828] p-10">
-        <p className="text-tagline pt-10 text-center">For Provider</p>
+        <p className="text-tagline pt-10 text-center text-xl">For Provider</p>
         <h1 className="text-white  text-center text-[48px] font-bold pt-2">
           Get Listed In Our Directory
         </h1>
-        <p className="text-white text-center py-3 text-lg">
+
+        <p className="text-white text-center py-3 text-xl">
           Join our network of certified cleft lip injectors and connect with
           patients seeking your expertise.
         </p>

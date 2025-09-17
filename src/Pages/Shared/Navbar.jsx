@@ -41,7 +41,7 @@ export function Navbar() {
                 key={item.name}
                 to={item.to}
                 className={cn(
-                  "inline-flex items-center px-3 py-2 text-base font-medium transition-colors duration-200",
+                  "inline-flex items-center px-3 py-2 text-xl font-medium transition-colors duration-200",
                   pathname === item.to
                     ? "text-[#CC6023] border-b-2 border-[#CC6023]"
                     : "text-gray-600 hover:text-[#CC6023] hover:border-b-2 hover:border-[#CC6023]"

@@ -1,56 +1,3 @@
-// "use client";
-
-// import {
-//   Accordion,
-//   AccordionContent,
-//   AccordionItem,
-//   AccordionTrigger,
-// } from "@/components/ui/accordion";
-
-// const faqItems = [
-//   {
-//     title: "How Do I know the injectors are qualified?",
-//     content: "You can check their certifications and reviews.",
-//   },
-//   {
-//     title: "Is there a cost to use the directory as a patient?",
-//     content: "No, it's completely free for patients.",
-//   },
-//   {
-//     title: "How long does the application process take for providers?",
-//     content: "It usually takes 2-3 business days.",
-//   },
-//   {
-//     title: "Can I book appointments directly through the platform?",
-//     content: "Yes, patients can book appointments directly.",
-//   },
-// ];
-
-// export default function Faq() {
-//   return (
-//     <Accordion
-//       type="single"
-//       collapsible
-//       className="w-full max-w-xl mx-auto border rounded-lg"
-//     >
-//       {faqItems.map((item, index) => (
-//         <AccordionItem
-//           key={index}
-//           value={`item-${index}`}
-//           className="border-b last:border-b-0"
-//         >
-//           <AccordionTrigger className="flex justify-between items-center px-4 py-3 font-semibold hover:bg-gray-100">
-//             {item.title}
-//           </AccordionTrigger>
-//           <AccordionContent className="px-4 py-2 text-gray-700">
-//             {item.content}
-//           </AccordionContent>
-//         </AccordionItem>
-//       ))}
-//     </Accordion>
-//   );
-// }
-
 import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
 
@@ -106,13 +53,13 @@ const FAQAccordion = () => {
         <h2 className="text-[48px] font-bold text-title mb-3">
           Frequently Asked Questions
         </h2>
-        <p className="text-gray-600 text-lg">
+        <p className="text-gray-600 text-xl">
           Everything you need to know about our cleft lip injectors
         </p>
       </div>
 
       <div className="space-y-4">
-        {faqItems.map((item, index) => (
+        {faqItems.map((item) => (
           <div
             key={item.id}
             className="border border-gray-200 rounded-lg bg-[#F9F6F6] shadow-sm hover:shadow-md transition-shadow duration-200"
@@ -124,7 +71,7 @@ const FAQAccordion = () => {
               aria-controls={`content-${item.id}`}
             >
               <div className="flex items-center">
-                <span className="text-gray-800   text-base leading-relaxed pr-4">
+                <span className="text-gray-900   text-lg font-medium leading-relaxed pr-4">
                   {item.question}
                 </span>
               </div>
@@ -145,7 +92,7 @@ const FAQAccordion = () => {
             >
               <div className="px-6 pb-6 pt-2">
                 <div className="ml-12 border-l-2 border-[#FF792C]/30 pl-6">
-                  <p className="text-gray-700 text-base leading-relaxed">
+                  <p className="text-label text-base leading-relaxed">
                     {item.answer}
                   </p>
                 </div>
