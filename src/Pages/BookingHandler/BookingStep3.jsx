@@ -47,41 +47,6 @@ export function BookingStep3({ onBack, bookingData, onConfirm, isConfirmed }) {
         <CardTitle className="text-sm text-muted-foreground">
           Schedule your appointment with our Sarah Johnson
         </CardTitle>
-
-        <div className="flex items-center justify-center gap-8 mt-6">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-medium">
-              ✓
-            </div>
-            <span className="text-sm text-green-600">Date & Time</span>
-          </div>
-          <div className="w-8 h-px bg-gray-300"></div>
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-medium">
-              ✓
-            </div>
-            <span className="text-sm text-green-600">Your Details</span>
-          </div>
-          <div className="w-8 h-px bg-gray-300"></div>
-          <div className="flex items-center gap-2">
-            <div
-              className={`w-8 h-8 ${
-                isConfirmed
-                  ? "bg-green-500 text-white"
-                  : "bg-orange-500 text-white"
-              } rounded-full flex items-center justify-center text-sm font-medium`}
-            >
-              {isConfirmed ? "✓" : "3"}
-            </div>
-            <span
-              className={`text-sm ${
-                isConfirmed ? "text-green-600" : "font-medium"
-              }`}
-            >
-              Confirmation
-            </span>
-          </div>
-        </div>
       </CardHeader>
 
       <CardContent className="space-y-6">
@@ -170,12 +135,12 @@ export function BookingStep3({ onBack, bookingData, onConfirm, isConfirmed }) {
             <div className="bg-gray-100 shadow-xl drop-shadow-xl border rounded-lg p-5 max-w-xl w-full">
               <div className="mx-auto mb-4">
                 <img
-                  src="https://i.ibb.co/Dfvzt87/Group-2147225355.png"
+                  src="https://i.ibb.co.com/Dfvzt87w/Group-2147225355.png"
                   alt=""
                   className="flex items-center mx-auto justify-center w-1/3 py-5"
                 />
                 <h3 className="text-2xl font-semibold text-center py-5">
-                  Consultation Booking <br /> Successfully
+                  Consultation Booked <br /> Successfully
                 </h3>
               </div>
 
