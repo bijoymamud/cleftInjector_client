@@ -282,7 +282,7 @@ export default function Directory() {
                           </Link>
                           <Link
                             to={`/consultation_details/${doctor?.id}`}
-                            className="flex-1 text-center py-3 rounded-[12px] bg-orange-500 text-white font-medium hover:bg-orange-600 transition"
+                            className="flex-1 text-center py-3 rounded-[12px] bg-[#E26C29] text-white font-medium hover:bg-orange-600 transition"
                           >
                             Book Consultation
                           </Link>

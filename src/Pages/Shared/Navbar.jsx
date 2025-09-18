@@ -56,7 +56,7 @@ export function Navbar() {
           <div className="hidden sm:flex">
             <Link
               to="/get-started"
-              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#E26C29] via-[#CD5E1F] to-[#9F5328] text-white text-base font-medium hover:from-[#D55F22] hover:via-[#BC541E] hover:to-[#904A24] transition-colors duration-200"
+              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-[#E26C29] text-white text-base font-medium hover:from-[#D55F22] hover:via-[#BC541E] hover:to-[#904A24] transition-colors duration-200"
             >
               <FaRegUser size={18} />
               Get Listed

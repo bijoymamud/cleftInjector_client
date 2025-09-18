@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { CheckCircle } from "lucide-react";
 import { Link } from "react-router";
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 export function BookingStep3({ onBack, bookingData, onConfirm, isConfirmed }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,38 +35,28 @@ export function BookingStep3({ onBack, bookingData, onConfirm, isConfirmed }) {
   };
 
   return (
-    <Card className="w-full">
-      <CardHeader className="text-center">
-        <div className="flex items-center justify-center gap-2 mb-4">
-          <div className="w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm font-medium">
-            📅
-          </div>
-          <span className="text-orange-500 font-medium">
-            Book a Consultation
-          </span>
-        </div>
-        <CardTitle className="text-sm text-muted-foreground">
-          Schedule your appointment with our Sarah Johnson
-        </CardTitle>
-      </CardHeader>
-
-      <CardContent className="space-y-6">
-        <div className="text-center">
+    <Card className="w-full ">
+      <CardContent className="space-y-6 ">
+        <div className="text-center py-5">
           <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold mb-2">
+          <h3 className="text-2xl font-semibold mb-2 text-[#3D3B3B]">
             Confirm Your Appointment
           </h3>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-lg text-muted-foreground mb-4">
             Please review your appointment details before confirming
           </p>
         </div>
 
         <div className="bg-gray-50 rounded-lg p-6 space-y-4">
-          <h4 className="font-semibold text-lg mb-4">Appointment Summary</h4>
+          <h4 className="text-2xl font-semibold mb-2 text-[#3D3B3B]">
+            Appointment Summary
+          </h4>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-8 py-10 pt-10">
             <div>
-              <p className="text-sm text-muted-foreground">Date & Time</p>
+              <p className="text-lg font-semibold mb-2 text-[#3D3B3B]">
+                Date & Time
+              </p>
               <p className="font-medium">
                 {formatDate(bookingData?.selectedDate)}
               </p>
@@ -75,14 +66,18 @@ export function BookingStep3({ onBack, bookingData, onConfirm, isConfirmed }) {
             </div>
 
             <div>
-              <p className="text-sm text-muted-foreground">Consultant</p>
+              <p className="text-lg font-semibold mb-2 text-[#3D3B3B]">
+                Consultant
+              </p>
               <p className="font-medium">Dr. Sarah Johnson</p>
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <p className="text-sm text-muted-foreground">Contact Details</p>
+              <p className="text-lg font-semibold mb-2 text-[#3D3B3B]">
+                Contact Details
+              </p>
               <p className="font-medium">
                 {(bookingData?.firstName || "") +
                   " " +
@@ -93,22 +88,24 @@ export function BookingStep3({ onBack, bookingData, onConfirm, isConfirmed }) {
             </div>
 
             <div>
-              <p className="text-sm text-muted-foreground">Consultation Fee</p>
+              <p className="text-lg font-semibold mb-2 text-[#3D3B3B]">
+                Consultation Fee
+              </p>
               <p className="font-medium text-lg">$150</p>
             </div>
           </div>
 
           <div>
-            <p className="text-sm text-muted-foreground">Reason For Visit</p>
-            <p className="text-sm bg-white p-3 rounded border">
-              {bookingData?.reason || "Not provided"}
+            <p className="text-lg font-semibold mb-2 text-[#3D3B3B]">
+              Reason For Visit
             </p>
+            <p className=" mb-2">- {bookingData?.reason || "Not provided"}</p>
           </div>
         </div>
 
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-          <h5 className="font-medium text-blue-900 mb-2">Important Notes</h5>
-          <ul className="text-sm text-blue-800 space-y-1">
+        <div className="bg-[#F7F0E9] border  rounded-lg p-4">
+          <h5 className="font-medium text-[#3A3A3A] mb-2">Important Notes</h5>
+          <ul className="text-sm text-[#555555] space-y-1">
             <li>• Please arrive 10 minutes before your appointment</li>
             <li>
               • You will receive a confirmation email with appointment details
@@ -118,16 +115,22 @@ export function BookingStep3({ onBack, bookingData, onConfirm, isConfirmed }) {
         </div>
 
         <div className="flex justify-between pt-4">
-          <Button variant="outline" onClick={onBack}>
-            ← Back
-          </Button>
-          <Button
+          <button
+            type="button"
+            variant="outline"
+            onClick={onBack}
+            className="border rounded-md px-8 text-lg flex items-center gap-2 py-2 font-semibold cursor-pointer hover:bg-gray-100"
+          >
+            <FaArrowLeftLong />
+            Back
+          </button>
+          <button
             onClick={handleConfirm}
-            className="bg-orange-500 hover:bg-orange-600"
+            className="bg-[#E26C29] hover:bg-orange-600 px-8 rounded-md flex items-center gap-2 py-2 cursor-pointer text-white text-lg font-semibold"
             disabled={isConfirmed}
           >
             Confirm
-          </Button>
+          </button>
         </div>
 
         {isModalOpen && (
@@ -147,7 +150,7 @@ export function BookingStep3({ onBack, bookingData, onConfirm, isConfirmed }) {
               <Link to="/" className="flex justify-center">
                 <Button
                   onClick={closeModal}
-                  className="bg-orange-500 hover:bg-orange-600 cursor-pointer"
+                  className="bg-[#E26C29] text-base hover:bg-orange-600 cursor-pointer"
                 >
                   Back to Home
                 </Button>
