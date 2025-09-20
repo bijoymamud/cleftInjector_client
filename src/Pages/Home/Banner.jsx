@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { CiSearch } from "react-icons/ci";
 import { FaRegUser } from "react-icons/fa6";
+import { Link } from "react-router";
 
 const Banner = () => {
   return (
@@ -17,7 +18,7 @@ const Banner = () => {
             <h1 className="text-4xl md:text-6xl font-bold mb-4 tracking-wide">
               Find A Certified Cleft Lip Injector
             </h1>
-            <p className="text-lg md:text-xl max-w-2xl  mb-6 ">
+            <p className="text-lg md:text-xl max-w-2xl  mb-6">
               This feature allows patients and families to easily search for
               qualified and trained cleft lip injectors near them.
             </p>
@@ -30,10 +31,12 @@ const Banner = () => {
                 Find Injector
               </Button>
 
-              <Button className="border cursor-pointer text-md font-[550] w-[200px] border-white bg-[#E26C29] hover:bg-[#d35913]  py-6 rounded-[12px] ">
-                <FaRegUser size={20} />
-                Get Listed
-              </Button>
+              <Link to="/get-listed">
+                <Button className="border cursor-pointer text-md font-[550] w-[200px] border-white bg-[#E26C29] hover:bg-[#d35913]  py-6 rounded-[12px] ">
+                  <FaRegUser size={20} />
+                  Get Listed
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
