@@ -23,7 +23,7 @@ export function Navbar() {
   };
 
   return (
-    <nav className="bg-white shadow-md h-[80px] sticky top-0 z-50">
+    <nav className="bg-white shadow-md h-[85px] sticky top-0 z-50">
       <div className="container mx-auto ">
         <div className="flex justify-between items-center h-[80px]">
           {/* Logo */}
@@ -44,7 +44,7 @@ export function Navbar() {
                 key={item.name}
                 to={item.to}
                 className={cn(
-                  "inline-flex items-center px-3 py-2 text-xl font-medium transition-colors duration-200",
+                  "inline-flex items-center px-3 py-2 text-[22px] font-semibold transition-colors duration-200",
                   pathname === item.to
                     ? "text-[#CC6023] border-b-2 border-[#CC6023]"
                     : "text-gray-600 hover:text-[#CC6023] hover:border-b-2 hover:border-[#CC6023]"

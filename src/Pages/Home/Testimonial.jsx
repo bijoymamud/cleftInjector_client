@@ -6,15 +6,17 @@ const testimonials = [
     id: 1,
     name: "Saint Thomas",
     role: "Web Developer",
-    image: "/professional-headshot-of-saint-thomas.jpg",
+    image:
+      "https://www.jennikayne.com/cdn/shop/files/Simone-V-Neck-Ivory-1_600x600.jpg?v=1748454104",
     rating: 5,
     text: "Lorem ipsum dolor sit amet consectetur. Sagittis ornare vitae pellentesque amet est massa. Pharetra interdum non eget amet nisl non. Sociis porta commodo pellentesque maecenas habitant. Sit amet nisl fermentum.",
   },
   {
     id: 2,
-    name: "Saint Thomas",
+    name: "Atkinson",
     role: "Web Developer",
-    image: "/professional-headshot-of-saint-thomas.jpg",
+    image:
+      "https://img.freepik.com/free-photo/portrait-smiling-young-man_1268-21877.jpg?semt=ais_incoming&w=740&q=80",
     rating: 5,
     text: "Lorem ipsum dolor sit amet consectetur. Sagittis ornare vitae pellentesque amet est massa. Pharetra interdum non eget amet nisl non. Sociis porta commodo pellentesque maecenas habitant. Sit amet nisl fermentum.",
   },
@@ -22,7 +24,8 @@ const testimonials = [
     id: 3,
     name: "Pappu",
     role: "Web Developer",
-    image: "/professional-headshot-of-pappu.jpg",
+    image:
+      "https://media.istockphoto.com/id/1162358018/photo/young-brazilian-man-wearing-blue-t-shirt-standing-over-isolated-white-background-happy-face.jpg?b=1&s=612x612&w=0&k=20&c=lqjTUaZ2nTndM9LlolkwGx4X3F_0TLKpzUvLeA32MRY=",
     rating: 5,
     text: "Lorem ipsum dolor sit amet consectetur. Sagittis ornare vitae pellentesque amet est massa. Pharetra interdum non eget amet nisl non. Sociis porta commodo pellentesque maecenas habitant. Sit amet nisl fermentum.",
   },
@@ -30,7 +33,8 @@ const testimonials = [
     id: 4,
     name: "Kamil Thomas",
     role: "Web Developer",
-    image: "/professional-headshot-of-kamil-thomas.jpg",
+    image:
+      "https://www.shutterstock.com/image-photo/dhahran-eastern-province-saudi-arabia-600nw-1872196381.jpg",
     rating: 5,
     text: "Lorem ipsum dolor sit amet consectetur. Sagittis ornare vitae pellentesque amet est massa. Pharetra interdum non eget amet amet nisl non. Sociis porta commodo pellentesque maecenas habitant. Sit amet nisl fermentum.",
   },

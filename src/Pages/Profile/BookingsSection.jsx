@@ -19,7 +19,7 @@ const BookingsSection = ({ bookings }) => {
           <CardContent className="p-6">
             <div className="flex items-start justify-between">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
+                <div className="w-32 h-32 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
                   <img
                     src={booking.doctor.image}
                     alt={booking.doctor.name}
@@ -32,13 +32,13 @@ const BookingsSection = ({ bookings }) => {
                       {booking.doctor.name}
                     </h3>
                     {booking.doctor.verified && (
-                      <span className="bg-orange-100 text-orange-600 text-xs px-2 py-1 rounded">
+                      <sup className="bg-orange-100 text-orange-600 text-sm px-2 rounded-full">
                         Verified
-                      </span>
+                      </sup>
                     )}
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
-                    <Calendar className="w-4 h-4" />
+                  <div className="flex items-center gap-2 text-base font-semibold text-gray-600 mb-2">
+                    <Calendar size={16} />
                     {booking.date}
                   </div>
                   <p className="text-gray-700 text-sm leading-relaxed">
@@ -110,15 +110,6 @@ const BookingsSection = ({ bookings }) => {
           </CardContent>
         </Card>
       ))}
-
-      <div className="flex justify-center pt-8">
-        <Button
-          variant="outline"
-          className="text-red-500 border-red-500 hover:bg-red-50"
-        >
-          Log Out
-        </Button>
-      </div>
     </div>
   );
 };

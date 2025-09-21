@@ -24,9 +24,10 @@ const UserProfile = () => {
       doctor: {
         name: "Dr. Sarah",
         verified: true,
-        image: "/api/placeholder/60/60",
+        image:
+          "https://img.freepik.com/free-photo/young-beautiful-woman-pink-warm-sweater-natural-look-smiling-portrait-isolated-long-hair_285396-896.jpg?semt=ais_incoming&w=740&q=80",
       },
-      date: "10:00 AM 21 Sep 17",
+      date: "10:00 AM, 21 Sep 2025",
       description:
         "Recusam Lorem ipsum dolor sit amet consectetur. Nibh quis enim lorem neque fames convallis vehicula",
       appointment: {
@@ -43,9 +44,10 @@ const UserProfile = () => {
       doctor: {
         name: "Dr. Michael Chen",
         verified: true,
-        image: "/api/placeholder/60/60",
+        image:
+          "https://t3.ftcdn.net/jpg/03/00/22/02/360_F_300220248_VKEd3QKx31kzqHcwZfnGmWKZLYTjf8R0.jpg",
       },
-      date: "2:00 PM 15 Sep 25",
+      date: "2:00 PM, 15 Sep 2025",
       description:
         "Follow-up consultation for ongoing treatment and medication review",
       appointment: {
@@ -62,9 +64,10 @@ const UserProfile = () => {
       doctor: {
         name: "Dr. Emily Rodriguez",
         verified: true,
-        image: "/api/placeholder/60/60",
+        image:
+          "https://media.istockphoto.com/id/1587604256/photo/portrait-lawyer-and-black-woman-with-tablet-smile-and-happy-in-office-workplace-african.jpg?s=612x612&w=0&k=20&c=n9yulMNKdIYIQC-Qns8agFj6GBDbiKyPRruaUTh4MKs=",
       },
-      date: "11:30 AM 28 Sep 25",
+      date: "11:30 AM, 28 Sep 2025",
       description: "Annual health checkup and preventive care consultation",
       appointment: {
         doctor: "Dr. Emily Rodriguez",
@@ -91,7 +94,7 @@ const UserProfile = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto p-6  min-h-screen">
+    <div className="max-w-5xl mx-auto p-6  min-h-screen flex items-center justify-center h-screen">
       <Tabs defaultValue="profile" className="w-full">
         <TabsList className="grid w-[500px] grid-cols-2 mb-8">
           <TabsTrigger value="profile" className="text-lg">

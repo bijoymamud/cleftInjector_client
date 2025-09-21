@@ -11,6 +11,9 @@ import LoadingScreen from "@/LoadingPages/LoadingScreen";
 import About_us from "@/Pages/AboutUs/About_us";
 import BookConsultationPage from "@/Pages/BookingHandler/BookingHandler";
 import GetListedController from "@/Pages/ListingHandler/GetListedController";
+import PrivacyPolicy from "@/Pages/PrivacyPolicy/PrivacyPolicy";
+import TermsConditions from "@/Pages/TermsConditions/TermsConditions";
+import MedicalDesclaimer from "@/Pages/MedicalDisclaimer/MedicalDesclaimer";
 const Home = React.lazy(() => import("../Pages/Home/Home"));
 const Directory = React.lazy(() => import("../Pages/Directory/Directory"));
 const UserProfile = React.lazy(() => import("../Pages/Profile/UserProfile"));
@@ -42,7 +45,7 @@ export const router = createBrowserRouter([
       },
 
       {
-        path: "/book-consultation",
+        path: "/book-consultation/:id",
         element: <BookConsultationPage />,
       },
       {
@@ -62,6 +65,18 @@ export const router = createBrowserRouter([
       {
         path: "/about_us",
         element: <About_us />,
+      },
+      {
+        path: "/privacy_policy",
+        element: <PrivacyPolicy />,
+      },
+      {
+        path: "/terms_conditions",
+        element: <TermsConditions />,
+      },
+      {
+        path: "/medical_disclaimer",
+        element: <MedicalDesclaimer />,
       },
     ],
   },

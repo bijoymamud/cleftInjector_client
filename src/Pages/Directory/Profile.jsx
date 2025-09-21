@@ -18,6 +18,7 @@ import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router";
 
 export default function Profile() {
+  const id = 1;
   return (
     <div className="min-h-screen bg-gray-50 p-4 py-20">
       <div className="container mx-auto">
@@ -74,7 +75,11 @@ export default function Profile() {
                   </div>
                 </div>
 
-                <Link to="/book-consultation" className="flex gap-3">
+                <Link
+                  to={`/book-consultation/${id}`}
+                  // to="/book-consultation"
+                  className="flex gap-3"
+                >
                   <Button className="bg-orange-500 hover:bg-orange-600 text-md flex cursor-pointer items-center gap-2">
                     <Calendar className="w-4 h-4" />
                     Book Consultation

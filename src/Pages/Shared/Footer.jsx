@@ -1,5 +1,6 @@
 import React from "react";
 import { FaRegUser } from "react-icons/fa6";
+import { Link } from "react-router";
 
 const Footer = () => {
   return (
@@ -16,10 +17,12 @@ const Footer = () => {
         </p>
 
         <div className="space-x-4 py-3 flex items-center justify-center">
-          <button className="border cursor-pointer px-10 bg-[#E26C29]  hover:bg-[#cf5a16]hover:text-black text-white border-none py-3 rounded-[12px] font-medium flex items-center gap-2">
-            <FaRegUser size={20} />
-            Get Listed
-          </button>
+          <Link to="/get-listed">
+            <button className="border cursor-pointer px-10 bg-[#E26C29]  hover:bg-[#cf5a16]hover:text-black text-white border-none py-3 rounded-[12px] font-medium flex items-center gap-2">
+              <FaRegUser size={20} />
+              Get Listed
+            </button>
+          </Link>
           <button className="border border-white text-white cursor-pointer px-10 py-3 rounded-[12px]">
             Brows Directory
           </button>
@@ -68,24 +71,24 @@ const Footer = () => {
               <h4 className="text-white font-[550] tracking-wide">
                 Legal Page
               </h4>
-              <a
-                href="#"
+              <Link
+                to="/privacy_policy"
                 className="text-white hover:text-orange-500 transition-colors"
               >
                 Privacy Page
-              </a>
-              <a
-                href="#"
+              </Link>
+              <Link
+                to="/terms_conditions"
                 className="text-white hover:text-orange-500 transition-colors"
               >
                 Terms
-              </a>
-              <a
-                href="#"
+              </Link>
+              <Link
+                to="/medical_disclaimer"
                 className="text-white hover:text-orange-500 transition-colors"
               >
                 Medical Disclaimer
-              </a>
+              </Link>
             </div>
 
             <div className="flex flex-col gap-2 text-white">

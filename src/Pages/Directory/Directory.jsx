@@ -281,7 +281,7 @@ export default function Directory() {
                             View Profile
                           </Link>
                           <Link
-                            to={`/consultation_details/${doctor?.id}`}
+                            to={`/book-consultation/${doctor?.id}`}
                             className="flex-1 text-center py-3 rounded-[12px] bg-[#E26C29] text-white font-medium hover:bg-orange-600 transition"
                           >
                             Book Consultation
