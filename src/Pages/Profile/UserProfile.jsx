@@ -1,0 +1,132 @@
+import React, { useState } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import BookingsSection from "./BookingsSection";
+import PasswordChangeDialog from "./PasswordChangeDialog";
+import ProfileSection from "./ProfileSection";
+
+const UserProfile = () => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false);
+  const [profileData, setProfileData] = useState({
+    fullName: "Sarah Johnson",
+    email: "sarahjohnson@gmail.com",
+    phoneNumber: "01980012351",
+  });
+
+  const [passwordData, setPasswordData] = useState({
+    newPassword: "",
+    newEmail: "",
+  });
+
+  const bookings = [
+    {
+      id: 1,
+      doctor: {
+        name: "Dr. Sarah",
+        verified: true,
+        image: "/api/placeholder/60/60",
+      },
+      date: "10:00 AM 21 Sep 17",
+      description:
+        "Recusam Lorem ipsum dolor sit amet consectetur. Nibh quis enim lorem neque fames convallis vehicula",
+      appointment: {
+        doctor: "Dr. Sarah Johnson",
+        patient: "Robina Rahman",
+        dateTime: "Tuesday, September 3, 2025\n12:30 AM",
+        consultationFee: "$200",
+        reasonForVisit:
+          "Lorem ipsum dolor sit amet consectetur. Nibh quis enim lorem neque fames convallis vehicula",
+      },
+    },
+    {
+      id: 2,
+      doctor: {
+        name: "Dr. Michael Chen",
+        verified: true,
+        image: "/api/placeholder/60/60",
+      },
+      date: "2:00 PM 15 Sep 25",
+      description:
+        "Follow-up consultation for ongoing treatment and medication review",
+      appointment: {
+        doctor: "Dr. Michael Chen",
+        patient: "Sarah Johnson",
+        dateTime: "Monday, September 15, 2025\n2:00 PM",
+        consultationFee: "$150",
+        reasonForVisit:
+          "Follow-up consultation for ongoing treatment and medication review",
+      },
+    },
+    {
+      id: 3,
+      doctor: {
+        name: "Dr. Emily Rodriguez",
+        verified: true,
+        image: "/api/placeholder/60/60",
+      },
+      date: "11:30 AM 28 Sep 25",
+      description: "Annual health checkup and preventive care consultation",
+      appointment: {
+        doctor: "Dr. Emily Rodriguez",
+        patient: "Sarah Johnson",
+        dateTime: "Sunday, September 28, 2025\n11:30 AM",
+        consultationFee: "$180",
+        reasonForVisit:
+          "Annual health checkup and preventive care consultation",
+      },
+    },
+  ];
+
+  const handleProfileSave = () => {
+    setIsEditing(false);
+  };
+
+  const handlePasswordChange = () => {
+    setIsPasswordDialogOpen(false);
+    setPasswordData({ newPassword: "", newEmail: "" });
+  };
+
+  const handleInputChange = (field, value) => {
+    setProfileData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  return (
+    <div className="max-w-5xl mx-auto p-6  min-h-screen">
+      <Tabs defaultValue="profile" className="w-full">
+        <TabsList className="grid w-[500px] grid-cols-2 mb-8">
+          <TabsTrigger value="profile" className="text-lg">
+            My Profile
+          </TabsTrigger>
+          <TabsTrigger value="bookings" className="text-lg">
+            My Bookings
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="profile">
+          <ProfileSection
+            profileData={profileData}
+            isEditing={isEditing}
+            setIsEditing={setIsEditing}
+            handleInputChange={handleInputChange}
+            handleProfileSave={handleProfileSave}
+            setIsPasswordDialogOpen={setIsPasswordDialogOpen}
+          />
+        </TabsContent>
+
+        <TabsContent value="bookings">
+          <BookingsSection bookings={bookings} />
+        </TabsContent>
+      </Tabs>
+
+      <PasswordChangeDialog
+        isPasswordDialogOpen={isPasswordDialogOpen}
+        setIsPasswordDialogOpen={setIsPasswordDialogOpen}
+        passwordData={passwordData}
+        setPasswordData={setPasswordData}
+        handlePasswordChange={handlePasswordChange}
+      />
+    </div>
+  );
+};
+
+export default UserProfile;
