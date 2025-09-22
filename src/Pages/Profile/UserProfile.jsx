@@ -23,6 +23,7 @@ const UserProfile = () => {
       id: 1,
       doctor: {
         name: "Dr. Sarah",
+        expertis: "Reconstructive Surgery",
         verified: true,
         image:
           "https://img.freepik.com/free-photo/young-beautiful-woman-pink-warm-sweater-natural-look-smiling-portrait-isolated-long-hair_285396-896.jpg?semt=ais_incoming&w=740&q=80",
@@ -43,6 +44,7 @@ const UserProfile = () => {
       id: 2,
       doctor: {
         name: "Dr. Michael Chen",
+        expertis: "Leap Surgery",
         verified: true,
         image:
           "https://t3.ftcdn.net/jpg/03/00/22/02/360_F_300220248_VKEd3QKx31kzqHcwZfnGmWKZLYTjf8R0.jpg",
@@ -63,6 +65,7 @@ const UserProfile = () => {
       id: 3,
       doctor: {
         name: "Dr. Emily Rodriguez",
+        expertis: "Face Surgery",
         verified: true,
         image:
           "https://media.istockphoto.com/id/1587604256/photo/portrait-lawyer-and-black-woman-with-tablet-smile-and-happy-in-office-workplace-african.jpg?s=612x612&w=0&k=20&c=n9yulMNKdIYIQC-Qns8agFj6GBDbiKyPRruaUTh4MKs=",

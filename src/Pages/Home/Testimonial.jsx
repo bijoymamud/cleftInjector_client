@@ -16,7 +16,7 @@ const testimonials = [
     name: "Atkinson",
     role: "Web Developer",
     image:
-      "https://img.freepik.com/free-photo/portrait-smiling-young-man_1268-21877.jpg?semt=ais_incoming&w=740&q=80",
+      "https://img.freepik.com/free-photo/portrait-smiling-young-man_1268-21877.jpg?semt=ais_in coming&w=740&q=80",
     rating: 5,
     text: "Lorem ipsum dolor sit amet consectetur. Sagittis ornare vitae pellentesque amet est massa. Pharetra interdum non eget amet nisl non. Sociis porta commodo pellentesque maecenas habitant. Sit amet nisl fermentum.",
   },

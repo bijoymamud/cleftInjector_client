@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import React from "react";
 import { FaRegUser } from "react-icons/fa6";
+import { Link } from "react-router";
 
 const Our_Vision = () => {
   return (
@@ -30,13 +31,15 @@ const Our_Vision = () => {
             supported in their journey.
           </p>
 
-          <Button
-            variant="ghost"
-            className="mt-8 w-[250px] py-7 text-white rounded-xl text-lg  bg-[#E26C29]  hover:bg-[#E26C29]/95 cursor-pointer  flex items-center gap-3"
-          >
-            <FaRegUser className="h-5 w-5 text-white" />
-            Get FListed
-          </Button>
+          <Link to="/get-listed">
+            <Button
+              variant="ghost"
+              className="mt-8 w-[250px] py-7 text-white rounded-xl text-lg  bg-[#E26C29] hover:text-white  hover:bg-[#E26C29]/95 cursor-pointer  flex items-center gap-3"
+            >
+              <FaRegUser className="h-5 w-5 text-white" />
+              Get Listed
+            </Button>
+          </Link>
         </div>
 
         {/* Image */}
