@@ -14,10 +14,17 @@ import GetListedController from "@/Pages/ListingHandler/GetListedController";
 import PrivacyPolicy from "@/Pages/PrivacyPolicy/PrivacyPolicy";
 import TermsConditions from "@/Pages/TermsConditions/TermsConditions";
 import MedicalDesclaimer from "@/Pages/MedicalDisclaimer/MedicalDesclaimer";
+import Dashboard from "@/Layout/DashboardLayout/Dashboard";
+import Consultation from "@/Layout/DashboardLayout/Consultation";
+import Review from "@/Layout/DashboardLayout/Review";
+import Setting from "@/Layout/DashboardLayout/Setting";
 const Home = React.lazy(() => import("../Pages/Home/Home"));
 const Directory = React.lazy(() => import("../Pages/Directory/Directory"));
 const UserProfile = React.lazy(() => import("../Pages/Profile/UserProfile"));
 const Profile = React.lazy(() => import("../Pages/Directory/Profile"));
+const ProviderHome = React.lazy(() =>
+  import("../Layout/DashboardLayout/ProviderHome")
+);
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -85,6 +92,35 @@ export const router = createBrowserRouter([
     path: "/sign_in",
     element: <SignIn />,
   },
+
+  //dashboard
+  {
+    path: "provider",
+    element: <Dashboard />,
+    children: [
+      {
+        index: true,
+        element: <ProviderHome />,
+      },
+      {
+        path: "provider_home",
+        element: <ProviderHome />,
+      },
+      {
+        path: "consultation",
+        element: <Consultation />,
+      },
+      {
+        path: "review",
+        element: <Review />,
+      },
+      {
+        path: "settings",
+        element: <Setting />,
+      },
+    ],
+  },
+
   {
     path: "/sign_up",
     element: <SignUp />,

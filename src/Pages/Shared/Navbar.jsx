@@ -17,6 +17,7 @@ export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const isLoggedIn = true;
+  const isProvider = true;
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -55,9 +56,30 @@ export function Navbar() {
             ))}
           </div>
 
-          <div className="hidden sm:flex">
+          {/* <div className="hidden sm:flex">
             {isLoggedIn ? (
               <Link to="/user_profile">
+                <Avatar className="w-[50px] h-[50px]">
+                  <AvatarImage src="https://github.com/shadcn.png" alt="User" />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+              </Link>
+            ) : (
+              <Link
+                to="/get-started"
+                className="flex items-center gap-2 px-6 py-3 rounded-xl bg-[#E26C29] text-white text-base font-medium hover:from-[#D55F22] hover:via-[#BC541E] hover:to-[#904A24] transition-colors duration-200"
+              >
+                <FaRegUser size={18} />
+                Get Listed
+              </Link>
+            )}
+          </div> */}
+
+          <div className="hidden sm:flex">
+            {isLoggedIn ? (
+              <Link
+                to={isProvider ? "/provider/provider_home" : "/user_profile"}
+              >
                 <Avatar className="w-[50px] h-[50px]">
                   <AvatarImage src="https://github.com/shadcn.png" alt="User" />
                   <AvatarFallback>CN</AvatarFallback>
