@@ -3,12 +3,14 @@ import { Calendar, Settings, BarChart3, Bell, LogOut } from "lucide-react";
 import { FaRegStar } from "react-icons/fa";
 
 import { Outlet, NavLink } from "react-router-dom";
+import { BiCategory } from "react-icons/bi";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Dashboard = () => {
   const sidebarItems = [
     {
       path: "/provider/provider_home",
-      icon: BarChart3,
+      icon: BiCategory,
       label: "Dashboard",
     },
     {
@@ -65,7 +67,7 @@ const Dashboard = () => {
         </nav>
 
         <div className="p-4 border-t border-gray-200">
-          <button className="flex items-center gap-3 px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg w-full text-left">
+          <button className="flex items-center gap-3 px-4 py-2 cursor-pointer text-red-600 hover:bg-red-50 rounded-lg w-full text-left">
             <LogOut className="w-4 h-4" />
             <span className="text-sm">Log Out</span>
           </button>
@@ -77,18 +79,24 @@ const Dashboard = () => {
         {/* Top Navbar */}
         <header className="bg-white border-b border-gray-200 px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex-1"></div>
+            <div className="flex-1 text-[#1A1A1A] font-bold text-2xl">
+              Welcome back, Dr. Sarah
+            </div>
 
             <div className="flex items-center gap-4">
-              <button className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded-lg">
+              <button className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded-full">
                 <Bell className="w-5 h-5" />
               </button>
 
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center">
-                  <span className="text-sm font-medium text-orange-600">
-                    DS
-                  </span>
+                <div className="w-10 h-10  rounded-full flex items-center justify-center cursor-pointer">
+                  <Avatar>
+                    <AvatarImage
+                      src="https://github.com/shadcn.png"
+                      alt="User"
+                    />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
                 </div>
               </div>
             </div>
@@ -96,7 +104,7 @@ const Dashboard = () => {
         </header>
 
         {/* Content Area - This is where your outlet will render */}
-        <main className="flex-1 overflow-auto bg-gray-50 p-14">
+        <main className="w-full p-10 bg-white h-screen">
           <Outlet />
         </main>
       </div>
