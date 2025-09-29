@@ -67,9 +67,9 @@ const Dashboard = () => {
         </nav>
 
         <div className="p-4 border-t border-gray-200">
-          <button className="flex items-center gap-3 px-4 py-2 cursor-pointer text-red-600 hover:bg-red-50 rounded-lg w-full text-left">
+          <button className="flex items-center justify-center gap-3 px-4 py-2 cursor-pointer text-red-600 hover:bg-red-50 rounded-lg w-full text-left">
             <LogOut className="w-4 h-4" />
-            <span className="text-sm">Log Out</span>
+            <span className="text-base font-semibold">Log Out</span>
           </button>
         </div>
       </div>

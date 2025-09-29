@@ -103,7 +103,7 @@ export default function ConsultationDashboard() {
           {stats.map((stat, index) => (
             <div
               key={index}
-              className="bg-white rounded-lg shadow-sm p-6 border border-gray-200"
+              className="bg-white rounded-lg shadow drop-shadow-lg p-6 border border-gray-200"
             >
               <div className="flex items-center justify-between mb-4">
                 <div className="text-xl text-[#383838] font-semibold">
