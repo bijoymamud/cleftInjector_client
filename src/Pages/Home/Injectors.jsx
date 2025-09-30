@@ -62,10 +62,10 @@ const Injectors = () => {
             View A ll Injector
           </p>
         </div>
-        <div className="grid grid-cols-4 gap-5">
+        <div className="grid md:grid-cols-4 gap-5 px-3 md:px-0">
           {injectors.map((injector) => (
             <div key={injector?.id}>
-              <div class="relative flex flex-col my-6 bg-white   border-slate-200 rounded-lg shadow drop-shadow-xl shadow-gray-100">
+              <div class="relative flex flex-col md:my-6 bg-white   border-slate-200 rounded-lg shadow drop-shadow-xl shadow-gray-100">
                 <div class="relative h-80  overflow-hidden text-white rounded-t-md">
                   <img
                     src={injector?.image}

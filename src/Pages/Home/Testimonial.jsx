@@ -1,3 +1,166 @@
+// import { ChevronLeft, ChevronRight } from "lucide-react";
+// import { useState, useCallback } from "react";
+
+// const testimonials = [
+//   {
+//     id: 1,
+//     name: "Saint Thomas",
+//     role: "Web Developer",
+//     image:
+//       "https://www.jennikayne.com/cdn/shop/files/Simone-V-Neck-Ivory-1_600x600.jpg?v=1748454104",
+//     rating: 5,
+//     text: "Lorem ipsum dolor sit amet consectetur. Sagittis ornare vitae pellentesque amet est massa. Pharetra interdum non eget amet nisl non. Sociis porta commodo pellentesque maecenas habitant. Sit amet nisl fermentum.",
+//   },
+//   {
+//     id: 2,
+//     name: "Atkinson",
+//     role: "Web Developer",
+//     image:
+//       "https://img.freepik.com/free-photo/portrait-smiling-young-man_1268-21877.jpg?semt=ais_in coming&w=740&q=80",
+//     rating: 5,
+//     text: "Lorem ipsum dolor sit amet consectetur. Sagittis ornare vitae pellentesque amet est massa. Pharetra interdum non eget amet nisl non. Sociis porta commodo pellentesque maecenas habitant. Sit amet nisl fermentum.",
+//   },
+//   {
+//     id: 3,
+//     name: "Pappu",
+//     role: "Web Developer",
+//     image:
+//       "https://media.istockphoto.com/id/1162358018/photo/young-brazilian-man-wearing-blue-t-shirt-standing-over-isolated-white-background-happy-face.jpg?b=1&s=612x612&w=0&k=20&c=lqjTUaZ2nTndM9LlolkwGx4X3F_0TLKpzUvLeA32MRY=",
+//     rating: 5,
+//     text: "Lorem ipsum dolor sit amet consectetur. Sagittis ornare vitae pellentesque amet est massa. Pharetra interdum non eget amet nisl non. Sociis porta commodo pellentesque maecenas habitant. Sit amet nisl fermentum.",
+//   },
+//   {
+//     id: 4,
+//     name: "Kamil Thomas",
+//     role: "Web Developer",
+//     image:
+//       "https://www.shutterstock.com/image-photo/dhahran-eastern-province-saudi-arabia-600nw-1872196381.jpg",
+//     rating: 5,
+//     text: "Lorem ipsum dolor sit amet consectetur. Sagittis ornare vitae pellentesque amet est massa. Pharetra interdum non eget amet amet nisl non. Sociis porta commodo pellentesque maecenas habitant. Sit amet nisl fermentum.",
+//   },
+// ];
+
+// const StarRating = ({ rating }) => {
+//   return (
+//     <div className="flex gap-1 mb-2">
+//       {[...Array(5)].map((_, index) => (
+//         <svg
+//           key={index}
+//           className={`w-4 h-4 ${
+//             index < rating ? "text-yellow-400" : "text-gray-300"
+//           }`}
+//           fill="currentColor"
+//           viewBox="0 0 20 20"
+//         >
+//           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+//         </svg>
+//       ))}
+//     </div>
+//   );
+// };
+
+// export default function Testimonials() {
+//   const [currentIndex, setCurrentIndex] = useState(0);
+//   const testimonialsPerPage = 2;
+
+//   const nextTestimonial = useCallback(() => {
+//     setCurrentIndex(
+//       (prev) => (prev + testimonialsPerPage) % testimonials.length
+//     );
+//   }, []);
+
+//   const prevTestimonial = useCallback(() => {
+//     setCurrentIndex(
+//       (prev) =>
+//         (prev - testimonialsPerPage + testimonials.length) % testimonials.length
+//     );
+//   }, []);
+
+//   const isFirstPage = currentIndex === 0;
+//   const isLastPage = currentIndex + testimonialsPerPage >= testimonials.length;
+
+//   return (
+//     <section className=" bg-white">
+//       <div className="container mx-auto">
+//         <div className="mb-8 flex justify-between items-center">
+//           <div>
+//             <p className="text-tagline text-[24px]">Testimonials</p>
+//             <h2 className="text-[48px] font-bold text-title ">
+//               What Our Member Says
+//             </h2>
+//           </div>
+//           <div className="flex gap-2">
+//             <button
+//               onClick={prevTestimonial}
+//               className={`w-8 h-8 rounded-full bg-orange-100 hover:bg-orange-200 flex items-center justify-center ${
+//                 isFirstPage ? "opacity-50 cursor-not-allowed" : ""
+//               }`}
+//               aria-label="Previous testimonials"
+//               disabled={isFirstPage}
+//             >
+//               <ChevronLeft size={22} className="text-orange-600" />
+//             </button>
+//             <button
+//               onClick={nextTestimonial}
+//               className={`w-8 h-8 rounded-full bg-orange-500 hover:bg-orange-600 flex items-center justify-center ${
+//                 isLastPage ? "opacity-50 cursor-not-allowed" : ""
+//               }`}
+//               aria-label="Next testimonials"
+//               disabled={isLastPage}
+//             >
+//               <ChevronRight size={22} className="text-white" />
+//             </button>
+//           </div>
+//         </div>
+
+//         <div className="relative overflow-hidden">
+//           <div
+//             className="flex transition-transform duration-500 ease-in-out"
+//             style={{
+//               transform: `translateX(-${
+//                 (currentIndex / testimonialsPerPage) * 100
+//               }%)`,
+//             }}
+//           >
+//             {testimonials.map((testimonial) => (
+//               <div
+//                 key={testimonial.id}
+//                 className="flex-shrink-0 w-1/3  px-2 py-5"
+//               >
+//                 <div className="bg-gray-50 p-6 rounded-lg shadow-md">
+//                   <div className="flex items-center mb-4">
+//                     <img
+//                       src={testimonial.image || "/placeholder.svg"}
+//                       alt={testimonial.name}
+//                       width={48}
+//                       height={48}
+//                       className="w-12 h-12 rounded-full object-cover mr-4"
+//                     />
+//                     <div>
+//                       <h3 className="font-semibold text-gray-900">
+//                         {testimonial.name}
+//                       </h3>
+//                       <p className="text-gray-600 text-sm">
+//                         {testimonial.role}
+//                       </p>
+//                     </div>
+//                   </div>
+
+//                   <StarRating rating={testimonial.rating} />
+
+//                   <p className="text-gray-600 text-sm leading-relaxed">
+//                     {testimonial.text}
+//                   </p>
+//                 </div>
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// }
+
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, useCallback } from "react";
 
@@ -16,7 +179,7 @@ const testimonials = [
     name: "Atkinson",
     role: "Web Developer",
     image:
-      "https://img.freepik.com/free-photo/portrait-smiling-young-man_1268-21877.jpg?semt=ais_in coming&w=740&q=80",
+      "https://img.freepik.com/free-photo/portrait-smiling-young-man_1268-21877.jpg?semt=ais_incoming&w=740&q=80",
     rating: 5,
     text: "Lorem ipsum dolor sit amet consectetur. Sagittis ornare vitae pellentesque amet est massa. Pharetra interdum non eget amet nisl non. Sociis porta commodo pellentesque maecenas habitant. Sit amet nisl fermentum.",
   },
@@ -80,35 +243,35 @@ export default function Testimonials() {
   const isLastPage = currentIndex + testimonialsPerPage >= testimonials.length;
 
   return (
-    <section className=" bg-white">
-      <div className="container mx-auto">
-        <div className="mb-8 flex justify-between items-center">
+    <section className="bg-white py-8 sm:py-12">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="mb-6 sm:mb-8 flex justify-between items-center">
           <div>
-            <p className="text-tagline text-[24px]">Testimonials</p>
-            <h2 className="text-[48px] font-bold text-title ">
+            <p className="text-tagline text-lg sm:text-[24px]">Testimonials</p>
+            <h2 className="text-2xl sm:text-3xl md:text-[48px] font-bold text-title">
               What Our Member Says
             </h2>
           </div>
           <div className="flex gap-2">
             <button
               onClick={prevTestimonial}
-              className={`w-8 h-8 rounded-full bg-orange-100 hover:bg-orange-200 flex items-center justify-center ${
+              className={`w-8 h-8 sm:w-8 sm:h-8 rounded-full bg-orange-100 hover:bg-orange-200 flex items-center justify-center ${
                 isFirstPage ? "opacity-50 cursor-not-allowed" : ""
               }`}
               aria-label="Previous testimonials"
               disabled={isFirstPage}
             >
-              <ChevronLeft size={22} className="text-orange-600" />
+              <ChevronLeft size={18} className="sm:w-22 text-orange-600" />
             </button>
             <button
               onClick={nextTestimonial}
-              className={`w-8 h-8 rounded-full bg-orange-500 hover:bg-orange-600 flex items-center justify-center ${
+              className={`w-8 h-8 sm:w-8 sm:h-8 rounded-full bg-orange-500 hover:bg-orange-600 flex items-center justify-center ${
                 isLastPage ? "opacity-50 cursor-not-allowed" : ""
               }`}
               aria-label="Next testimonials"
               disabled={isLastPage}
             >
-              <ChevronRight size={22} className="text-white" />
+              <ChevronRight size={18} className="sm:w-22 text-white" />
             </button>
           </div>
         </div>
@@ -118,29 +281,31 @@ export default function Testimonials() {
             className="flex transition-transform duration-500 ease-in-out"
             style={{
               transform: `translateX(-${
-                (currentIndex / testimonialsPerPage) * 100
+                (currentIndex /
+                  (window.innerWidth < 768 ? 1 : testimonialsPerPage)) *
+                100
               }%)`,
             }}
           >
             {testimonials.map((testimonial) => (
               <div
                 key={testimonial.id}
-                className="flex-shrink-0 w-1/3  px-2 py-5"
+                className="flex-shrink-0 w-full sm:w-1/2 md:w-1/3 px-2 py-5"
               >
-                <div className="bg-gray-50 p-6 rounded-lg shadow-md">
+                <div className="bg-gray-50 p-4 sm:p-6 rounded-lg shadow-md">
                   <div className="flex items-center mb-4">
                     <img
                       src={testimonial.image || "/placeholder.svg"}
                       alt={testimonial.name}
-                      width={48}
-                      height={48}
-                      className="w-12 h-12 rounded-full object-cover mr-4"
+                      width={40}
+                      height={40}
+                      className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover mr-3 sm:mr-4"
                     />
                     <div>
-                      <h3 className="font-semibold text-gray-900">
+                      <h3 className="font-semibold text-gray-900 text-sm sm:text-base">
                         {testimonial.name}
                       </h3>
-                      <p className="text-gray-600 text-sm">
+                      <p className="text-gray-600 text-xs sm:text-sm">
                         {testimonial.role}
                       </p>
                     </div>
@@ -148,7 +313,7 @@ export default function Testimonials() {
 
                   <StarRating rating={testimonial.rating} />
 
-                  <p className="text-gray-600 text-sm leading-relaxed">
+                  <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">
                     {testimonial.text}
                   </p>
                 </div>
