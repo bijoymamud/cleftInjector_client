@@ -18,6 +18,7 @@ import Dashboard from "@/Layout/DashboardLayout/Dashboard";
 import Consultation from "@/Layout/DashboardLayout/Consultation";
 import Review from "@/Layout/DashboardLayout/Review";
 import Setting from "@/Layout/DashboardLayout/Setting";
+import ConsultationDetails from "@/Layout/DashboardLayout/ConsultationDetails";
 const Home = React.lazy(() => import("../Pages/Home/Home"));
 const Directory = React.lazy(() => import("../Pages/Directory/Directory"));
 const UserProfile = React.lazy(() => import("../Pages/Profile/UserProfile"));
@@ -43,7 +44,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/profile/:id",
+        path: "/doctor-profile/:id",
         element: (
           <Suspense fallback={<LoadingScreen />}>
             <Profile />
@@ -109,6 +110,10 @@ export const router = createBrowserRouter([
       {
         path: "consultation",
         element: <Consultation />,
+      },
+      {
+        path: "consultation_details/:id",
+        element: <ConsultationDetails />,
       },
       {
         path: "review",

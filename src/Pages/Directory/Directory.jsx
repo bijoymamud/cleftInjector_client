@@ -275,7 +275,7 @@ export default function Directory() {
 
                         <div className="mt-5 flex gap-3">
                           <Link
-                            to={`/profile/${doctor?.id}`}
+                            to={`/doctor-profile/${doctor?.id}`}
                             className="flex-1 text-center py-3 rounded-[12px] border border-[#E26C29] text-[#E26C29] font-medium hover:bg-[#E26C29]/10 transition"
                           >
                             View Profile

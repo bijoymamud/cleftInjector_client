@@ -23,9 +23,11 @@ const Footer = () => {
               Get Listed
             </button>
           </Link>
-          <button className="border border-white text-white cursor-pointer px-10 py-3 rounded-[12px]">
-            Brows Directory
-          </button>
+          <Link to="/directory">
+            <button className="border border-white text-white cursor-pointer px-10 py-3 rounded-[12px]">
+              Brows Directory
+            </button>
+          </Link>
         </div>
         <div className="border border-t border-gray-500 mt-20 container mx-auto"></div>
       </div>

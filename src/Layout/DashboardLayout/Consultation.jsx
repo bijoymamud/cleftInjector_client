@@ -2,62 +2,88 @@ import React, { useState } from "react";
 import { Search, Clock, MapPin, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Link } from "react-router";
 
 const consultations = [
   {
     id: 1,
     name: "Sarah Johnson",
     status: "Pending",
-    time: "10:00 AM",
+    time: "10:00 AM, Sep 15, 2025",
+
     step: "Step 17",
-    description:
-      "Lorem ipsum dolor sit amet consectetur. Nibh quis enim morbi neque fames convallis vehicula.",
+    reason:
+      "Lorem ipsum dolor sit amet consectetur. Vel mattis mauris vitae non sed porta. Convallis pretium et tellus ullamcorper odio felis massa leo venenatis. Ut sed at blandit vestibulum elit. Accumsan sodales magna sagittis tellus nunc facilisi neque dignissim.",
     image:
       "https://img.freepik.com/premium-photo/portrait-happy-young-casual-man-standing_171337-29744.jpg",
+    email: "sarah.johnson@example.com",
+    phone: "+1 (555) 123-4567",
+    location: "New York, USA",
+    fee: 150,
   },
   {
     id: 2,
     name: "Jenny Wilson",
     status: "Confirmed",
-    time: "10:00 AM",
+    time: "10:00 AM, Sep 15, 2025",
+
     step: "Step 17",
-    description:
-      "Lorem ipsum dolor sit amet consectetur. Nibh quis enim morbi neque fames convallis vehicula.",
+    reason:
+      "Lorem ipsum dolor sit amet consectetur. Vel mattis mauris vitae non sed porta. Convallis pretium et tellus ullamcorper odio felis massa leo venenatis. Ut sed at blandit vestibulum elit. Accumsan sodales magna sagittis tellus nunc facilisi neque dignissim.",
     image:
       "https://img.freepik.com/free-photo/young-handsome-man-wearing-casual-tshirt-blue-background-happy-face-smiling-with-crossed-arms-looking-camera-positive-person_839833-12963.jpg?semt=ais_hybrid&w=740&q=80",
+    email: "jenny.wilson@example.com",
+    phone: "+1 (555) 234-5678",
+    location: "Los Angeles, USA",
+    fee: 170,
   },
   {
     id: 3,
     name: "Robert Fox",
     status: "Cancelled",
-    time: "10:00 AM",
+    time: "10:00 AM, Sep 15, 2025",
+
     step: "Step 17",
-    description:
-      "Lorem ipsum dolor sit amet consectetur. Nibh quis enim morbi neque fames convallis vehicula.",
+    reason:
+      "Lorem ipsum dolor sit amet consectetur. Vel mattis mauris vitae non sed porta. Convallis pretium et tellus ullamcorper odio felis massa leo venenatis. Ut sed at blandit vestibulum elit. Accumsan sodales magna sagittis tellus nunc facilisi neque dignissim.",
     image:
       "https://www.drmeilynhew.com.au/wp-content/uploads/2017/02/person12.jpg",
+    email: "robert.fox@example.com",
+    phone: "+1 (555) 345-6789",
+    location: "Chicago, USA",
+    fee: 120,
   },
   {
     id: 4,
     name: "Jacob Jones",
     status: "Pending",
-    time: "10:00 AM",
+    time: "10:00 AM, Sep 15, 2025",
+
     step: "Step 17",
-    description:
-      "Lorem ipsum dolor sit amet consectetur. Nibh quis enim morbi neque fames convallis vehicula.",
+    reason:
+      "Lorem ipsum dolor sit amet consectetur. Vel mattis mauris vitae non sed porta. Convallis pretium et tellus ullamcorper odio felis massa leo venenatis. Ut sed at blandit vestibulum elit. Accumsan sodales magna sagittis tellus nunc facilisi neque dignissim.",
     image:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSY0N_dzc3iT74_6s4xL7NPybKkYmxkxmoJdubrt3-OJHhbW9Ga3J-44ug1BPslZFaS-Gc&usqp=CAU",
+    email: "jacob.jones@example.com",
+    phone: "+1 (555) 456-7890",
+    location: "Houston, USA",
+    fee: 150,
   },
   {
     id: 5,
     name: "Bessie Cooper",
     status: "Confirmed",
-    time: "10:00 AM",
+    time: "10:00 AM, Sep 15, 2025",
+
     step: "Step 17",
-    description:
-      "Lorem ipsum dolor sit amet consectetur. Nibh quis enim morbi neque fames convallis vehicula.",
+    reason:
+      "Lorem ipsum dolor sit amet consectetur. Vel mattis mauris vitae non sed porta. Convallis pretium et tellus ullamcorper odio felis massa leo venenatis. Ut sed at blandit vestibulum elit. Accumsan sodales magna sagittis tellus nunc facilisi neque dignissim.",
     image:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTWQKwNNsnY_f7eiJcrZFZHUGp-eR7BC2o_x3fMXWOrB2qO9B6bZrELuQ7E1T09CYpd5k&usqp=CAU",
+    email: "bessie.cooper@example.com",
+    phone: "+1 (555) 567-8901",
+    location: "San Francisco, USA",
+    fees: 150,
   },
   {
     id: 6,
@@ -65,39 +91,41 @@ const consultations = [
     status: "Cancelled",
     time: "10:00 AM",
     step: "Step 17",
-    description:
-      "Lorem ipsum dolor sit amet consectetur. Nibh quis enim morbi neque fames convallis vehicula.",
+    reason: "Lorem ipsum dolor sit amet consectetur...",
     image:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-j-79isZ-m017kMBJWFHOqWKbe9Avs0h2N4BxVxS2rr0qltJa-oMIuv_xGzQ4q-fdjkE&usqp=CAU",
+    email: "devon.lane@example.com",
+    phone: "+1 (555) 678-9012",
+    location: "Seattle, USA",
+    fees: 150,
   },
 ];
 
 export default function Consultation() {
   const [activeFilter, setActiveFilter] = useState("All");
-  const [currentPage, setCurrentPage] = useState(1);
 
   const getStatusColor = (status) => {
     switch (status) {
       case "Pending":
-        return "text-orange-500 bg-orange-50";
+        return "text-orange-500 bg-orange-100";
       case "Confirmed":
-        return "text-green-600 bg-green-50";
+        return "text-green-600 bg-green-100";
       case "Cancelled":
-        return "text-red-500 bg-red-50";
+        return "text-red-500 bg-red-100";
       default:
-        return "text-gray-500 bg-gray-50";
+        return "text-gray-500 bg-gray-100";
     }
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="">
       <div className="container mx-auto">
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-2xl font-semibold text-gray-900 mb-1">
             Consultation Management
           </h1>
-          <p className="text-sm text-gray-500">
+          <p className="text-base text-gray-500">
             Manage your patient consultations and bookings
           </p>
         </div>
@@ -182,7 +210,7 @@ export default function Consultation() {
                       {consultation.name}
                     </h3>
                     <span
-                      className={`px-2 py-0.5 rounded text-xs font-medium ${getStatusColor(
+                      className={`px-2 py-0.5 rounded-full  text-[14px] font-semibold ${getStatusColor(
                         consultation.status
                       )}`}
                     >
@@ -199,20 +227,26 @@ export default function Consultation() {
                       <span>{consultation.step}</span>
                     </div>
                   </div>
-                  <p className="text-base text-black">
-                    {consultation.description}
+                  <p className="text-base text-[#656464]">
+                    Reason:{" "}
+                    <span className="text-black">{consultation.reason}</span>
                   </p>
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex items-center gap-2 flex-shrink-0">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="text-orange-500 border-orange-200 hover:bg-orange-50"
+                <div className="flex items-center gap-2 flex-shrink-0 ">
+                  <Link
+                    to={`/provider/consultation_details/${consultation?.id}`}
+                    state={consultation}
                   >
-                    View Details
-                  </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="text-orange-500 cursor-pointer hover:text-orange-500 hover:bg-gray-300 border-orange-500"
+                    >
+                      View Details
+                    </Button>
+                  </Link>
                   {consultation.status === "Pending" && (
                     <>
                       <Button
@@ -230,15 +264,6 @@ export default function Consultation() {
                       </Button>
                     </>
                   )}
-                  {consultation.status === "Confirmed" && (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="text-orange-500 border-orange-200 hover:bg-orange-50"
-                    >
-                      View Details
-                    </Button>
-                  )}
                 </div>
               </div>
             </div>
@@ -246,7 +271,7 @@ export default function Consultation() {
         </div>
 
         {/* Pagination */}
-        <div className="flex items-center justify-center gap-2 mt-6">
+        <div className="flex items-center justify-center gap-2  mt-10 ">
           <Button
             variant="outline"
             size="icon"
