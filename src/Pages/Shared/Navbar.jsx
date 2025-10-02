@@ -16,8 +16,8 @@ export function Navbar() {
   const { pathname } = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const isLoggedIn = true;
-  const isProvider = true;
+  const isLoggedIn = false;
+  const isProvider = false;
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -68,11 +68,11 @@ export function Navbar() {
               </Link>
             ) : (
               <Link
-                to="/get-started"
+                to="/sign_up"
                 className="flex items-center gap-2 px-6 py-3 rounded-xl bg-[#E26C29] text-white text-base font-medium hover:from-[#D55F22] hover:via-[#BC541E] hover:to-[#904A24] transition-colors duration-200"
               >
                 <FaRegUser size={18} />
-                Get Listed
+                Sign Up
               </Link>
             )}
           </div>

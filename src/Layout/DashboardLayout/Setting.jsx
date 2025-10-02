@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Camera, Edit2 } from "lucide-react";
+import {
+  Camera,
+  CircleDollarSign,
+  Edit2,
+  FilePenLine,
+  User,
+} from "lucide-react";
 import { useForm } from "react-hook-form";
 
 export default function Setting() {
@@ -179,9 +185,11 @@ export default function Setting() {
       {/* Personal Information Section */}
       <div className="bg-white rounded-lg shadow drop-shadow-lg p-6 border border-gray-200 mb-10">
         <div className="flex items-center justify-between gap-1 mb-4">
-          <div>
-            <span className="text-orange-500">👤</span>
-            <h2 className="text-base font-semibold text-gray-900">
+          <div className="flex items-center gap-2">
+            <span className="text-orange-500">
+              <User size={24} />
+            </span>
+            <h2 className="text-lg font-semibold text-gray-900">
               Personal Information
             </h2>
           </div>
@@ -362,11 +370,11 @@ export default function Setting() {
 
       {/* Personal Bio Section */}
       <div className="bg-white rounded-lg shadow drop-shadow-lg p-6 border border-gray-200 mb-10">
-        <div className="flex items-center gap-1 mb-4">
-          <span className="text-orange-500">📝</span>
-          <h2 className="text-base font-semibold text-gray-900">
-            Personal Bio
-          </h2>
+        <div className="flex items-center gap-2 mb-4">
+          <span className="text-orange-500">
+            <FilePenLine size={24} />
+          </span>
+          <h2 className="text-lg font-semibold text-gray-900">Personal Bio</h2>
 
           <button
             type="button"
@@ -404,8 +412,10 @@ export default function Setting() {
 
       {/* Consultation Fee Section */}
       <div className="bg-white rounded-lg shadow drop-shadow-lg p-6 border border-gray-200 mb-10">
-        <div className="flex items-center gap-1 mb-4">
-          <span className="text-orange-500">💰</span>
+        <div className="flex items-center gap-2 mb-4">
+          <span className="text-orange-500">
+            <CircleDollarSign size={24} />
+          </span>
           <h2 className="text-base font-semibold text-gray-900">
             Consultation Fee
           </h2>
