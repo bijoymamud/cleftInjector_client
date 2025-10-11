@@ -27,8 +27,7 @@ export const baseApi = createApi({
 
     endpoints: (builder) => ({
 
-        //create user
-        createUser: builder.mutation({
+        createUser2: builder.mutation({
             query: (userData) => ({
                 url: "auth/normal_signup/",
                 method: "POST",
@@ -39,5 +38,5 @@ export const baseApi = createApi({
 })
 
 export const {
-    useCreateUserMutation,
+    useCreateUser2Mutation,
 } = baseApi

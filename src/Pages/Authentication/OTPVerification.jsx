@@ -2,7 +2,12 @@ import { useForm } from "react-hook-form";
 import { MdKeyboardBackspace } from "react-icons/md";
 import { useNavigate } from "react-router";
 import { toast, Toaster } from "sonner";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import {
+  useOtpVerificationMutation,
+  useResendOTPMutation,
+} from "@/redux/features/authApi";
+import { Spinner } from "@/components/ui/shadcn-io/spinner";
 
 export default function OTPVerification() {
   const {
@@ -13,21 +18,60 @@ export default function OTPVerification() {
   } = useForm();
 
   const navigate = useNavigate();
+  const [otpVerification] = useOtpVerificationMutation();
+  const [resendOTP] = useResendOTPMutation();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [otpSubmitting, setOtpSubmitting] = useState(false);
+
   const inputRefs = useRef([]);
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const otp = Object.values(data).join("");
     console.log("OTP submitted:", otp);
+    setIsSubmitting(true);
 
     if (otp.length !== 6) {
       toast.error("Please enter a valid 6-digit code.");
       return;
     }
 
-    toast.success("OTP verified successfully!");
-    setTimeout(() => {
-      navigate("/reset_password");
-    }, 1000);
+    const payload = {
+      email: localStorage.getItem("user_email"),
+      otp: otp,
+    };
+
+    try {
+      const response = await otpVerification(payload).unwrap();
+      console.log("Success:", response);
+
+      toast.success(response?.message || "OTP Verification successful!");
+      setTimeout(() => {
+        navigate("/sign_in");
+      }, 1000);
+    } catch (error) {
+      console.error("Error during OTP verification:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  //resend
+  const resendOpt = async () => {
+    setOtpSubmitting(true);
+
+    const email = {
+      email: localStorage.getItem("user_email"),
+    };
+
+    try {
+      const response = await resendOTP(email).unwrap();
+      console.log("Success:", response);
+      toast.success(response?.message || "OTP Resend successful!");
+    } catch (error) {
+      console.log("Error during resending OTP:", error);
+    } finally {
+      setOtpSubmitting(false); // Changed from setIsSubmitting to setOtpSubmitting
+    }
   };
 
   const handleChange = (e, index) => {
@@ -118,18 +162,32 @@ export default function OTPVerification() {
 
             <button
               type="submit"
-              className="relative overflow-hidden w-full bg-title text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 
-              before:absolute before:top-0 before:left-0 before:h-full before:w-0 before:bg-gray-200/10 hover:cursor-pointer before:transition-all before:duration-500 hover:before:w-full"
+              className="relative overflow-hidden w-full bg-[#E26C29] text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 focus:outline-none
+                          before:absolute before:top-0 before:left-0 before:h-full before:w-0 before:bg-gray-200/10 hover:cursor-pointer before:transition-all before:duration-500 hover:before:w-full disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={isSubmitting}
             >
-              <span className="relative z-10">Verify</span>
+              <span className="relative z-10 flex items-center justify-center">
+                {isSubmitting ? (
+                  <>
+                    <Spinner className="mr-2 h-5 w-5" />
+                    Verifying...
+                  </>
+                ) : (
+                  "Verify"
+                )}
+              </span>
             </button>
           </form>
           <div>
             <h1 className="text-tagline pt-4 text-center font-medium">
               Don't get the code?{" "}
-              <span className="underline text-title cursor-pointer">
-                Resend Code
-              </span>
+              <button
+                onClick={() => resendOpt()}
+                className="underline text-title cursor-pointer"
+                disabled={otpSubmitting}
+              >
+                {otpSubmitting ? <>Resending...</> : "Resend Code"}
+              </button>
             </h1>
           </div>
         </div>

@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router";
 import { toast, Toaster } from "sonner";
 import { FaRegEye } from "react-icons/fa6";
 import { FiEyeOff } from "react-icons/fi";
+import { useLogInMutation } from "@/redux/features/authApi";
 
 export default function SignIn() {
   const {
@@ -14,14 +15,30 @@ export default function SignIn() {
 
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [logIn] = useLogInMutation();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log("Form submitted:", data);
-    toast.success("Login successfully.");
 
-    setTimeout(() => {
-      navigate("/");
-    }, 1000);
+    try {
+      const userData = {
+        email: data.email,
+        password: data.password,
+      };
+
+      console.log(userData);
+
+      const response = await logIn(userData).unwrap();
+      console.log("Success:", response);
+      toast.success(response?.message || "Login successful!");
+      localStorage.setItem("access_token", response?.access_token);
+      localStorage.setItem("refresh_token", response?.access_token);
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -43,11 +60,11 @@ export default function SignIn() {
       <div className="  flex items-center justify-center w-full basis-6/12 ">
         <div className="w-full max-w-lg p-10  shadow-gray-300 shadow-md">
           <div className="mb-8">
-            <h1 className="text-3xl font-semibold text-title mb-2">Sign In</h1>
-            <p className="text-tagline text-sm">
-              Welcome to logistics supply chain platform.
-              <br />
-              Streamline your logistics — sign in to continue.
+            <h1 className="text-3xl text-gray-900 font-semibold text-center mb-2">
+              Log In to Continue
+            </h1>
+            <p className=" text-md text-center  text-[#5B5B5B]">
+              Access your account and manage your profile
             </p>
           </div>
 
@@ -162,8 +179,8 @@ export default function SignIn() {
 
             <button
               type="submit"
-              className="relative overflow-hidden w-full bg-title text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 
-             before:absolute before:top-0 before:left-0 before:h-full before:w-0 before:bg-gray-200/10 hover:cursor-pointer before:transition-all before:duration-500 hover:before:w-full"
+              className="relative overflow-hidden w-full bg-[#E26C29] text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 focus:outline-none
+                before:absolute before:top-0 before:left-0 before:h-full before:w-0 before:bg-gray-200/10 hover:cursor-pointer before:transition-all before:duration-500 hover:before:w-full disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <span className="relative z-10">Login Account</span>
             </button>
