@@ -30,14 +30,14 @@ export default function SignIn() {
 
       const response = await logIn(userData).unwrap();
       console.log("Success:", response);
-      toast.success(response?.message || "Login successful!");
+      toast.success(response?.data?.message || "Login successful!");
       localStorage.setItem("access_token", response?.access_token);
       localStorage.setItem("refresh_token", response?.access_token);
       setTimeout(() => {
         navigate("/");
       }, 1000);
     } catch (error) {
-      console.log(error);
+      toast.success(error?.data?.message || "Login successful!");
     }
   };
 
