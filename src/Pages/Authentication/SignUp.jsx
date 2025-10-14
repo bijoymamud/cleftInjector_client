@@ -40,7 +40,9 @@ export default function SignUp() {
 
       toast.success(response?.message || "Account created successfully!");
       setTimeout(() => {
-        navigate("/otp_verification");
+        navigate("/otp_verification", {
+          state: { status: "signup" },
+        });
       }, 1000);
     } catch (err) {
       console.error("Error:", err);

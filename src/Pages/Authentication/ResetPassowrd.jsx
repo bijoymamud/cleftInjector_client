@@ -2,8 +2,13 @@
 // import { MdKeyboardBackspace } from "react-icons/md";
 // import { useNavigate } from "react-router";
 // import { toast, Toaster } from "sonner";
+// import { useState } from "react";
+// import { FaRegEye } from "react-icons/fa6";
+// import { FiEyeOff } from "react-icons/fi";
+// import { useResetPasswordMutation } from "@/redux/features/authApi";
+// import { Spinner } from "@/components/ui/shadcn-io/spinner";
 
-// export default function ResetPassowrd() {
+// export default function ResetPassword() {
 //   const {
 //     register,
 //     handleSubmit,
@@ -14,12 +19,36 @@
 //   const navigate = useNavigate();
 //   const newPassword = watch("newPassword");
 
-//   const onSubmit = (data) => {
-//     console.log("Password reset:", data);
-//     toast.success("Password reset successfully!");
-//     setTimeout(() => {
-//       navigate("/sign_in");
-//     }, 1500);
+//   const [showNew, setShowNew] = useState(false);
+//   const [showConfirm, setShowConfirm] = useState(false);
+//   const [isSubmitting, setIsSubmitting] = useState(false);
+//   const [resetPassword] = useResetPasswordMutation();
+
+//   const onSubmit = async (data) => {
+//     setIsSubmitting(true);
+
+//     const payload = {
+//       email: localStorage.getItem("user_email"),
+//       password: data.password,
+//     };
+
+//     try {
+//       const response = await resetPassword(payload).unwrap();
+//       console.log("Success:", response);
+//       toast.success("Password reset successfully!", {
+//         duration: 2000,
+//       });
+//       setTimeout(() => {
+//         navigate("/sign_in");
+//       }, 1000);
+//     } catch (error) {
+//       console.error("Error:", error);
+//       toast.error(
+//         error?.data?.message || "Failed to reset password. Please try again.",
+//         { duration: 1000 }
+//       );
+//       setIsSubmitting(false);
+//     }
 //   };
 
 //   return (
@@ -49,11 +78,11 @@
 //             </button>
 
 //             <div>
-//               <h1 className="text-3xl font-semibold text-title mb-2 capitalize">
+//               <h1 className="text-3xl text-gray-900 font-semibold text-center mb-2">
 //                 Reset Password
 //               </h1>
-//               <p className="text-tagline text-sm">
-//                 Enter your a new password containing minimum of 6 characters to
+//               <p className="text-tagline text-sm text-center">
+//                 Enter a new password containing at least 6 characters to
 //                 continue.
 //               </p>
 //             </div>
@@ -62,22 +91,28 @@
 //           {/* Reset Password Form */}
 //           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
 //             {/* New Password */}
-//             <div>
+//             <div className="relative">
 //               <label className="block text-sm font-medium text-gray-700 mb-1">
 //                 New Password
 //               </label>
 //               <input
-//                 type="password"
-//                 {...register("newPassword", {
+//                 type={showNew ? "text" : "password"}
+//                 {...register("password", {
 //                   required: "New password is required",
 //                   minLength: {
 //                     value: 6,
 //                     message: "Password must be at least 6 characters",
 //                   },
 //                 })}
-//                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-title"
+//                 className="w-full px-4 py-3 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-title"
 //                 placeholder="Enter new password"
 //               />
+//               <span
+//                 onClick={() => setShowNew(!showNew)}
+//                 className="absolute right-3 top-[38px] cursor-pointer text-gray-500"
+//               >
+//                 {showNew ? <FiEyeOff size={16} /> : <FaRegEye size={16} />}
+//               </span>
 //               {errors.newPassword && (
 //                 <p className="mt-1 text-sm text-red-600">
 //                   {errors.newPassword.message}
@@ -86,20 +121,26 @@
 //             </div>
 
 //             {/* Confirm Password */}
-//             <div>
+//             <div className="relative">
 //               <label className="block text-sm font-medium text-gray-700 mb-1">
 //                 Confirm Password
 //               </label>
 //               <input
-//                 type="password"
+//                 type={showConfirm ? "text" : "password"}
 //                 {...register("confirmPassword", {
 //                   required: "Please confirm your password",
 //                   validate: (value) =>
 //                     value === newPassword || "Passwords do not match",
 //                 })}
-//                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-title"
+//                 className="w-full px-4 py-3 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-title"
 //                 placeholder="Confirm new password"
 //               />
+//               <span
+//                 onClick={() => setShowConfirm(!showConfirm)}
+//                 className="absolute right-3 top-[38px] cursor-pointer text-gray-500"
+//               >
+//                 {showConfirm ? <FiEyeOff size={16} /> : <FaRegEye size={16} />}
+//               </span>
 //               {errors.confirmPassword && (
 //                 <p className="mt-1 text-sm text-red-600">
 //                   {errors.confirmPassword.message}
@@ -109,10 +150,19 @@
 
 //             <button
 //               type="submit"
-//               className="relative overflow-hidden w-full bg-title text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200
-//               before:absolute before:top-0 before:left-0 before:h-full before:w-0 before:bg-gray-200/10 hover:cursor-pointer before:transition-all before:duration-500 hover:before:w-full"
+//               className="relative overflow-hidden w-full bg-[#E26C29] text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 before:absolute before:top-0 before:left-0 before:h-full before:w-0 before:bg-gray-200/10 hover:cursor-pointer before:transition-all before:duration-500 hover:before:w-full disabled:opacity-50 disabled:cursor-not-allowed"
+//               disabled={isSubmitting}
 //             >
-//               <span className="relative z-10">Reset Password</span>
+//               <span className="relative z-10 flex items-center justify-center">
+//                 {isSubmitting ? (
+//                   <>
+//                     <Spinner className="mr-2 h-5 w-5" />
+//                     Resetting...
+//                   </>
+//                 ) : (
+//                   "Reset Password"
+//                 )}
+//               </span>
 //             </button>
 //           </form>
 //         </div>
@@ -128,9 +178,10 @@ import { toast, Toaster } from "sonner";
 import { useState } from "react";
 import { FaRegEye } from "react-icons/fa6";
 import { FiEyeOff } from "react-icons/fi";
-import { IoIosEye } from "react-icons/io";
+import { useResetPasswordMutation } from "@/redux/features/authApi";
+import { Spinner } from "@/components/ui/shadcn-io/spinner";
 
-export default function ResetPassowrd() {
+export default function ResetPassword() {
   const {
     register,
     handleSubmit,
@@ -139,18 +190,38 @@ export default function ResetPassowrd() {
   } = useForm();
 
   const navigate = useNavigate();
-  const newPassword = watch("newPassword");
+  const newPassword = watch("password");
 
-  // state for show/hide passwords
   const [showNew, setShowNew] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [resetPassword] = useResetPasswordMutation();
 
-  const onSubmit = (data) => {
-    console.log("Password reset:", data);
-    toast.success("Password reset successfully!");
-    setTimeout(() => {
-      navigate("/sign_in");
-    }, 1500);
+  const onSubmit = async (data) => {
+    setIsSubmitting(true);
+
+    const payload = {
+      email: localStorage.getItem("user_email"),
+      password: data.password,
+    };
+
+    try {
+      const response = await resetPassword(payload).unwrap();
+      console.log("Success:", response);
+      toast.success("Password reset successfully!", {
+        duration: 2000,
+      });
+      setTimeout(() => {
+        navigate("/sign_in");
+      }, 1000);
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error(
+        error?.data?.message || "Failed to reset password. Please try again.",
+        { duration: 1000 }
+      );
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -180,11 +251,11 @@ export default function ResetPassowrd() {
             </button>
 
             <div>
-              <h1 className="text-3xl font-semibold text-title mb-2 capitalize">
+              <h1 className="text-3xl text-gray-900 font-semibold text-center mb-2">
                 Reset Password
               </h1>
-              <p className="text-tagline text-sm">
-                Enter your a new password containing minimum of 6 characters to
+              <p className="text-tagline text-sm text-center">
+                Enter a new password containing at least 6 characters to
                 continue.
               </p>
             </div>
@@ -199,7 +270,7 @@ export default function ResetPassowrd() {
               </label>
               <input
                 type={showNew ? "text" : "password"}
-                {...register("newPassword", {
+                {...register("password", {
                   required: "New password is required",
                   minLength: {
                     value: 6,
@@ -215,9 +286,9 @@ export default function ResetPassowrd() {
               >
                 {showNew ? <FiEyeOff size={16} /> : <FaRegEye size={16} />}
               </span>
-              {errors.newPassword && (
+              {errors.password && (
                 <p className="mt-1 text-sm text-red-600">
-                  {errors.newPassword.message}
+                  {errors.password.message}
                 </p>
               )}
             </div>
@@ -252,10 +323,19 @@ export default function ResetPassowrd() {
 
             <button
               type="submit"
-              className="relative overflow-hidden w-full bg-title text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 
-              before:absolute before:top-0 before:left-0 before:h-full before:w-0 before:bg-gray-200/10 hover:cursor-pointer before:transition-all before:duration-500 hover:before:w-full"
+              className="relative overflow-hidden w-full bg-[#E26C29] text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 before:absolute before:top-0 before:left-0 before:h-full before:w-0 before:bg-gray-200/10 hover:cursor-pointer before:transition-all before:duration-500 hover:before:w-full disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={isSubmitting}
             >
-              <span className="relative z-10">Reset Password</span>
+              <span className="relative z-10 flex items-center justify-center">
+                {isSubmitting ? (
+                  <>
+                    <Spinner className="mr-2 h-5 w-5" />
+                    Resetting...
+                  </>
+                ) : (
+                  "Reset Password"
+                )}
+              </span>
             </button>
           </form>
         </div>

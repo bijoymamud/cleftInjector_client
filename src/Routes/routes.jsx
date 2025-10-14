@@ -19,6 +19,7 @@ import Consultation from "@/Layout/DashboardLayout/Consultation";
 import Review from "@/Layout/DashboardLayout/Review";
 import Setting from "@/Layout/DashboardLayout/Setting";
 import ConsultationDetails from "@/Layout/DashboardLayout/ConsultationDetails";
+import ErrorPage from "@/Pages/404/ErrorPage";
 const Home = React.lazy(() => import("../Pages/Home/Home"));
 const Directory = React.lazy(() => import("../Pages/Directory/Directory"));
 const UserProfile = React.lazy(() => import("../Pages/Profile/UserProfile"));
@@ -30,6 +31,7 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: <Main />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",

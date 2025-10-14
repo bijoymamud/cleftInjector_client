@@ -165,7 +165,9 @@ export default function MailVerification() {
       toast.success(response?.message || "Verification email sent!");
 
       setTimeout(() => {
-        navigate("/otp_verification");
+        navigate("/otp_verification", {
+          state: { status: "reset" },
+        });
       }, 1000);
     } catch (error) {
       console.error("Error:", error);

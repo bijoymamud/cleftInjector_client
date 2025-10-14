@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { MdKeyboardBackspace } from "react-icons/md";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { toast, Toaster } from "sonner";
 import { useRef, useState } from "react";
 import {
@@ -25,6 +25,10 @@ export default function OTPVerification() {
 
   const inputRefs = useRef([]);
 
+  const location = useLocation();
+  const status = location.state?.status;
+  console.log("Status:", status);
+
   const onSubmit = async (data) => {
     const otp = Object.values(data).join("");
     console.log("OTP submitted:", otp);
@@ -43,13 +47,23 @@ export default function OTPVerification() {
     try {
       const response = await otpVerification(payload).unwrap();
       console.log("Success:", response);
-
+      localStorage.setItem("access_token", response?.access_token);
+      localStorage.setItem("refresh_token", response?.refresh_token);
       toast.success(response?.message || "OTP Verification successful!");
       setTimeout(() => {
-        navigate("/sign_in");
+        if (status === "signup") {
+          navigate("/sign_in");
+        } else if (status === "reset") {
+          navigate("/reset_password");
+        } else {
+          navigate("/");
+        }
       }, 1000);
     } catch (error) {
       console.error("Error during OTP verification:", error);
+      toast.error(
+        error?.data?.message || "Failed to verify OTP. Please try again."
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -131,12 +145,12 @@ export default function OTPVerification() {
             </button>
 
             <div>
-              <h1 className="text-3xl font-semibold text-title mb-2 capitalize">
+              <h1 className="text-3xl text-gray-900 font-semibold text-center mb-2">
                 OTP Verification
               </h1>
-              <p className="text-tagline text-sm">
-                Enter the 6-digit code sent to your email. <br /> This code is
-                valid for next 10 minutes
+              <p className="text-tagline text-sm w-full text-center">
+                Enter the 6-digit code sent to your email. This code is valid
+                for next 10 minutes
               </p>
             </div>
           </div>
