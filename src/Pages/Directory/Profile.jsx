@@ -15,9 +15,12 @@ import {
   AwardIcon,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 
 export default function Profile() {
+  const location = useLocation();
+  const injectorData = location.state?.injector;
+  console.log("injectorData:", injectorData);
   const id = 1;
   return (
     <div className="min-h-screen bg-gray-50 p-4 py-20">
@@ -27,8 +30,7 @@ export default function Profile() {
             <div className="flex flex-col md:flex-row gap-6">
               <Avatar className="w-[250px] h-[250px] rounded-full ">
                 <img
-                  src="https://img.freepik.com/free-photo/portrait-male-doctor_23-2148480369.jpg?semt=ais_incoming"
-                  alt="Dr. Sarah Johnson"
+                  src={injectorData?.profile_image}
                   className="w-full h-full"
                 />
               </Avatar>
@@ -36,27 +38,31 @@ export default function Profile() {
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-2">
                   <h1 className="text-2xl font-bold text-gray-900">
-                    Dr. Sarah Johnson
+                    {injectorData?.full_name}
                   </h1>
                   <BiSolidBadgeCheck size={22} className="mb-3 text-blue-500" />
                 </div>
 
                 <p className="text-tagline text-lg font-medium mb-3">
-                  Reconstructive Surgery
+                  {injectorData?.designation}
                 </p>
 
                 <div className="flex flex-wrap gap-4 text-md text-gray-600 mb-4">
                   <div className="flex items-center gap-1 font-medium">
                     <MapPin className="w-4 h-4 text-tagline" />
-                    Los Angeles
+                    {injectorData?.city}
                   </div>
                   <div className="flex items-center gap-1 text-md font-medium">
                     <LuClock3 className="w-4 h-4 text-tagline" />
-                    Available This Week
+                    <p>
+                      {injectorData?.available_today === true
+                        ? "Available today"
+                        : "Not available today"}
+                    </p>
                   </div>
                   <div className="flex items-center gap-1 text-md font-medium">
                     <AwardIcon size={18} className="text-tagline" />
-                    12 Years Experience
+                    {injectorData?.years_of_experience} Years Experience
                   </div>
                 </div>
 
@@ -66,7 +72,7 @@ export default function Profile() {
                       Consultation Fee:{" "}
                     </span>
                     <span className="font-semibold text-gray-900 text-xl">
-                      $250
+                      {injectorData?.consultation_fee}
                     </span>
                   </div>
                   <div className="flex items-center gap-1">
@@ -77,8 +83,7 @@ export default function Profile() {
 
                 <Link
                   to={`/book-consultation/${id}`}
-                  // to="/book-consultation"
-                  className="flex gap-3"
+                  className="flex gap-3 w-[10px]"
                 >
                   <Button className="bg-orange-500 hover:bg-orange-600 text-md flex cursor-pointer items-center gap-2">
                     <Calendar className="w-4 h-4" />
@@ -96,14 +101,10 @@ export default function Profile() {
             <div>
               <div className="p-6  rounded-[16px] drop-shadow-xl shadow-sm hover:transition-discrete hover:cursor-pointer">
                 <h2 className="text-2xl font-semibold mb-4 text-title">
-                  About Dr. Sarah
+                  About {injectorData?.full_name}
                 </h2>
                 <p className="text-gray-600 text-md leading-relaxed text-label">
-                  Dr. Sarah Johnson is a board-certified plastic and
-                  reconstructive surgeon specializing in cleft lip and palate
-                  repair. With over 12 years of experience, she has performed
-                  hundreds of successful procedures and is known for her
-                  compassionate care and excellent results.
+                  {injectorData?.about}
                 </p>
               </div>
             </div>
@@ -116,31 +117,14 @@ export default function Profile() {
                   Education & Qualifications
                 </h2>
                 <div className="space-y-3">
-                  <div className="flex items-start gap-3">
-                    <CheckCircle className="w-4 h-4 text-tagline mt-0.5" />
-                    <span className="text-md text-gray-700">
-                      MD from Harvard Medical School
-                    </span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <CheckCircle className="w-4 h-4 text-tagline mt-0.5" />
-                    <span className="text-md text-gray-700">
-                      Residency in Plastic Surgery at Johns Hopkins Hospital
-                    </span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <CheckCircle className="w-4 h-4 text-tagline mt-0.5" />
-                    <span className="text-md text-gray-700">
-                      Fellowship in Craniofacial Surgery at Children's Hospital
-                      of Philadelphia
-                    </span>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <CheckCircle className="w-4 h-4 text-tagline mt-0.5" />
-                    <span className="text-md text-gray-700">
-                      Board Certified by American Board of Plastic Surgery
-                    </span>
-                  </div>
+                  {injectorData?.qualifications_certifications
+                    ?.split("\\n")
+                    .map((item, index) => (
+                      <div key={index} className="flex items-start gap-3">
+                        <CheckCircle className="w-4 h-4 text-tagline mt-0.5" />
+                        <span className="text-md text-gray-700">{item}</span>
+                      </div>
+                    ))}
                 </div>
               </div>
             </div>
@@ -152,36 +136,17 @@ export default function Profile() {
                   Specialties
                 </h2>
                 <div className="flex flex-wrap gap-2">
-                  <Badge
-                    variant="secondary"
-                    className="bg-orange-100 text-base rounded-full text-orange-700 hover:bg-orange-200"
-                  >
-                    Cleft Palate Repair
-                  </Badge>
-                  <Badge
-                    variant="secondary"
-                    className="bg-orange-100 text-base rounded-full text-orange-700 hover:bg-orange-200"
-                  >
-                    Pediatric Plastic Surgery
-                  </Badge>
-                  <Badge
-                    variant="secondary"
-                    className="bg-orange-100 text-base rounded-full text-orange-700 hover:bg-orange-200"
-                  >
-                    Rhinoplasty
-                  </Badge>
-                  <Badge
-                    variant="secondary"
-                    className="bg-orange-100 text-base rounded-full text-orange-700 hover:bg-orange-200"
-                  >
-                    Facial Reconstruction
-                  </Badge>
-                  <Badge
-                    variant="secondary"
-                    className="bg-orange-100 text-base rounded-full text-orange-700 hover:bg-orange-200"
-                  >
-                    Cleft Lip Repair
-                  </Badge>
+                  {injectorData?.specialties
+                    ?.split("\\n")
+                    ?.map((speciality, index) => (
+                      <Badge
+                        key={index}
+                        variant="secondary"
+                        className="bg-orange-100 text-base rounded-full text-orange-700 hover:bg-orange-200"
+                      >
+                        {speciality}
+                      </Badge>
+                    ))}
                 </div>
               </div>
             </div>
@@ -194,15 +159,13 @@ export default function Profile() {
                   Awards & Recognition
                 </h2>
                 <div className="space-y-2">
-                  <div className="text-md text-gray-700">
-                    - Top Doctor Award 2023
-                  </div>
-                  <div className="text-md text-gray-700">
-                    - Excellence in Patient Care 2022
-                  </div>
-                  <div className="text-md text-gray-700">
-                    - Best Reconstructive Surgeon 2021
-                  </div>
+                  {injectorData?.awards_recognitions
+                    ?.split("\\n")
+                    .map((award, index) => (
+                      <div key={index} className="text-md text-gray-700">
+                        - {award}
+                      </div>
+                    ))}
                 </div>
               </div>
             </div>
@@ -218,24 +181,26 @@ export default function Profile() {
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
                     <MapPin className="w-4 h-4 text-tagline" />
-                    <span className="text-md text-gray-700">Los Angeles</span>
+                    <span className="text-md text-gray-700">
+                      {injectorData?.city}
+                    </span>
                   </div>
                   <div className="flex items-center gap-3">
                     <Mail className="w-4 h-4 text-tagline" />
                     <span className="text-md text-gray-700">
-                      support@drsarah.com
+                      {injectorData?.email}
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
                     <Phone className="w-4 h-4 text-tagline" />
                     <span className="text-md text-gray-700">
-                      (555) 123-4567
+                      {injectorData?.phone}
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
                     <Globe className="w-4 h-4 text-tagline" />
                     <span className="text-md text-gray-700">
-                      www.drsarah.com
+                      {injectorData?.website}
                     </span>
                   </div>
                 </div>
@@ -249,24 +214,17 @@ export default function Profile() {
                   Languages Spoken
                 </h2>
                 <div className="flex flex-wrap gap-2">
-                  <Badge
-                    variant="outline"
-                    className="px-5 py-1 rounded-full text-base border text-black border-[#919191]"
-                  >
-                    English
-                  </Badge>
-                  <Badge
-                    variant="outline"
-                    className="px-5 py-1 rounded-full text-base border text-black border-[#919191]"
-                  >
-                    Spanish
-                  </Badge>
-                  <Badge
-                    variant="outline"
-                    className="px-5 py-1 rounded-full text-base border text-black border-[#919191]"
-                  >
-                    French
-                  </Badge>
+                  {injectorData?.languages_spoken
+                    ?.split(/\\n|\n/)
+                    ?.map((language, index) => (
+                      <Badge
+                        key={index}
+                        variant="outline"
+                        className="px-5 py-1 rounded-full text-base border text-black border-[#919191]"
+                      >
+                        {language.trim()}
+                      </Badge>
+                    ))}
                 </div>
               </div>
             </div>
@@ -278,13 +236,9 @@ export default function Profile() {
                   Board Certifications
                 </h2>
                 <div className="space-y-2 text-md text-gray-700">
-                  <div>- American Board of Plastic Surgery</div>
-                  <div>- American Society of Plastic Surgeons</div>
-                  <div>- American Cleft Palate-Craniofacial Association</div>
-                  <div>
-                    - International Association of Oral and Maxillofacial
-                    Surgeons
-                  </div>
+                  {injectorData?.certifications?.map((certificate) => (
+                    <div key={certificate.id}>- {certificate.title}</div>
+                  ))}
                 </div>
               </div>
             </div>

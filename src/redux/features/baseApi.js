@@ -30,10 +30,13 @@ export const baseApi = createApi({
 
         getUserProfile: builder.query({
             query: () => "auth/user_profile/"
-        })
+        }),
+
+
     }),
 })
 
 export const {
     useGetUserProfileQuery,
+
 } = baseApi

@@ -45,7 +45,7 @@ export default function ErrorPage() {
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
             <Button asChild size="lg" className="w-full sm:w-auto">
-              <Link href="/">
+              <Link to="/">
                 <Home className="w-4 h-4 mr-2" />
                 Return Home
               </Link>
