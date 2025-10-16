@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { BookingStep1 } from "./BookingStep1";
 import { BookingStep2 } from "./BookingStep2";
 import { BookingStep3 } from "./BookingStep3";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MdOutlineCalendarToday } from "react-icons/md";
+import BookingStep1 from "./BookingStep1";
 
 const steps = [
-  { number: 1, label: "Date & Time", icon: null },
+  { number: 1, label: "Day & Time", icon: null },
   { number: 2, label: "Your Details", icon: null },
   { number: 3, label: "Confirmation", icon: null },
 ];

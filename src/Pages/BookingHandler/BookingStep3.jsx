@@ -4,14 +4,25 @@ import { Card, CardContent } from "@/components/ui/card";
 import { CheckCircle } from "lucide-react";
 import { Link } from "react-router";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import { useBookAppointmentMutation } from "@/redux/features/baseApi";
 
 export function BookingStep3({ onBack, bookingData, onConfirm, isConfirmed }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [bookAppointment, { isLoading, isError, isSuccess }] =
+    useBookAppointmentMutation();
+
+  const injectorinfo = JSON.parse(localStorage.getItem("injectorinfo")) || {};
 
   const handleConfirm = () => {
     console.log("Booking Data:", bookingData);
 
     onConfirm();
+
+    const response = bookAppointment({
+      data: bookingData,
+      id: injectorinfo.id,
+    }).unwrap();
+    console.log(response, "booking response");
 
     localStorage.removeItem("bookingData");
     localStorage.removeItem("currentStep");
@@ -24,19 +35,18 @@ export function BookingStep3({ onBack, bookingData, onConfirm, isConfirmed }) {
     setIsModalOpen(false);
   };
 
-  const formatDate = (date) => {
-    if (!date) return "Not selected";
-    return new Date(date).toLocaleDateString("en-US", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
+  const formatTime = (time) => {
+    if (!time) return "Not selected";
+    return new Date(`1970-01-01T${time}`).toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
     });
   };
 
   return (
-    <Card className="w-full ">
-      <CardContent className="space-y-6 ">
+    <Card className="w-full">
+      <CardContent className="space-y-6">
         <div className="text-center py-5">
           <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
           <h3 className="text-2xl font-semibold mb-2 text-[#3D3B3B]">
@@ -58,10 +68,14 @@ export function BookingStep3({ onBack, bookingData, onConfirm, isConfirmed }) {
                 Date & Time
               </p>
               <p className="font-medium">
-                {formatDate(bookingData?.selectedDate)}
+                {bookingData?.day || "Not selected"}
               </p>
               <p className="font-medium">
-                {bookingData?.selectedTime || "Not selected"}
+                {bookingData?.startTime && bookingData?.endTime
+                  ? `${formatTime(bookingData.startTime)} - ${formatTime(
+                      bookingData.endTime
+                    )}`
+                  : "Time not selected"}
               </p>
             </div>
 
@@ -69,7 +83,7 @@ export function BookingStep3({ onBack, bookingData, onConfirm, isConfirmed }) {
               <p className="text-lg font-semibold mb-2 text-[#3D3B3B]">
                 Consultant
               </p>
-              <p className="font-medium">Dr. Sarah Johnson</p>
+              <p className="font-medium">{injectorinfo?.name}</p>
             </div>
           </div>
 
@@ -79,19 +93,23 @@ export function BookingStep3({ onBack, bookingData, onConfirm, isConfirmed }) {
                 Contact Details
               </p>
               <p className="font-medium">
-                {(bookingData?.firstName || "") +
+                {(bookingData?.patient_first_name || "") +
                   " " +
-                  (bookingData?.lastName || "")}
+                  (bookingData?.patient_last_name || "")}
               </p>
-              <p className="text-sm">{bookingData?.email || "Not provided"}</p>
-              <p className="text-sm">{bookingData?.phone || "Not provided"}</p>
+              <p className="text-sm">
+                {bookingData?.patient_email || "Not provided"}
+              </p>
+              <p className="text-sm">
+                {bookingData?.patient_phone || "Not provided"}
+              </p>
             </div>
 
             <div>
               <p className="text-lg font-semibold mb-2 text-[#3D3B3B]">
                 Consultation Fee
               </p>
-              <p className="font-medium text-lg">$150</p>
+              <p className="font-medium text-lg">${injectorinfo?.fee}</p>
             </div>
           </div>
 
@@ -99,11 +117,13 @@ export function BookingStep3({ onBack, bookingData, onConfirm, isConfirmed }) {
             <p className="text-lg font-semibold mb-2 text-[#3D3B3B]">
               Reason For Visit
             </p>
-            <p className=" mb-2">- {bookingData?.reason || "Not provided"}</p>
+            <p className="mb-2">
+              - {bookingData?.reason_for_visit || "Not provided"}
+            </p>
           </div>
         </div>
 
-        <div className="bg-[#F7F0E9] border  rounded-lg p-4">
+        <div className="bg-[#F7F0E9] border rounded-lg p-4">
           <h5 className="font-medium text-[#3A3A3A] mb-2">Important Notes</h5>
           <ul className="text-sm text-[#555555] space-y-1">
             <li>• Please arrive 10 minutes before your appointment</li>

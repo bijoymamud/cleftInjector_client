@@ -16,12 +16,22 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Link, useLocation } from "react-router";
+import { id } from "date-fns/locale";
 
 export default function Profile() {
   const location = useLocation();
   const injectorData = location.state?.injector;
   console.log("injectorData:", injectorData);
-  const id = 1;
+  const injectorAvailability = injectorData?.availabilities;
+
+  const injectorinfo = {
+    id: injectorData?.id,
+    name: injectorData?.full_name,
+    fee: injectorData?.consultation_fee,
+  };
+
+  localStorage.setItem("injectorinfo", JSON.stringify(injectorinfo));
+
   return (
     <div className="min-h-screen bg-gray-50 p-4 py-20">
       <div className="container mx-auto">
@@ -82,7 +92,11 @@ export default function Profile() {
                 </div>
 
                 <Link
-                  to={`/book-consultation/${id}`}
+                  to={`/book-consultation/${injectorData?.id}`}
+                  state={{
+                    availability: injectorAvailability,
+                    injector: injectorinfo,
+                  }}
                   className="flex gap-3 w-[10px]"
                 >
                   <Button className="bg-orange-500 hover:bg-orange-600 text-md flex cursor-pointer items-center gap-2">

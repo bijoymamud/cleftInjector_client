@@ -4,6 +4,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
+import { HiOutlineEnvelope } from "react-icons/hi2";
+
+import { CiUser } from "react-icons/ci";
+import { MdOutlinePhone } from "react-icons/md";
+import { BsCardText } from "react-icons/bs";
 
 const steps = [
   { number: 1, label: "Date & Time", icon: "📅" },
@@ -18,11 +23,11 @@ export function BookingStep2({ onNext, onBack, initialData }) {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      firstName: initialData?.firstName || "",
-      lastName: initialData?.lastName || "",
-      email: initialData?.email || "",
-      phone: initialData?.phone || "",
-      reason: initialData?.reason || "",
+      patient_first_name: initialData?.patient_first_name || "",
+      patient_last_name: initialData?.patient_last_name || "",
+      patient_email: initialData?.patient_email || "",
+      patient_phone: initialData?.patient_phone || "",
+      reason_for_visit: initialData?.reason_for_visit || "",
     },
   });
 
@@ -45,52 +50,63 @@ export function BookingStep2({ onNext, onBack, initialData }) {
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="firstName" className="text-lg font-semibold">
+              <Label
+                htmlFor="patient_first_name"
+                className="text-lg font-semibold"
+              >
+                <CiUser />
                 First Name
               </Label>
               <Input
                 className="py-5 !text-base placeholder:!text-base"
-                id="firstName"
+                id="patient_first_name"
                 placeholder="Your first name"
-                {...register("firstName", {
+                {...register("patient_first_name", {
                   required: "First name is required",
                 })}
               />
-              {errors.firstName && (
+              {errors.patient_first_name && (
                 <p className="text-sm text-red-500">
-                  {errors.firstName.message}
+                  {errors.patient_first_name.message}
                 </p>
               )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="lastName" className="text-lg font-semibold">
+              <Label
+                htmlFor="patient_last_name"
+                className="text-lg font-semibold"
+              >
+                <CiUser />
                 Last Name
               </Label>
               <Input
                 className="py-5 !text-base placeholder:!text-base"
-                id="lastName"
+                id="patient_last_name"
                 placeholder="Your last name"
-                {...register("lastName", { required: "Last name is required" })}
+                {...register("patient_last_name", {
+                  required: "Last name is required",
+                })}
               />
-              {errors.lastName && (
+              {errors.patient_last_name && (
                 <p className="text-sm text-red-500">
-                  {errors.lastName.message}
+                  {errors.patient_last_name.message}
                 </p>
               )}
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="email" className="text-lg font-semibold">
+            <Label htmlFor="patient_email" className="text-lg font-semibold">
+              <HiOutlineEnvelope />
               Email Address
             </Label>
             <Input
               className="py-5 !text-base placeholder:!text-base"
-              id="email"
+              id="patient_email"
               type="email"
               placeholder="your.email@example.com"
-              {...register("email", {
+              {...register("patient_email", {
                 required: "Email is required",
                 pattern: {
                   value: /^\S+@\S+$/i,
@@ -98,42 +114,52 @@ export function BookingStep2({ onNext, onBack, initialData }) {
                 },
               })}
             />
-            {errors.email && (
-              <p className="text-sm text-red-500">{errors.email.message}</p>
+            {errors.patient_email && (
+              <p className="text-sm text-red-500">
+                {errors.patient_email.message}
+              </p>
             )}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="phone" className="text-lg font-semibold">
+            <Label htmlFor="patient_phone" className="text-lg font-semibold">
+              <MdOutlinePhone />
               Phone Number
             </Label>
             <Input
               className="py-5 !text-base placeholder:!text-base"
-              id="phone"
+              id="patient_phone"
               type="tel"
               placeholder="+1 (555) 123-4567"
-              {...register("phone", { required: "Phone number is required" })}
+              {...register("patient_phone", {
+                required: "Phone number is required",
+              })}
             />
-            {errors.phone && (
-              <p className="text-sm text-red-500">{errors.phone.message}</p>
+            {errors.patient_phone && (
+              <p className="text-sm text-red-500">
+                {errors.patient_phone.message}
+              </p>
             )}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="reason" className="text-lg font-semibold">
+            <Label htmlFor="reason_for_visit" className="text-lg font-semibold">
+              <BsCardText />
               Reason For Visit
             </Label>
             <Textarea
-              id="reason"
+              id="reason_for_visit"
               placeholder="Please describe the reason for your consultation..."
               className="!text-base placeholder:!text-base"
               rows={10}
-              {...register("reason", {
+              {...register("reason_for_visit", {
                 required: "Please provide a reason for your visit",
               })}
             />
-            {errors.reason && (
-              <p className="text-sm text-red-500">{errors.reason.message}</p>
+            {errors.reason_for_visit && (
+              <p className="text-sm text-red-500">
+                {errors.reason_for_visit.message}
+              </p>
             )}
           </div>
 

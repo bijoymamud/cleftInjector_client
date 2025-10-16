@@ -23,7 +23,7 @@ export const baseApi = createApi({
         },
     }),
 
-    tagTypes: ["user"],
+    tagTypes: ["user", "appointment"],
 
     endpoints: (builder) => ({
 
@@ -32,11 +32,21 @@ export const baseApi = createApi({
             query: () => "auth/user_profile/"
         }),
 
+        //booking api
+        bookAppointment: builder.mutation({
+            query: ({ data, id }) => ({
+                url: `patient/create/${id}/`,
+                method: 'POST',
+                body: data,
+            }),
+            invalidatesTags: ["appointment"]
+        })
+
 
     }),
 })
 
 export const {
     useGetUserProfileQuery,
-
+    useBookAppointmentMutation,
 } = baseApi
