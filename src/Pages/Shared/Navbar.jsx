@@ -1,11 +1,29 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router";
 import { FaRegUser } from "react-icons/fa6";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { useGetUserProfileQuery } from "@/redux/features/baseApi";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { toast } from "sonner";
 
 const navigation = [
   { name: "Home", to: "/" },
@@ -16,16 +34,29 @@ const navigation = [
 export function Navbar() {
   const { pathname } = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { data: userProfile } = useGetUserProfileQuery();
+  const { data: userProfile, refetch } = useGetUserProfileQuery();
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
+
   console.log("userProfile:", userProfile);
+  const navigate = useNavigate();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
+  const handleLogOut = () => {
+    console.log("clicked");
 
+    localStorage.clear();
+    toast.success("Logged out successfully!");
+    refetch();
+
+    setTimeout(() => {
+      navigate("/sign_in");
+    }, 500);
+  };
   return (
     <nav className="bg-white shadow-md h-[85px] sticky top-0 z-50">
-      <div className="container mx-auto ">
+      <div className="container mx-auto">
         <div className="flex justify-between items-center h-[80px]">
           {/* Logo */}
           <div className="flex-shrink-0">
@@ -56,50 +87,43 @@ export function Navbar() {
             ))}
           </div>
 
-          {/* <div className="hidden sm:flex items-center gap-4">
-            {isLoggedIn ? (
-              <Link
-                to={isProvider ? "/provider/provider_home" : "/user_profile"}
-              >
-                <Avatar className="w-[50px] h-[50px]">
-                  <AvatarImage src="https://github.com/shadcn.png" alt="User" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-              </Link>
-            ) : (
-              <>
-                <Link
-                  to="/sign_in"
-                  className="flex items-center gap-2 px-6 py-3 rounded-xl  bg-[#E26C29] text-white text-base font-medium hover:bg-[#D55F22]  transition-colors duration-200"
-                >
-                  <FaRegUser size={18} />
-                  Sign In
-                </Link>
-                <Link
-                  to="/sign_up"
-                  className="flex items-center gap-2 px-6 py-3 rounded-xl bg-[#E26C29] text-white text-base font-medium hover:bg-[#D55F22] transition-colors duration-200"
-                >
-                  <FaRegUser size={18} />
-                  Sign Up
-                </Link>
-              </>
-            )}
-          </div> */}
-
-          <div className="hidden sm:flex items-center gap-4">
+          {/* Desktop Right Section */}
+          <div className="hidden sm:flex items-center gap-4 justify-end">
             {userProfile ? (
-              <Link
-                to={
-                  userProfile?.role === "provider"
-                    ? "/provider/provider_home"
-                    : "/user_profile"
-                }
-              >
-                <Avatar className="w-[50px] h-[50px]">
-                  <AvatarImage src="https://github.com/shadcn.png" alt="User" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-              </Link>
+              <DropdownMenu modal={false}>
+                <DropdownMenuTrigger asChild>
+                  <Avatar className="w-[50px] h-[50px] cursor-pointer">
+                    <AvatarImage
+                      src="https://github.com/shadcn.png"
+                      alt="User"
+                    />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-40" align="end">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuGroup>
+                    <DropdownMenuItem asChild>
+                      <Link
+                        to={
+                          userProfile?.role === "provider"
+                            ? "/provider/provider_home"
+                            : "/user_profile"
+                        }
+                        className="cursor-pointer"
+                      >
+                        Profile
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      className="cursor-pointer"
+                      onSelect={() => setShowLogoutDialog(true)}
+                    >
+                      Logout
+                    </DropdownMenuItem>
+                  </DropdownMenuGroup>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
               <>
                 <Link
@@ -152,16 +176,50 @@ export function Navbar() {
                 {item.name}
               </Link>
             ))}
-            <div className="px-3 py-2">
-              {isLoggedIn ? (
-                <Avatar>
-                  <AvatarImage src="https://github.com/shadcn.png" alt="User" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
+            <div className="px-3 py-2 flex justify-end">
+              {userProfile ? (
+                <DropdownMenu modal={false}>
+                  <DropdownMenuTrigger asChild>
+                    <Avatar className="w-[50px] h-[50px] cursor-pointer">
+                      <AvatarImage
+                        src="https://github.com/shadcn.png"
+                        alt="User"
+                      />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-40" align="end">
+                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem asChild>
+                        <Link
+                          to={
+                            userProfile?.role === "provider"
+                              ? "/provider/provider_home"
+                              : "/user_profile"
+                          }
+                          className="cursor-pointer"
+                          onClick={toggleMobileMenu}
+                        >
+                          Profile
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        className="cursor-pointer"
+                        onSelect={() => {
+                          setShowLogoutDialog(true);
+                          toggleMobileMenu();
+                        }}
+                      >
+                        Logout
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               ) : (
                 <Button
                   asChild
-                  className="w-full bg-gradient-to-r from-[#E26C29] via-[#CD5E1F] to-[#9F5328] text-white hover:from-[#D55F22] hover:via-[#BC541E] hover:to-[#904A24]"
+                  className="w-full max-w-[200px] bg-gradient-to-r from-[#E26C29] via-[#CD5E1F] to-[#9F5328] text-white hover:from-[#D55F22] hover:via-[#BC541E] hover:to-[#904A24]"
                 >
                   <Link to="/get-started" onClick={toggleMobileMenu}>
                     Get Listed
@@ -172,6 +230,28 @@ export function Navbar() {
           </div>
         </div>
       )}
+
+      {/* Logout Dialog */}
+      <Dialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Confirm Logout</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to log out of your account?
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button variant="outline">Cancel</Button>
+            </DialogClose>
+            <DialogClose>
+              <Button onClick={handleLogOut} type="submit" asChild>
+                <button className="cursor-pointer">Logout</button>
+              </Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </nav>
   );
 }

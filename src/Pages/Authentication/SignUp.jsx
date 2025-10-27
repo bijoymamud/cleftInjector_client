@@ -46,9 +46,7 @@ export default function SignUp() {
       }, 1000);
     } catch (err) {
       console.error("Error:", err);
-      toast.error(
-        err?.data?.message || "Failed to create account. Please try again."
-      );
+      // toast.error(err || "Failed to create account. Please try again.");
     } finally {
       setIsSubmitting(false);
     }

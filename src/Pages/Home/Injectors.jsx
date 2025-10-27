@@ -1,12 +1,14 @@
+
+
 import React from "react";
 import { GoLocation } from "react-icons/go";
 import { FaStar } from "react-icons/fa6";
 import { Button } from "@/components/ui/button";
 import { IoCalendarClearOutline } from "react-icons/io5";
-import Specialist_Query from "./Specialist_Query";
 import { Link } from "react-router";
 import { useGetFeaturedInjectorsQuery } from "@/redux/features/noAuthApi";
 import { RiProfileLine } from "react-icons/ri";
+import Specialist_Query from "./Specialist_Query";
 
 const Injectors = () => {
   const { data: allInjectors, isLoading } = useGetFeaturedInjectorsQuery();

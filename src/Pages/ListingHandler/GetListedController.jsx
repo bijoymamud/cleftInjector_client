@@ -1,5 +1,3 @@
-
-
 import React, { useState, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -9,7 +7,7 @@ import ProfessionalBackground from "./ProfessionalBackground";
 import ContactBookingInformation from "./ContactBookingInformation";
 import VerificationDocumentation from "./VerificationDocumentation";
 import { MdFormatListBulletedAdd } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
 
 export default function GetListedController() {

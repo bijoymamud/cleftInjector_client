@@ -1,7 +1,7 @@
 // import React from "react";
 // import { Calendar, Settings, Bell, LogOut } from "lucide-react";
 // import { FaRegStar } from "react-icons/fa";
-// import { Outlet, NavLink } from "react-router-dom";
+// import { Outlet, NavLink } from "react-router";
 // import { BiCategory } from "react-icons/bi";
 // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -121,7 +121,7 @@
 import React from "react";
 import { Calendar, Settings, Bell, LogOut } from "lucide-react";
 import { FaRegStar } from "react-icons/fa";
-import { Outlet, NavLink, Link } from "react-router-dom";
+import { Outlet, NavLink, Link } from "react-router";
 import { BiCategory } from "react-icons/bi";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 

@@ -2,7 +2,7 @@ import { StrictMode, Suspense, useState, useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import { router } from "./routes/routes.jsx";
-import { RouterProvider } from "react-router";
+import { RouterProvider } from "react-router/dom";
 import { store } from "./redux/store";
 import { Provider } from "react-redux";
 import LoadingScreen from "./LoadingPages/LoadingScreen";

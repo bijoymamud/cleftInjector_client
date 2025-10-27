@@ -7,6 +7,8 @@ import { FaUserEdit } from "react-icons/fa";
 import { IoCameraOutline } from "react-icons/io5";
 import { FiUsers } from "react-icons/fi";
 import { RiLogoutCircleRLine } from "react-icons/ri";
+import { toast, Toaster } from "sonner";
+import { useNavigate } from "react-router";
 
 const ProfileSection = ({
   profileData,
@@ -16,8 +18,19 @@ const ProfileSection = ({
   handleProfileSave,
   setIsPasswordDialogOpen,
 }) => {
+  const navigate = useNavigate();
+
+  const handleLogOut = () => {
+    localStorage.clear();
+    toast.success("You have been logged out");
+
+    setTimeout(() => {
+      navigate("/");
+    }, 1000);
+  };
   return (
     <div className="">
+      <Toaster />
       <div className="space-y-6">
         <Card>
           <CardHeader>
@@ -167,6 +180,7 @@ const ProfileSection = ({
 
         <div className="flex justify-center pt-8">
           <Button
+            onClick={handleLogOut}
             variant="outline"
             className="text-red-500 w-[150px] font-bold text-lg border-red-500 hover:text-red-500 cursor-pointer"
           >

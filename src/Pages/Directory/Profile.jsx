@@ -15,14 +15,34 @@ import {
   AwardIcon,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Link, useLocation } from "react-router";
-import { id } from "date-fns/locale";
+import { Link, useLocation, useNavigate } from "react-router";
+import { toast, Toaster } from "sonner";
 
 export default function Profile() {
   const location = useLocation();
   const injectorData = location.state?.injector;
   console.log("injectorData:", injectorData);
   const injectorAvailability = injectorData?.availabilities;
+  const navigate = useNavigate();
+
+  const handleConsultationBook = () => {
+    const token = localStorage.getItem("access_token");
+
+    if (!token) {
+      toast.error("Please log in to book a consultation.");
+      setTimeout(() => {
+        navigate("/sign_in");
+      }, 1500);
+      return;
+    }
+
+    navigate(`/book-consultation/${injectorData?.id}`, {
+      state: {
+        availability: injectorAvailability,
+        injector: injectorinfo,
+      },
+    });
+  };
 
   const injectorinfo = {
     id: injectorData?.id,
@@ -35,6 +55,7 @@ export default function Profile() {
   return (
     <div className="min-h-screen bg-gray-50 p-4 py-20">
       <div className="container mx-auto">
+        <Toaster position="top-right" />
         <div className="mb-6 border-b border-dashed border-gray-300">
           <div className="p-6">
             <div className="flex flex-col md:flex-row gap-6">
@@ -91,7 +112,7 @@ export default function Profile() {
                   </div>
                 </div>
 
-                <Link
+                {/* <Link
                   to={`/book-consultation/${injectorData?.id}`}
                   state={{
                     availability: injectorAvailability,
@@ -103,7 +124,14 @@ export default function Profile() {
                     <Calendar className="w-4 h-4" />
                     Book Consultation
                   </Button>
-                </Link>
+                </Link> */}
+                <Button
+                  onClick={handleConsultationBook}
+                  className="bg-orange-500 hover:bg-orange-600 text-md flex cursor-pointer items-center gap-2"
+                >
+                  <Calendar className="w-4 h-4" />
+                  Book Consultation
+                </Button>
               </div>
             </div>
           </div>

@@ -1,9 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const noAuthApi = createApi({
-    reducerPath: 'authApi',
+    reducerPath: 'noAuthApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://10.10.13.75:8111/',
+        baseUrl: 'http://10.10.13.75:8000/',
 
     }),
     endpoints: (builder) => ({
@@ -14,9 +14,6 @@ export const noAuthApi = createApi({
         getFeaturedInjectors: builder.query({
             query: () => "injector/list/"
         })
-
-
-
 
 
 

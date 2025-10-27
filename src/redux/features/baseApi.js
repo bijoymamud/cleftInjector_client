@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const baseApi = createApi({
     reducerPath: 'baseApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://10.10.13.75:8111/',
+        baseUrl: 'http://10.10.13.75:8000/',
         prepareHeaders: (headers, { endpoint }) => {
             const authEndpoints = [
                 "createUser",
@@ -39,7 +39,7 @@ export const baseApi = createApi({
                 method: 'POST',
                 body: data,
             }),
-            invalidatesTags: ["appointment"]
+            // invalidatesTags: ["appointment"]
         })
 
 

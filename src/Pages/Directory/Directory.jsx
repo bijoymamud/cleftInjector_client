@@ -1,18 +1,11 @@
-import {
-  Search,
-  MapPin,
-  Star,
-  Clock,
-  Award,
-  Filter,
-  Funnel,
-} from "lucide-react";
+import { Search, MapPin, Star, Clock, Award, Funnel } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 import { useForm } from "react-hook-form";
 import { MdVerified } from "react-icons/md";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { useGetFeaturedInjectorsQuery } from "@/redux/features/noAuthApi";
 
 export default function Directory() {
   const {
@@ -25,60 +18,11 @@ export default function Directory() {
     console.log("Search data:", data);
   };
 
-  const doctors = [
-    {
-      id: 1,
-      name: "Dr. Sarah Johnson",
-      specialty: "Reconstructive Surgery",
-      rating: 4.9,
-      price: "$300-400",
-      location: "Los Angeles",
-      availability: "Available This Week",
-      experience: "10+ Years Experience",
-      image:
-        "https://img.freepik.com/free-photo/close-up-portrait-handsome-smiling-young-man-white-t-shirt-blurry-outdoor-nature_176420-6305.jpg?semt=ais_incoming&w=740&q=80",
-      verified: true,
-    },
-    {
-      id: 2,
-      name: "Dr. Sarah Johnson",
-      specialty: "Reconstructive Surgery",
-      rating: 4.9,
-      price: "$300-350",
-      location: "New York, NY",
-      availability: "Available This Week",
-      experience: "10+ Years Experience",
-      image:
-        "https://cdn.pixabay.com/photo/2022/03/11/06/14/indian-man-7061278_640.jpg",
-      verified: true,
-    },
-    {
-      id: 3,
-      name: "Dr. Sarah Johnson",
-      specialty: "Reconstructive Surgery",
-      rating: 4.9,
-      price: "$250-400",
-      location: "Los Angeles",
-      availability: "Available This Week",
-      experience: "10+ Years Experience",
-      image:
-        "https://img.freepik.com/free-photo/young-happy-man-standing-isolated_171337-1127.jpg",
-      verified: true,
-    },
-    {
-      id: 4,
-      name: "Dr. Sarah Johnson",
-      specialty: "Reconstructive Surgery",
-      rating: 4.9,
-      price: "$300-500",
-      location: "New York, NY",
-      availability: "Available This Week",
-      experience: "10+ Years Experience",
-      image:
-        "https://media.istockphoto.com/id/1359149467/photo/shot-of-a-handsome-young-man-standing-alone-and-stretching-during-his-outdoor-workout.jpg?s=612x612&w=0&k=20&c=bCwqY95KICwmFZKRgbc9yd9O-0Ra1oHrhv6vYe6Weh8=",
-      verified: true,
-    },
-  ];
+  const { data: injectorsData } = useGetFeaturedInjectorsQuery();
+  const navigate = useNavigate();
+
+  const allInjectors = injectorsData?.results || [];
+  console.log(allInjectors, "allInjectors");
 
   return (
     <div className="min-h-screen ">
@@ -196,11 +140,10 @@ export default function Directory() {
               </Button>
             </div>
 
-            {/* Doctor Cards */}
             <div className="space-y-4">
-              {doctors.map((doctor) => (
+              {allInjectors?.map((injector) => (
                 <div
-                  key={doctor.id}
+                  key={injector?.id}
                   className="border bg-[#FFFBF9] border-gray-200 drop-shadow-md hover:shadow-md transition-shadow rounded-[20px] cursor-pointer"
                 >
                   <div className="p-8 ">
@@ -208,35 +151,34 @@ export default function Directory() {
                       <div className="flex items-center justify-between">
                         <div className="relative flex items-center gap-3">
                           <img
-                            src={doctor.image || "/placeholder.svg"}
-                            alt={doctor.name}
+                            src={injector.profile_image || "/placeholder.svg"}
+                            alt={injector.full_name}
                             className="w-16 h-16 rounded-full object-cover"
                           />
                           <div>
                             <div className="flex items-start justify-between">
                               <div>
-                                <h3 className="font-semibold text-gray-900 flex items-center gap-2">
-                                  {doctor.name}
-                                  {doctor.verified && (
+                                <h3 className=" text-gray-900 text-xl font-semibold flex items-center gap-2">
+                                  {injector.full_name}
+                                  {injector.is_verified && (
                                     <MdVerified
                                       className="text-[#41A3FF]"
                                       size={20}
                                     />
                                   )}
                                 </h3>
-                                <p className="text-sm text-[#5C5C5C]">
-                                  {doctor.specialty}
-                                </p>
                               </div>
                             </div>
 
-                            <div className="mt-2 space-y-1">
-                              <div className="flex items-center gap-4 text-base text-gray-600">
-                                <span className="font-[550] text-gray-900 text-[18px]">
-                                  {doctor.price}
-                                </span>
-                              </div>
+                            <div>
+                              <p className="text-[#5C5C5C]">
+                                {injector?.designation}
+                              </p>
                             </div>
+
+                            <p className="font-semibold text-xl py-2">
+                              ${injector?.consultation_fee}
+                            </p>
                           </div>
                         </div>
                         {/* //rating */}
@@ -245,8 +187,8 @@ export default function Directory() {
                             size={20}
                             className=" fill-[#FACC15] text-[#FACC15]"
                           />
-                          <span className="text-sm font-[550]">
-                            {doctor.rating}
+                          <span className=" font-[550]">
+                            {injector.avg_rating}
                           </span>
                         </div>
                       </div>
@@ -255,37 +197,36 @@ export default function Directory() {
                         <div className="flex items-center gap-4 text-sm pt-4 text-gray-600">
                           <div className="flex items-center gap-1">
                             <MapPin size={20} className="text-tagline" />
-                            <span className="font-[550]">
-                              {doctor.location}
+                            <span className="font-[550] text-base">
+                              {injector.city}, {injector.country}
                             </span>
                           </div>
-                          <div className="flex items-center gap-1">
-                            <Clock size={20} className="text-tagline" />
-                            <span className="font-[550]">
-                              {doctor.availability}
-                            </span>
-                          </div>
+
                           <div className="flex items-center gap-1">
                             <Award size={20} className="text-tagline" />
-                            <span className="font-[550]">
-                              {doctor.experience}
+                            <span className="font-[550] text-base">
+                              {injector.years_of_experience} Years Experience
                             </span>
                           </div>
                         </div>
 
-                        <div className="mt-5 flex gap-3">
-                          <Link
-                            to={`/doctor-profile/${doctor?.id}`}
-                            className="flex-1 text-center py-3 rounded-[12px] border border-[#E26C29] text-[#E26C29] font-medium hover:bg-[#E26C29]/10 transition"
-                          >
-                            View Profile
-                          </Link>
-                          <Link
-                            to={`/book-consultation/${doctor?.id}`}
-                            className="flex-1 text-center py-3 rounded-[12px] bg-[#E26C29] text-white font-medium hover:bg-orange-600 transition"
-                          >
-                            Book Consultation
-                          </Link>
+                        <div className="flex items-center justify-start">
+                          <div className="mt-5 w-full  flex gap-3">
+                            <Link
+                              to={`/doctor-profile/${injector?.id}`}
+                              state={{ injector }}
+                              className="flex-1 text-center py-3 rounded-[12px] border border-[#E26C29] text-[#E26C29] font-medium hover:bg-[#E26C29]/10 transition"
+                            >
+                              View Profile
+                            </Link>
+
+                            <button
+                              onClick={() => navigate(-1)}
+                              className="flex-1 text-center cursor-pointer py-3 rounded-[12px] border bg-[#E26C29] text-white font-medium  transition"
+                            >
+                              Back
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>

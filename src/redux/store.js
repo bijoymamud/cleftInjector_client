@@ -6,7 +6,7 @@ import { noAuthApi } from './features/noAuthApi'
 export const store = configureStore({
     reducer: {
         [baseApi.reducerPath]: baseApi.reducer,
-        [authApi.reducerPath]: baseApi.reducer,
+        [authApi.reducerPath]: authApi.reducer,
         [noAuthApi.reducerPath]: noAuthApi.reducer,
     },
 

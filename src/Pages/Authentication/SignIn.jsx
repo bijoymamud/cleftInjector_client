@@ -12,7 +12,6 @@ export default function SignIn() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [logIn] = useLogInMutation();
@@ -32,12 +31,15 @@ export default function SignIn() {
       console.log("Success:", response);
       toast.success(response?.data?.message || "Login successful!");
       localStorage.setItem("access_token", response?.access_token);
-      localStorage.setItem("refresh_token", response?.access_token);
+      localStorage.setItem("refresh_token", response?.refresh_token);
       setTimeout(() => {
         navigate("/");
       }, 1000);
     } catch (error) {
-      toast.success(error?.data?.message || "Login successful!");
+      const message =
+        error?.data?.detail ||
+        error?.error ||
+        toast.error(message || "Something went wrong. Please try again.");
     }
   };
 
@@ -45,25 +47,22 @@ export default function SignIn() {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex">
       <Toaster position="top-right" />
       {/* Left side - Illustration */}
-      <div className="hidden lg:flex  items-center justify-center w-full basis-8/12">
-        {/* Left side - Illustration */}
-        <div className="hidden lg:block w-full h-screen">
-          <img
-            src="https://i.ibb.co.com/HLmGB8Fx/64e78d2cd51524aaf4f8ce12-64e78d0d294a3db1449d0c31-Do-I-need-identity-theft-protection-lead-image.webp"
-            alt="3D isometric illustration with computer and UNIONBIGDATA branding"
-            className="w-full h-full object-cover"
-          />
-        </div>
+      <div className="hidden lg:flex items-center justify-center w-full lg:basis-8/12">
+        <img
+          src="https://i.ibb.co.com/HLmGB8Fx/64e78d2cd51524aaf4f8ce12-64e78d0d294a3db1449d0c31-Do-I-need-identity-theft-protection-lead-image.webp"
+          alt="3D isometric illustration with computer and UNIONBIGDATA branding"
+          className="w-full h-full object-cover"
+        />
       </div>
 
-      {/* Right side - Sign up form */}
-      <div className="  flex items-center justify-center w-full basis-6/12 ">
-        <div className="w-full max-w-lg p-10  shadow-gray-300 shadow-md">
+      {/* Right side - Sign in form */}
+      <div className="flex items-center justify-center w-full lg:basis-6/12">
+        <div className="w-full max-w-lg p-10 shadow-gray-300 shadow-md">
           <div className="mb-8">
             <h1 className="text-3xl text-gray-900 font-semibold text-center mb-2">
               Log In to Continue
             </h1>
-            <p className=" text-md text-center  text-[#5B5B5B]">
+            <p className="text-md text-center text-[#5B5B5B]">
               Access your account and manage your profile
             </p>
           </div>
@@ -73,7 +72,7 @@ export default function SignIn() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-label mb-2"
+                className="block text-sm font-medium text-gray-700 mb-2"
               >
                 E-mail
               </label>
@@ -82,7 +81,8 @@ export default function SignIn() {
                   id="email"
                   type="email"
                   placeholder="yatingzang0215@gmail.com"
-                  className="w-full px-4 py-3 bg-white/70 backdrop-blur-sm border border-white/20 rounded-lg shadow-sm  transition-all duration-200 text-title placeholder-gray-500"
+                  aria-describedby={errors.email ? "email-error" : undefined}
+                  className="w-full px-4 py-3 bg-white/70 backdrop-blur-sm border border-white/20 rounded-lg shadow-sm transition-all duration-200 text-gray-900 placeholder-gray-500"
                   {...register("email", {
                     required: "Email is required",
                     pattern: {
@@ -93,7 +93,7 @@ export default function SignIn() {
                 />
               </div>
               {errors.email && (
-                <p className="mt-1 text-sm text-red-600">
+                <p id="email-error" className="mt-1 text-sm text-red-600">
                   {errors.email.message}
                 </p>
               )}
@@ -103,7 +103,7 @@ export default function SignIn() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-label mb-2"
+                className="block text-sm font-medium text-gray-700 mb-2"
               >
                 Password
               </label>
@@ -112,7 +112,10 @@ export default function SignIn() {
                   id="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="••••••••••"
-                  className="w-full px-4 py-3 bg-white/70 backdrop-blur-sm border border-white/20 rounded-lg shadow-sm focus-none  transition-all duration-200 text-title placeholder-gray-500"
+                  aria-describedby={
+                    errors.password ? "password-error" : undefined
+                  }
+                  className="w-full px-4 py-3 bg-white/70 backdrop-blur-sm border border-white/20 rounded-lg shadow-sm transition-all duration-200 text-gray-900 placeholder-gray-500"
                   {...register("password", {
                     required: "Password is required",
                     minLength: {
@@ -125,6 +128,7 @@ export default function SignIn() {
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? (
                     <FiEyeOff size={16} />
@@ -134,7 +138,7 @@ export default function SignIn() {
                 </button>
               </div>
               {errors.password && (
-                <p className="mt-1 text-sm text-red-600">
+                <p id="password-error" className="mt-1 text-sm text-red-600">
                   {errors.password.message}
                 </p>
               )}
@@ -142,29 +146,29 @@ export default function SignIn() {
 
             <Link
               to="/email_verification"
-              className="text-tagline text-sm underline flex justify-end hover:cursor-pointer"
+              className="text-gray-600 text-sm underline flex justify-end hover:text-blue-500"
             >
               Forget Password?
             </Link>
 
             {/* Terms checkbox */}
-            <div className="flex items-start ">
-              <div className="flex items-center h-5 ">
+            <div className="flex items-start">
+              <div className="flex items-center h-5">
                 <input
                   id="terms"
                   type="checkbox"
-                  className="w-4 h-4 text-blue-600 cursor-pointer bg-white/70 backdrop-blur-sm border-gray-300 rounded "
+                  className="w-4 h-4 text-blue-600 cursor-pointer bg-white/70 backdrop-blur-sm border-gray-300 rounded"
                   {...register("terms", {
                     required: "You must agree to the terms of service",
                   })}
                 />
               </div>
               <div className="ml-3 text-sm">
-                <label htmlFor="terms" className="text-tagline cursor-pointer">
+                <label htmlFor="terms" className="text-gray-600 cursor-pointer">
                   I agree to the{" "}
                   <a
                     href="#"
-                    className="text-title hover:text-blue-500 underline"
+                    className="text-gray-900 hover:text-blue-500 underline"
                   >
                     terms of service
                   </a>
@@ -176,23 +180,21 @@ export default function SignIn() {
             )}
 
             {/* Submit button */}
-
             <button
               type="submit"
-              className="relative overflow-hidden w-full bg-[#E26C29] text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 focus:outline-none
-                before:absolute before:top-0 before:left-0 before:h-full before:w-0 before:bg-gray-200/10 hover:cursor-pointer before:transition-all before:duration-500 hover:before:w-full disabled:opacity-50 disabled:cursor-not-allowed"
+              className="relative overflow-hidden w-full bg-[#E26C29] text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 focus:outline-none before:absolute before:top-0 before:left-0 before:h-full before:w-0 before:bg-gray-200/10 hover:cursor-pointer before:transition-all before:duration-500 hover:before:w-full disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <span className="relative z-10">Login Account</span>
             </button>
           </form>
 
-          {/* Sign in link */}
+          {/* Sign up link */}
           <div className="mt-6 text-center">
-            <p className="text-sm text-tagline">
+            <p className="text-sm text-gray-600">
               Be a member?{" "}
               <Link
                 to="/sign_up"
-                className="text-title  hover:underline font-medium"
+                className="text-gray-900 hover:underline font-medium"
               >
                 Sign Up
               </Link>
@@ -203,3 +205,4 @@ export default function SignIn() {
     </div>
   );
 }
+
