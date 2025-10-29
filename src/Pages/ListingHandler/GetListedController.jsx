@@ -81,7 +81,7 @@ export default function GetListedController() {
             <div className="w-10 h-10 bg-[#E26C29] text-white rounded-md flex items-center justify-center text-sm font-medium">
               <MdFormatListBulletedAdd size={24} />
             </div>
-            <h1 className="text-[30px] font-bold text-title">Get Listed</h1>
+            <h1 className="text-[30px] font-bold text-title ">Get Listed</h1>
           </div>
           <p className="font-semibold text-md text-muted-foreground">
             Join our network of verified cleft lip injectors

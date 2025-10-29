@@ -21,6 +21,7 @@ import Review from "@/Layout/DashboardLayout/Review";
 import Setting from "@/Layout/DashboardLayout/Setting";
 import ConsultationDetails from "@/Layout/DashboardLayout/ConsultationDetails";
 import ErrorPage from "@/Pages/404/ErrorPage";
+import GetListHandler from "@/Pages/GetListHandler/GetListHandler";
 const Home = React.lazy(() => import("../Pages/Home/Home"));
 const Directory = React.lazy(() => import("../Pages/Directory/Directory"));
 const UserProfile = React.lazy(() => import("../Pages/Profile/UserProfile"));
@@ -59,9 +60,13 @@ export const router = createBrowserRouter([
         path: "/book-consultation/:id",
         element: <BookConsultationPage />,
       },
+      // {
+      //   path: "/get-listed",
+      //   element: <GetListedController />,
+      // },
       {
         path: "/get-listed",
-        element: <GetListedController />,
+        element: <GetListHandler />,
       },
 
       //userprofile
