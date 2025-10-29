@@ -1,133 +1,33 @@
-// import { MoveRight } from "lucide-react";
-// import { useState } from "react";
-// import { useForm } from "react-hook-form";
 
-// export const ListingStep5 = ({ onSubmit, onBack, initialData }) => {
-//   const { register, handleSubmit } = useForm({
-//     defaultValues: initialData || {},
-//   });
-
-//   const [selectedDay, setSelectedDay] = useState(
-//     initialData?.selectedDay || "mon"
-//   );
-//   const [selectedSlot, setSelectedSlot] = useState(
-//     initialData?.selectedSlot || "8-9"
-//   );
-
-//   const handleFormSubmit = (data) => {
-//     onSubmit({
-//       ...data,
-//       selectedDay,
-//       selectedSlot,
-//     });
-//   };
-
-//   const days = [
-//     { id: "mon", label: "Mon", date: "26" },
-//     { id: "tue", label: "Tue", date: "27" },
-//     { id: "wed", label: "Wed", date: "28" },
-//   ];
-
-//   const timeSlots = [
-//     { id: "8-9", label: "8-9 a.m." },
-//     { id: "9-10", label: "9-10 a.m." },
-//     { id: "10-11", label: "10-11 a.m." },
-//   ];
-
-//   return (
-//     <div className="space-y-6">
-//       <div className="bg-white rounded-lg border border-gray-200 p-6">
-//         <h3 className="text-lg font-semibold mb-4">Set Your Available Days</h3>
-//         <p className="text-sm text-gray-500 mb-6">When you available</p>
-
-//         <div className="flex gap-4 mb-8">
-//           {days.map((day) => (
-//             <button
-//               key={day.id}
-//               type="button"
-//               onClick={() => setSelectedDay(day.id)}
-//               className={`flex flex-col items-center px-6 py-3 rounded-lg border-2 transition-colors ${
-//                 selectedDay === day.id
-//                   ? "border-orange-500 bg-orange-50"
-//                   : "border-gray-200 hover:border-gray-300"
-//               }`}
-//             >
-//               <span className="text-sm font-medium">{day.label}</span>
-//               <span className="text-xs text-gray-500">{day.date}</span>
-//             </button>
-//           ))}
-//         </div>
-
-//         <h3 className="text-lg font-semibold mb-4">
-//           Set Your Available Time Slot
-//         </h3>
-//         <p className="text-sm text-gray-500 mb-6">When you available</p>
-
-//         <div className="flex gap-4">
-//           {timeSlots.map((slot) => (
-//             <button
-//               key={slot.id}
-//               type="button"
-//               onClick={() => setSelectedSlot(slot.id)}
-//               className={`px-6 py-3 rounded-lg border-2 transition-colors ${
-//                 selectedSlot === slot.id
-//                   ? "border-orange-500 bg-orange-50 text-orange-600"
-//                   : "border-gray-200 hover:border-gray-300"
-//               }`}
-//             >
-//               {slot.label}
-//             </button>
-//           ))}
-//         </div>
-//       </div>
-
-//   <div className="flex justify-between">
-//         <button
-//           onClick={onBack}
-//           className="px-8 rounded-md flex items-center gap-2 py-2 cursor-pointer text-black border border-gray-300 text-lg font-semibold"
-//         >
-//           Back
-//         </button>
-//         <button
-//           onClick={handleSubmit(onSubmit)}
-//           className="bg-[#E26C29] hover:bg-orange-600 px-8 rounded-md flex items-center gap-2 py-2 cursor-pointer text-white text-lg font-semibold"
-//         >
-//           {" "}
-//           Next
-//           <MoveRight />
-//         </button>
-//       </div>
-//     </div>
-//   );
-// };
-
-import { MoveRight } from "lucide-react";
-import { useForm, Controller } from "react-hook-form";
 import { useState } from "react";
+import { MoveRight } from "lucide-react";
+import { baseUrlToBackend } from "@/redux/features/baseApi";
 
-export const ListingStep5 = ({ onSubmit, onBack, initialData }) => {
-  const { control, handleSubmit, setValue, watch } = useForm({
-    defaultValues: initialData || { availabilities: [] },
-  });
-
+export const ListingStep5 = ({
+  onBack,
+  initialData,
+  getAllData,
+  clearAllData,
+}) => {
   const [selectedDays, setSelectedDays] = useState(
     initialData?.availabilities?.map((a) => a.day) || []
   );
-
   const [startTime, setStartTime] = useState("09:00");
   const [endTime, setEndTime] = useState("17:00");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [modal, setModal] = useState({ open: false, type: "", message: "" });
 
-  const availabilities = watch("availabilities") || [];
+  const token = localStorage.getItem("access_token");
 
   const days = [
-    { label: "Sun", value: "Sunday" },
-    { label: "Mon", value: "Monday" },
-    { label: "Tue", value: "Tuesday" },
-    { label: "Wed", value: "Wednesday" },
-    { label: "Thu", value: "Thursday" },
-    { label: "Fri", value: "Friday" },
-    { label: "Sat", value: "Saturday" },
-  ];
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ].map((d) => ({ label: d.slice(0, 3), value: d }));
 
   const timeOptions = Array.from({ length: 24 }, (_, i) => {
     const hour = i % 12 === 0 ? 12 : i % 12;
@@ -136,136 +36,240 @@ export const ListingStep5 = ({ onSubmit, onBack, initialData }) => {
     return { label: `${hour}:00 ${period}`, value };
   });
 
-  const toggleDay = (dayValue) => {
-    const newDays = selectedDays.includes(dayValue)
-      ? selectedDays.filter((d) => d !== dayValue)
-      : [...selectedDays, dayValue];
+  const toggleDay = (day) => {
+    setSelectedDays((prev) =>
+      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
+    );
+  };
 
-    setSelectedDays(newDays);
-
-    const newAvail = newDays.map((day) => ({
-      day,
+  const handleSubmit = async () => {
+    // Save Step 5
+    const avail = selectedDays.map((d) => ({
+      day: d,
       start_time: startTime,
       end_time: endTime,
     }));
+    localStorage.setItem(
+      "step5Data",
+      JSON.stringify({ availabilities: avail })
+    );
 
-    setValue("availabilities", newAvail);
+    setIsSubmitting(true);
+
+    try {
+      const payload = getAllData(); // Get all 5 steps
+      const fd = new FormData();
+
+      const append = (obj, prefix = "") => {
+        Object.entries(obj).forEach(([k, v]) => {
+          const key = prefix ? `${prefix}[${k}]` : k;
+          if (v instanceof File) {
+            fd.append(key, v);
+          } else if (Array.isArray(v)) {
+            v.forEach((item, idx) => {
+              if (item instanceof File) fd.append(`${key}[${idx}]`, item);
+              else if (typeof item === "object" && item)
+                append(item, `${key}[${idx}]`);
+              else fd.append(`${key}[${idx}]`, String(item));
+            });
+          } else if (typeof v === "object" && v !== null) {
+            append(v, key);
+          } else {
+            fd.append(key, String(v));
+          }
+        });
+      };
+      append(payload);
+
+      const res = await fetch(`${baseUrlToBackend}/injector/create/`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: fd,
+      });
+
+      if (res.ok) {
+        clearAllData();
+        setModal({
+          open: true,
+          type: "success",
+          message: "Application submitted successfully!",
+        });
+      } else {
+        setModal({
+          open: true,
+          type: "error",
+          message: "Submission failed. Please try again.",
+        });
+      }
+    } catch (e) {
+      console.error(e);
+      setModal({
+        open: true,
+        type: "error",
+        message: "Network error. Check your connection.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const updateTime = (field, value) => {
-    if (field === "start") setStartTime(value);
-    else setEndTime(value);
-
-    const newAvail = selectedDays.map((day) => ({
-      day,
-      start_time: field === "start" ? value : startTime,
-      end_time: field === "start" ? endTime : value,
-    }));
-
-    setValue("availabilities", newAvail);
-  };
-
-  const onFormSubmit = () => {
-    const finalData = {
-      availabilities: selectedDays.map((day) => ({
-        day,
-        start_time: startTime,
-        end_time: endTime,
-      })),
-    };
-    onSubmit(finalData);
+  const closeModal = () => {
+    setModal({ open: false, type: "", message: "" });
   };
 
   return (
-    <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-8">
-      <div className="bg-white rounded-lg border border-gray-200 p-6">
-        <h3 className="text-lg font-semibold mb-2">Set Your Available Day</h3>
-        <p className="text-sm text-gray-500 mb-6">Select your availability</p>
+    <>
+      <div className="space-y-8">
+        {/* Days */}
+        <div className="bg-white rounded-lg border p-6">
+          <h3 className="text-lg font-semibold mb-2">Available Days</h3>
+          <div className="flex flex-wrap gap-3 justify-center">
+            {days.map((d) => (
+              <button
+                key={d.value}
+                type="button"
+                onClick={() => toggleDay(d.value)}
+                className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
+                  selectedDays.includes(d.value)
+                    ? "bg-orange-500 text-white"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
+              >
+                {d.label}
+              </button>
+            ))}
+          </div>
+        </div>
 
-        <div className="flex flex-wrap gap-3 justify-center">
-          {days.map((day) => (
-            <button
-              key={day.value}
-              type="button"
-              onClick={() => toggleDay(day.value)}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                selectedDays.includes(day.value)
-                  ? "bg-orange-500 text-white"
-                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-              }`}
-            >
-              {day.label}
-            </button>
-          ))}
+        {/* Time */}
+        <div className="bg-white rounded-lg border p-6">
+          <h3 className="text-lg font-semibold mb-2">Time Slot</h3>
+          <div className="flex items-center gap-6 max-w-md mx-auto">
+            <div className="flex-1">
+              <label className="block text-sm font-medium mb-1">Start</label>
+              <select
+                value={startTime}
+                onChange={(e) => setStartTime(e.target.value)}
+                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-orange-500"
+              >
+                {timeOptions.map((t) => (
+                  <option key={t.value} value={t.value}>
+                    {t.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="self-end pb-2 text-gray-500">—</div>
+            <div className="flex-1">
+              <label className="block text-sm font-medium mb-1">End</label>
+              <select
+                value={endTime}
+                onChange={(e) => setEndTime(e.target.value)}
+                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-orange-500"
+              >
+                {timeOptions.map((t) => (
+                  <option key={t.value} value={t.value}>
+                    {t.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
+
+        {/* Buttons */}
+        <div className="flex justify-between">
+          <button
+            onClick={onBack}
+            className="px-8 py-2 rounded-md border border-gray-300 text-lg font-semibold"
+          >
+            Back
+          </button>
+          <button
+            onClick={handleSubmit}
+            disabled={isSubmitting || selectedDays.length === 0}
+            className="bg-[#E26C29] hover:bg-orange-600 cursor-pointer disabled:opacity-50 px-8 py-2 rounded-md flex items-center gap-2 text-white text-lg font-semibold"
+          >
+            {isSubmitting ? "Submitting..." : "Submit Application"}
+            {!isSubmitting && <MoveRight className="w-5 h-5" />}
+          </button>
         </div>
       </div>
 
-      {/* === Time Slot === */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6">
-        <h3 className="text-lg font-semibold mb-2">
-          Set Your Available Time Slot
-        </h3>
-        <p className="text-sm text-gray-500 mb-6">Select your availability</p>
+      {/* MODAL */}
+      {modal.open && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6 animate-fadeIn">
+            <div className="flex items-center gap-3 mb-4">
+              {modal.type === "success" ? (
+                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                  <svg
+                    className="w-8 h-8 text-green-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                </div>
+              ) : (
+                <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                  <svg
+                    className="w-8 h-8 text-red-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </div>
+              )}
+              <h3
+                className={`text-xl font-bold ${
+                  modal.type === "success" ? "text-green-800" : "text-red-800"
+                }`}
+              >
+                {modal.type === "success" ? "Success!" : "Error!"}
+              </h3>
+            </div>
 
-        <div className="flex items-center gap-6 max-w-md mx-auto">
-          {/* Start Time */}
-          <div className="flex-1">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Start
-            </label>
-            <select
-              value={startTime}
-              onChange={(e) => updateTime("start", e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-            >
-              {timeOptions.map((t) => (
-                <option key={t.value} value={t.value}>
-                  {t.label}
-                </option>
-              ))}
-            </select>
-          </div>
+            <p className="text-gray-700 mb-6">{modal.message}</p>
 
-          <div className="self-end pb-2 text-gray-500">—</div>
-
-          {/* End Time */}
-          <div className="flex-1">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              End
-            </label>
-            <select
-              value={endTime}
-              onChange={(e) => updateTime("end", e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-            >
-              {timeOptions.map((t) => (
-                <option key={t.value} value={t.value}>
-                  {t.label}
-                </option>
-              ))}
-            </select>
+            <div className="flex justify-end gap-3">
+              {modal.type === "error" && (
+                <button
+                  onClick={handleSubmit}
+                  className="px-5 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 font-medium"
+                >
+                  Retry
+                </button>
+              )}
+              <button
+                onClick={closeModal}
+                className={`px-5 py-2 rounded-md font-medium ${
+                  modal.type === "success"
+                    ? "bg-[#E26C29] text-white hover:bg-orange-600"
+                    : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+                }`}
+              >
+                {modal.type === "success" ? "Close" : "Cancel"}
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-
-      {/* === Navigation === */}
-      <div className="flex justify-between">
-        <button
-          type="button"
-          onClick={onBack}
-          className="px-8 py-2 rounded-md flex items-center gap-2 text-black border border-gray-300 text-lg font-semibold hover:bg-gray-50"
-        >
-          Back
-        </button>
-
-        <button
-          type="submit"
-          className="bg-[#E26C29] hover:bg-orange-600 px-8 py-2 rounded-md flex items-center gap-2 text-white text-lg font-semibold"
-        >
-          Submit Application
-          <MoveRight className="w-5 h-5" />
-        </button>
-      </div>
-    </form>
+      )}
+    </>
   );
 };
