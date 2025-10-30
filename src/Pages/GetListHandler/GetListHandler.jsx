@@ -1,4 +1,3 @@
-// // GetListHandler.jsx
 // import { useState } from "react";
 // import { ListingStep1 } from "./ListingStep1";
 // import { ListingStep2 } from "./ListingStep2";
@@ -10,14 +9,11 @@
 // export const GetListHandler = () => {
 //   const TOTAL_STEPS = 5;
 //   const [currentStep, setCurrentStep] = useState(1);
-//   const [isSubmitting, setIsSubmitting] = useState(false);
-//   const [submitResult, setSubmitResult] = useState("idle"); // idle | loading | success | error
 
-//   /* ------------------- SAFE localStorage ------------------- */
 //   const saveStep = (n, data) => {
 //     try {
-//       const safeData = data === undefined ? null : data;
-//       localStorage.setItem(`step${n}Data`, JSON.stringify(safeData));
+//       const safe = data === undefined ? null : data;
+//       localStorage.setItem(`step${n}Data`, JSON.stringify(safe));
 //     } catch (e) {
 //       console.error(`[saveStep ${n}]`, e);
 //     }
@@ -38,7 +34,6 @@
 //     }
 //   };
 
-//   /* ------------------- Navigation ------------------- */
 //   const next = () => setCurrentStep((s) => Math.min(s + 1, TOTAL_STEPS));
 //   const back = () => setCurrentStep((s) => Math.max(s - 1, 1));
 
@@ -47,56 +42,25 @@
 //     next();
 //   };
 
-//   const submitAll = async () => {
-//     setIsSubmitting(true);
-//     setSubmitResult("loading");
-
-//     try {
-//       const payload = {};
-//       for (let i = 1; i <= TOTAL_STEPS; i++) {
-//         const d = getStep(i);
-//         if (d) Object.assign(payload, d);
+//   // ✅ FIXED: Proper getAllData that MERGES all steps
+//   const getAllData = () => {
+//     const all = {};
+//     for (let i = 1; i <= TOTAL_STEPS; i++) {
+//       const stepData = getStep(i);
+//       if (stepData) {
+//         Object.assign(all, stepData);
 //       }
+//     }
+//     return all;
+//   };
 
-//       const fd = new FormData();
-//       const append = (obj, prefix = "") => {
-//         Object.entries(obj).forEach(([k, v]) => {
-//           const key = prefix ? `${prefix}[${k}]` : k;
-//           if (v instanceof File) {
-//             fd.append(key, v);
-//           } else if (Array.isArray(v)) {
-//             v.forEach((item, idx) => {
-//               if (item instanceof File) fd.append(`${key}[${idx}]`, item);
-//               else if (typeof item === "object" && item)
-//                 append(item, `${key}[${idx}]`);
-//               else fd.append(`${key}[${idx}]`, String(item));
-//             });
-//           } else if (typeof v === "object" && v !== null) {
-//             append(v, key);
-//           } else {
-//             fd.append(key, String(v));
-//           }
-//         });
-//       };
-//       append(payload);
-
-//       const res = await fetch("/api/listings", { method: "POST", body: fd });
-//       if (res.ok) {
-//         for (let i = 1; i <= TOTAL_STEPS; i++)
-//           localStorage.removeItem(`step${i}Data`);
-//         setSubmitResult("success");
-//       } else {
-//         setSubmitResult("error");
-//       }
-//     } catch (e) {
-//       console.error("[submitAll]", e);
-//       setSubmitResult("error");
-//     } finally {
-//       setIsSubmitting(false);
+//   // ✅ FIXED: Proper clearAllData
+//   const clearAllData = () => {
+//     for (let i = 1; i <= TOTAL_STEPS; i++) {
+//       localStorage.removeItem(`step${i}Data`);
 //     }
 //   };
 
-//   /* ------------------- Render Step ------------------- */
 //   const renderStep = () => {
 //     switch (currentStep) {
 //       case 1:
@@ -133,11 +97,10 @@
 //       case 5:
 //         return (
 //           <ListingStep5
-//             onFinalSubmit={submitAll}
 //             onBack={back}
 //             initialData={getStep(5)}
-//             isSubmitting={isSubmitting}
-//             submitResult={submitResult}
+//             getAllData={getAllData}
+//             clearAllData={clearAllData}
 //           />
 //         );
 //       default:
@@ -155,23 +118,39 @@
 //   );
 // };
 
-// GetListHandler.jsx
 import { useState } from "react";
 import { ListingStep1 } from "./ListingStep1";
 import { ListingStep2 } from "./ListingStep2";
 import { ListingStep3 } from "./ListingStep3";
 import { ListingStep4 } from "./ListingStep4";
 import { ListingStep5 } from "./ListingStep5";
-import { ProgressBar } from "./ProgressBar";
 
 export const GetListHandler = () => {
   const TOTAL_STEPS = 5;
   const [currentStep, setCurrentStep] = useState(1);
 
+  // Store files in memory (not localStorage)
+  const [fileStore, setFileStore] = useState({
+    profile_image: null,
+    certifications: [],
+  });
+
   const saveStep = (n, data) => {
     try {
-      const safe = data === undefined ? null : data;
-      localStorage.setItem(`step${n}Data`, JSON.stringify(safe));
+      // Separate files from other data
+      const { profile_image, certifications, ...otherData } = data;
+
+      // Save non-file data to localStorage
+      localStorage.setItem(`step${n}Data`, JSON.stringify(otherData));
+
+      // Save files to state
+      if (n === 1 && profile_image) {
+        setFileStore((prev) => ({ ...prev, profile_image }));
+      }
+
+      if (n === 4 && certifications) {
+        setFileStore((prev) => ({ ...prev, certifications }));
+      }
     } catch (e) {
       console.error(`[saveStep ${n}]`, e);
     }
@@ -184,7 +163,19 @@ export const GetListHandler = () => {
         localStorage.removeItem(`step${n}Data`);
         return null;
       }
-      return JSON.parse(raw);
+
+      const data = JSON.parse(raw);
+
+      // Add files back from state
+      if (n === 1 && fileStore.profile_image) {
+        data.profile_image = fileStore.profile_image;
+      }
+
+      if (n === 4 && fileStore.certifications.length > 0) {
+        data.certifications = fileStore.certifications;
+      }
+
+      return data;
     } catch (e) {
       console.error(`[getStep ${n}]`, e);
       localStorage.removeItem(`step${n}Data`);
@@ -198,6 +189,41 @@ export const GetListHandler = () => {
   const handleStepSubmit = (step, data) => {
     saveStep(step, data);
     next();
+  };
+
+  const getAllData = () => {
+    const all = {};
+
+    // Merge all step data from localStorage
+    for (let i = 1; i <= TOTAL_STEPS; i++) {
+      const raw = localStorage.getItem(`step${i}Data`);
+      if (raw && raw !== "undefined" && raw !== "null") {
+        try {
+          const stepData = JSON.parse(raw);
+          Object.assign(all, stepData);
+        } catch (e) {
+          console.error(`Error parsing step ${i}:`, e);
+        }
+      }
+    }
+
+    // Add files from state
+    if (fileStore.profile_image) {
+      all.profile_image = fileStore.profile_image;
+    }
+
+    if (fileStore.certifications.length > 0) {
+      all.certifications = fileStore.certifications;
+    }
+
+    return all;
+  };
+
+  const clearAllData = () => {
+    for (let i = 1; i <= TOTAL_STEPS; i++) {
+      localStorage.removeItem(`step${i}Data`);
+    }
+    setFileStore({ profile_image: null, certifications: [] });
   };
 
   const renderStep = () => {
@@ -238,18 +264,8 @@ export const GetListHandler = () => {
           <ListingStep5
             onBack={back}
             initialData={getStep(5)}
-            getAllData={() => {
-              const all = {};
-              for (let i = 1; i <= TOTAL_STEPS; i++) {
-                const d = getStep(i);
-                if (d) Object.assign(all, d);
-              }
-              return all;
-            }}
-            clearAllData={() => {
-              for (let i = 1; i <= TOTAL_STEPS; i++)
-                localStorage.removeItem(`step${i}Data`);
-            }}
+            getAllData={getAllData}
+            clearAllData={clearAllData}
           />
         );
       default:
@@ -260,7 +276,22 @@ export const GetListHandler = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
       <div className="w-full max-w-2xl">
-        <ProgressBar currentStep={currentStep} totalSteps={TOTAL_STEPS} />
+        <div className="mb-6 bg-white rounded-lg border p-4">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm font-medium text-gray-600">
+              Step {currentStep} of {TOTAL_STEPS}
+            </span>
+            <span className="text-sm font-medium text-orange-600">
+              {Math.round((currentStep / TOTAL_STEPS) * 100)}%
+            </span>
+          </div>
+          <div className="w-full bg-gray-200 rounded-full h-2">
+            <div
+              className="bg-orange-500 h-2 rounded-full transition-all duration-300"
+              style={{ width: `${(currentStep / TOTAL_STEPS) * 100}%` }}
+            />
+          </div>
+        </div>
         <div className="mt-6">{renderStep()}</div>
       </div>
     </div>
