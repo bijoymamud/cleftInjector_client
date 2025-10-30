@@ -44,14 +44,51 @@ export default function OTPVerification() {
       otp: otp,
     };
 
+    // try {
+    //   const response = await otpVerification(payload).unwrap();
+    //   console.log("Success:", response);
+    //   localStorage.setItem("access_token", response?.access_token);
+    //   localStorage.setItem("refresh_token", response?.refresh_token);
+    //   toast.success(response?.detail || "OTP Verification successful!");
+    //   setTimeout(() => {
+    //     if (status === "signup") {
+    //       navigate("/sign_in");
+    //     } else if (
+    //       response?.profile_data?.user &&
+    //       response?.profile_data?.role === "provider"
+    //     ) {
+    //       navigate("/get-listed");
+    //     } else if (status === "reset") {
+    //       navigate("/reset_password");
+    //     } else {
+    //       navigate("/");
+    //     }
+    //   }, 1000);
+    // } catch (error) {
+    //   console.error("Error during OTP verification:", error);
+    //   toast.error(
+    //     error?.data?.message || "Failed to verify OTP. Please try again."
+    //   );
+    // } finally {
+    //   setIsSubmitting(false);
+    // }
     try {
       const response = await otpVerification(payload).unwrap();
       console.log("Success:", response);
+
       localStorage.setItem("access_token", response?.access_token);
       localStorage.setItem("refresh_token", response?.refresh_token);
-      toast.success(response?.message || "OTP Verification successful!");
+      localStorage.setItem("user_id", response?.profile_data?.user);
+
+      toast.success(response?.detail || "OTP Verification successful!");
+
       setTimeout(() => {
-        if (status === "signup") {
+        if (
+          response?.profile_data?.user &&
+          response?.profile_data?.role === "provider"
+        ) {
+          navigate("/get-listed");
+        } else if (status === "signup") {
           navigate("/sign_in");
         } else if (status === "reset") {
           navigate("/reset_password");

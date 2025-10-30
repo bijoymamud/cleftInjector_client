@@ -42,7 +42,7 @@ export const baseApi = createApi({
                 method: 'POST',
                 body: data,
             }),
-            // invalidatesTags: ["appointment"]
+
         })
 
 

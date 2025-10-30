@@ -36,10 +36,9 @@ export default function SignIn() {
         navigate("/");
       }, 1000);
     } catch (error) {
-      const message =
-        error?.data?.detail ||
-        error?.error ||
-        toast.error(message || "Something went wrong. Please try again.");
+      console.log(error);
+      const message = error?.data?.detail || error?.error;
+      toast.error(message || "Something went wrong. Please try again.");
     }
   };
 
@@ -144,12 +143,14 @@ export default function SignIn() {
               )}
             </div>
 
-            <Link
-              to="/email_verification"
-              className="text-gray-600 text-sm underline flex justify-end hover:text-blue-500"
-            >
-              Forget Password?
-            </Link>
+            <div className="flex justify-end w-full">
+              <Link
+                to="/email_verification"
+                className="text-sm text-gray-600 underline hover:text-blue-500"
+              >
+                Forgot Password?
+              </Link>
+            </div>
 
             {/* Terms checkbox */}
             <div className="flex items-start">
@@ -205,4 +206,3 @@ export default function SignIn() {
     </div>
   );
 }
-

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { MoveRight } from "lucide-react";
 import { baseUrlToBackend } from "@/redux/features/baseApi";
@@ -18,6 +17,7 @@ export const ListingStep5 = ({
   const [modal, setModal] = useState({ open: false, type: "", message: "" });
 
   const token = localStorage.getItem("access_token");
+  const user_id = localStorage.getItem("user_id");
 
   const days = [
     "Sunday",
@@ -43,7 +43,6 @@ export const ListingStep5 = ({
   };
 
   const handleSubmit = async () => {
-    // Save Step 5
     const avail = selectedDays.map((d) => ({
       day: d,
       start_time: startTime,
@@ -57,7 +56,10 @@ export const ListingStep5 = ({
     setIsSubmitting(true);
 
     try {
-      const payload = getAllData(); // Get all 5 steps
+      const payload = {
+        ...getAllData(),
+        user_id: user_id,
+      };
       const fd = new FormData();
 
       const append = (obj, prefix = "") => {
@@ -81,7 +83,7 @@ export const ListingStep5 = ({
       };
       append(payload);
 
-      const res = await fetch(`${baseUrlToBackend}/injector/create/`, {
+      const res = await fetch(`${baseUrlToBackend}injector/create/`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -100,7 +102,7 @@ export const ListingStep5 = ({
         setModal({
           open: true,
           type: "error",
-          message: "Submission failed. Please try again.",
+          message: res?.error || "Submission failed. Please try again.",
         });
       }
     } catch (e) {
