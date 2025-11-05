@@ -26,14 +26,16 @@ export const baseApi = createApi({
         },
     }),
 
-    tagTypes: ["user", "appointment"],
+    tagTypes: ["user", "appointment", "patientProfile"],
 
     endpoints: (builder) => ({
 
 
+        //for logged in data showing
         getUserProfile: builder.query({
-            query: () => "auth/user_profile/"
+            query: () => "auth/user_profile/",
         }),
+
 
         //booking api
         bookAppointment: builder.mutation({
@@ -43,7 +45,56 @@ export const baseApi = createApi({
                 body: data,
             }),
 
-        })
+        }),
+
+        //my booking list
+        getMyBookingList: builder.query({
+            query: () => "patient/my-bookings/"
+        }),
+
+        //review
+        postReview: builder.mutation({
+            query: ({ data, id }) => ({
+                url: `injector/reviews/create/${id}/`,
+                method: "POST",
+                body: { data }
+            })
+        }),
+
+        //change password
+        changePassword: builder.mutation({
+            query: (data) => ({
+                url: "auth/change-password/",
+                method: "POST",
+                body: data
+            })
+        }),
+
+        //profile update
+        // profileUpdate: builder.mutation({
+        //     query: (userData) => ({
+        //         url: "patient/profile/update/",
+        //         method: "PATCH",
+        //         body: userData
+        //     }),
+        //     invalidatesTags: ["userProfile"]
+        // })
+
+
+        //patient profile
+        getPatientData: builder.query({
+            query: () => "/patient/profile/"
+        }),
+
+        //patient profile update
+        profileUpdate: builder.mutation({
+            query: (formData) => ({
+                url: 'patient/profile/update/',
+                method: 'PATCH',
+                body: formData,
+            }),
+            invalidatesTags: ['patientProfile'],
+        }),
 
 
     }),
@@ -52,4 +103,9 @@ export const baseApi = createApi({
 export const {
     useGetUserProfileQuery,
     useBookAppointmentMutation,
+    useGetMyBookingListQuery,
+    usePostReviewMutation,
+    useChangePasswordMutation,
+    useProfileUpdateMutation,
+    useGetPatientDataQuery
 } = baseApi
