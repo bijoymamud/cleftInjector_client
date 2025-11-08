@@ -93,10 +93,7 @@ export function Navbar() {
               <DropdownMenu modal={false}>
                 <DropdownMenuTrigger asChild>
                   <Avatar className="w-[50px] h-[50px] cursor-pointer">
-                    <AvatarImage
-                      src="https://github.com/shadcn.png"
-                      alt="User"
-                    />
+                    <AvatarImage src={userProfile?.profile_image} alt="User" />
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
                 </DropdownMenuTrigger>
@@ -182,7 +179,8 @@ export function Navbar() {
                   <DropdownMenuTrigger asChild>
                     <Avatar className="w-[50px] h-[50px] cursor-pointer">
                       <AvatarImage
-                        src="https://github.com/shadcn.png"
+                        // src= {}|| "https://github.com/shadcn.png"
+                        src={userProfile?.profile_image}
                         alt="User"
                       />
                       <AvatarFallback>CN</AvatarFallback>

@@ -31,7 +31,7 @@ const UserProfile = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto p-6  min-h-screen flex items-center justify-center h-screen">
+    <div className="max-w-5xl mx-auto p-6  min-h-screen flex items-center justify-center py-20">
       <Tabs defaultValue="profile" className="w-full">
         <TabsList className="grid w-[500px] grid-cols-2 mb-8">
           <TabsTrigger value="profile" className="text-lg">
@@ -70,4 +70,3 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
-

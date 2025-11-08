@@ -26,7 +26,7 @@ export const baseApi = createApi({
         },
     }),
 
-    tagTypes: ["user", "appointment", "patientProfile"],
+    tagTypes: ["user", "appointment", "patientProfile", "review", "bookingList"],
 
     endpoints: (builder) => ({
 
@@ -34,6 +34,7 @@ export const baseApi = createApi({
         //for logged in data showing
         getUserProfile: builder.query({
             query: () => "auth/user_profile/",
+            providesTags: ["patientProfile"]
         }),
 
 
@@ -44,20 +45,22 @@ export const baseApi = createApi({
                 method: 'POST',
                 body: data,
             }),
+            invalidatesTags: ["bookingList"]
 
         }),
 
         //my booking list
         getMyBookingList: builder.query({
-            query: () => "patient/my-bookings/"
+            query: () => "patient/my-bookings/",
+            providesTags: ["bookingList"]
         }),
 
         //review
         postReview: builder.mutation({
-            query: ({ data, id }) => ({
+            query: ({ payload, id }) => ({
                 url: `injector/reviews/create/${id}/`,
                 method: "POST",
-                body: { data }
+                body: payload
             })
         }),
 
@@ -69,16 +72,6 @@ export const baseApi = createApi({
                 body: data
             })
         }),
-
-        //profile update
-        // profileUpdate: builder.mutation({
-        //     query: (userData) => ({
-        //         url: "patient/profile/update/",
-        //         method: "PATCH",
-        //         body: userData
-        //     }),
-        //     invalidatesTags: ["userProfile"]
-        // })
 
 
         //patient profile
@@ -96,6 +89,20 @@ export const baseApi = createApi({
             invalidatesTags: ['patientProfile'],
         }),
 
+        //injector search
+        searchInjector: builder.query({
+            query: ({ search = '' }) => ({
+                url: 'injector/list/',
+                params: { search: search?.trim() },
+            }),
+        }),
+
+        //injector search from home page
+        searchInjectorsFromHome: builder.query({
+            query: (search) => `/injector/list/?search=${encodeURIComponent(search)}`,
+        }),
+
+
 
     }),
 })
@@ -107,5 +114,8 @@ export const {
     usePostReviewMutation,
     useChangePasswordMutation,
     useProfileUpdateMutation,
-    useGetPatientDataQuery
+    useGetPatientDataQuery,
+    useSearchInjectorQuery,
+    useSearchInjectorsFromHomeQuery,
+
 } = baseApi

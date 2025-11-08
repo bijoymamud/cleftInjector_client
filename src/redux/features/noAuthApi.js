@@ -13,7 +13,14 @@ export const noAuthApi = createApi({
         //getinjectors
         getFeaturedInjectors: builder.query({
             query: () => "injector/list/"
+        }),
+
+        //get review
+        getReview: builder.query({
+            query: () => "dashboard/reviews/list/",
+            providesTags: ["review"]
         })
+
 
 
 
@@ -21,5 +28,7 @@ export const noAuthApi = createApi({
 });
 
 export const {
-    useGetFeaturedInjectorsQuery
+    useGetFeaturedInjectorsQuery,
+    useGetReviewQuery,
+
 } = noAuthApi;

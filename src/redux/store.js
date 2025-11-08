@@ -3,6 +3,7 @@ import { baseApi } from './features/baseApi'
 import { authApi } from './features/authApi'
 import { noAuthApi } from './features/noAuthApi'
 import listingSlice from './slices/listingSlice'
+import searchSlice from './slices/searchSlice'
 
 
 export const store = configureStore({
@@ -10,7 +11,9 @@ export const store = configureStore({
         [baseApi.reducerPath]: baseApi.reducer,
         [authApi.reducerPath]: authApi.reducer,
         [noAuthApi.reducerPath]: noAuthApi.reducer,
-        listingSlice: listingSlice
+        searchSlice: searchSlice,
+        listingSlice: listingSlice,
+
     },
 
     middleware: (getDefaultMiddleware) =>

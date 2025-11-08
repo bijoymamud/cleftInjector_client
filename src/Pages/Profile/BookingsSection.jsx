@@ -1,255 +1,3 @@
-// import React, { useState } from "react";
-// import { Button } from "@/components/ui/button";
-// import { Card, CardContent } from "@/components/ui/card";
-// import { BsChatSquareQuote } from "react-icons/bs";
-
-// import {
-//   Dialog,
-//   DialogContent,
-//   DialogHeader,
-//   DialogTitle,
-//   DialogTrigger,
-// } from "@/components/ui/dialog";
-// import { Label } from "@/components/ui/label";
-// import { Calendar, Clock3 } from "lucide-react";
-// import { useForm } from "react-hook-form";
-// import { MdVerified } from "react-icons/md";
-// import Rating from "react-rating";
-// import { FaRegStar, FaStar } from "react-icons/fa6";
-// import { RiMailSendLine } from "react-icons/ri";
-// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
-// const BookingsSection = ({ bookingsData }) => {
-//   const [rating, setRating] = useState(0);
-//   const {
-//     register,
-//     handleSubmit,
-//     formState: { errors },
-//   } = useForm();
-
-//   const onSubmit = async (data) => {
-//     console.log(data);
-//   };
-
-//   return (
-//     <div className="space-y-6">
-//       {bookingsData.map((booking) => (
-//         <Card key={booking.id} className="hover:shadow-md transition-shadow">
-//           <CardContent className="p-6">
-//             <div className="flex items-start justify-between">
-//               <div className="flex items-start gap-4">
-//                 <div className="w-32 h-32 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
-//                   <Avatar className="w-full h-full cursor-pointer">
-//                     <AvatarImage
-//                       src="https://github.com/shadcn.png"
-//                       alt="User"
-//                     />
-//                     <AvatarFallback>CN</AvatarFallback>
-//                   </Avatar>
-//                 </div>
-//                 <div className="flex-1">
-//                   <div className="flex items-center gap-2 mb-2">
-//                     <h3 className="font-semibold text-lg">
-//                       {booking?.injector_name}
-//                     </h3>
-
-//                   </div>
-//                   <div className="flex items-center gap-5 text-base font-semibold text-gray-600 mb-2">
-//                     <p className="flex items-center gap-2">
-//                       <Clock3 size={16} />
-//                       <p>
-//                         {new Date(
-//                           `1970-01-01T${booking.injector_availability_start_time}Z`
-//                         ).toLocaleTimeString([], {
-//                           hour: "2-digit",
-//                           minute: "2-digit",
-//                         })}{" "}
-//                         -
-//                         {new Date(
-//                           `1970-01-01T${booking.injector_availability_end_time}Z`
-//                         ).toLocaleTimeString([], {
-//                           hour: "2-digit",
-//                           minute: "2-digit",
-//                         })}
-//                       </p>
-//                     </p>
-//                     <p className="flex items-center gap-2">
-//                       <Calendar size={16} />
-//                       {
-//                         new Date(booking.appointment_datetime)
-//                           .toISOString()
-//                           .split("T")[0]
-//                       }
-//                     </p>
-//                   </div>
-//                   <p className="text-gray-700 font-medium leading-relaxed">
-//                     Reason : {booking.reason_for_visit}
-//                   </p>
-//                 </div>
-//               </div>
-//               <Dialog>
-//                 <div className="flex items-center gap-4">
-//                   <DialogTrigger asChild>
-//                     <Button
-//                       variant="outline"
-//                       size="sm"
-//                       className="cursor-pointer"
-//                     >
-//                       View Details
-//                     </Button>
-//                   </DialogTrigger>
-//                   <Dialog>
-//                     <DialogTrigger asChild>
-//                       <BsChatSquareQuote
-//                         size={22}
-//                         className="text-gray-600 cursor-pointer"
-//                         title="Review"
-//                       />
-//                     </DialogTrigger>
-//                     <DialogContent className="max-w-md">
-//                       <div className="flex items-center gap-5">
-//                         <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
-//                           <Avatar className="w-full h-full cursor-pointer">
-//                             <AvatarImage
-//                               src="https://github.com/shadcn.png"
-//                               alt="User"
-//                             />
-//                             <AvatarFallback>CN</AvatarFallback>
-//                           </Avatar>
-//                         </div>
-//                         <div>
-//                           <h3 className="font-semibold text-gray-900 flex text-xl items-center gap-2">
-//                             {booking.injector_name}
-
-//                             <sup>
-//                               <MdVerified
-//                                 className="text-[#41A3FF]"
-//                                 size={20}
-//                               />
-//                             </sup>
-//                           </h3>
-
-//                         </div>
-//                       </div>
-//                       <div className="space-y-4 pt-4">
-//                         <div className="flex items-start gap-1 flex-col">
-//                           <h1 className="font-semibold text-lg">
-//                             Give Feedback
-//                           </h1>
-//                           <Rating
-//                             initialRating={rating}
-//                             emptySymbol={
-//                               <FaRegStar className="text-gray-400 text-xl" />
-//                             }
-//                             fullSymbol={
-//                               <FaStar className="text-yellow-500 text-xl" />
-//                             }
-//                             onChange={(value) => setRating(value)}
-//                           />
-//                         </div>
-//                         <form
-//                           onSubmit={handleSubmit(onSubmit)}
-//                           className="space-y-4"
-//                         >
-//                           <textarea
-//                             {...register("review", {
-//                               required: "Review is required",
-//                             })}
-//                             className="w-full p-2 border rounded"
-//                             placeholder="Write here"
-//                             rows="4"
-//                           />
-//                           {errors.review && (
-//                             <p className="text-red-600 text-sm">
-//                               {errors.review.message}
-//                             </p>
-//                           )}
-//                           <Button
-//                             type="submit"
-//                             className="mt-2 bg-tagline bg-[#E26C29] hover:bg-[#d35913] cursor-pointer text-base px-10"
-//                           >
-//                             Send
-//                             <div>
-//                               <RiMailSendLine />
-//                             </div>
-//                           </Button>
-//                         </form>
-//                       </div>
-//                     </DialogContent>
-//                   </Dialog>
-//                 </div>
-
-//                 <DialogContent>
-//                   <DialogHeader>
-//                     <DialogTitle className="text-2xl">
-//                       Appointment Summary
-//                     </DialogTitle>
-//                   </DialogHeader>
-//                   <div className="space-y-4 pt-4">
-//                     <div className="grid grid-cols-2 gap-4">
-//                       <div>
-//                         <Label className="text-sm font-medium text-gray-900">
-//                           Doctor
-//                         </Label>
-//                         <p className="text-sm font-medium text-gray-600">
-//                           {booking.injector_name}
-//                         </p>
-//                       </div>
-//                       <div>
-//                         <Label className="text-sm font-medium text-gray-900">
-//                           Patient
-//                         </Label>
-//                         <p className="text-sm font-medium text-gray-600">
-//                           {booking.patient_first_name}{" "}
-//                           {booking.patient_last_name}
-//                         </p>
-//                       </div>
-//                     </div>
-
-//                     <div className="grid grid-cols-2 gap-4">
-//                       <div>
-//                         <Label className="text-sm font-medium text-gray-900">
-//                           Date & Time
-//                         </Label>
-//                         <p className="text-sm whitespace-pre-line text-gray-600">
-//                           {
-//                             new Date(booking.appointment_datetime)
-//                               .toISOString()
-//                               .split("T")[0]
-//                           }
-//                         </p>
-//                       </div>
-//                       <div>
-//                         <Label className="text-sm font-medium text-gray-900">
-//                           Consultation Fee
-//                         </Label>
-//                         <p className="text-sm font-semibold text-orange-600">
-//                           $ {booking.consultation_fee}
-//                         </p>
-//                       </div>
-//                     </div>
-
-//                     <div>
-//                       <Label className="text-sm font-medium text-gray-900">
-//                         Reason For Visit
-//                       </Label>
-//                       <p className="text-sm mt-1 leading-relaxed text-gray-600">
-//                         {booking.reason_for_visit}
-//                       </p>
-//                     </div>
-//                   </div>
-//                 </DialogContent>
-//               </Dialog>
-//             </div>
-//           </CardContent>
-//         </Card>
-//       ))}
-//     </div>
-//   );
-// };
-
-// export default BookingsSection;
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -272,6 +20,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePostReviewMutation } from "@/redux/features/baseApi";
 
 const BookingsSection = ({ bookingsData }) => {
+  console.log("bookingData", bookingsData);
   const [openReviewDialog, setOpenReviewDialog] = useState(null);
   const [postReview] = usePostReviewMutation();
 
@@ -286,9 +35,18 @@ const BookingsSection = ({ bookingsData }) => {
   const onSubmit = (data) => {
     console.log("Review Submitted:", data);
 
+    const payload = {
+      comment: data?.comment,
+      rating: data?.rating,
+    };
+
     try {
-      const response = postReview({ id: data?.injector, data: data }).unwrap();
-      console.log(response, "review response");
+      const response = postReview({
+        id: data?.injector,
+        payload,
+      }).unwrap();
+
+      console.log(response, "response of review");
     } catch (error) {
       console.log(error);
     }
@@ -298,16 +56,22 @@ const BookingsSection = ({ bookingsData }) => {
   };
 
   return (
-    <div className="space-y-6">
-      {bookingsData.map((booking) => (
-        <Card key={booking.id} className="hover:shadow-md transition-shadow">
+    <div className="space-y-6 min-h-screen">
+      <div className="w-full flex items-center justify-end">
+        <div className="flex items-center justify-center py-1 font-semibold text-lg bg-[#E26C29]  hover:bg-[#cf5a16] cursor-pointer text-white rounded-full w-[200px]">
+          <h1> Total Bookings: {bookingsData?.length}</h1>
+        </div>
+      </div>
+      {bookingsData?.map((booking) => (
+        <Card key={booking?.id} className="hover:shadow-md transition-shadow">
           <CardContent className="p-6">
             <div className="flex items-start justify-between">
               <div className="flex items-start gap-4">
                 <div className="w-32 h-32 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
                   <Avatar className="w-full h-full">
                     <AvatarImage
-                      src="https://github.com/shadcn.png"
+                      src={booking?.injector_image}
+                      // src="https://github.com/shadcn.png"
                       alt={booking.injector_name}
                     />
                     <AvatarFallback>
@@ -454,7 +218,7 @@ const BookingsSection = ({ bookingsData }) => {
                       <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
                         <Avatar className="w-full h-full">
                           <AvatarImage
-                            src="https://github.com/shadcn.png"
+                            src={booking?.injector_image}
                             alt={booking.injector_name}
                           />
                           <AvatarFallback>
