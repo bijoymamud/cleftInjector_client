@@ -37,7 +37,7 @@ export default function SignIn() {
       }, 1000);
     } catch (error) {
       console.log(error);
-      const message = error?.data?.detail || error?.error;
+      const message = error?.error || error?.error;
       toast.error(message || "Something went wrong. Please try again.");
     }
   };
