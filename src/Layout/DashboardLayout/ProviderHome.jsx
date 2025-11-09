@@ -1,169 +1,134 @@
+import { useGetDashboardDataQuery } from "@/redux/features/baseApi";
 import { Clock, Calendar, DollarSign, Users } from "lucide-react";
 
 export default function ConsultationDashboard() {
-  const stats = [
-    {
-      title: "Total Consultations",
-      value: "247",
-      change: "+22% ",
-      icon: Users,
-      color: "text-orange-500",
-    },
-    {
-      title: "This Month",
-      value: "32",
-      change: "+8% ",
-      icon: Calendar,
-      color: "text-orange-500",
-    },
-    {
-      title: "Revenue",
-      value: "$12,450",
-      change: "+15% ",
-      icon: DollarSign,
-      color: "text-orange-500",
-    },
-  ];
+  const {
+    data: dashboardData,
+    isLoading,
+    isError,
+  } = useGetDashboardDataQuery();
 
-  const upcomingConsultations = [
-    {
-      name: "Sarah Johnson",
-      time: "10:00 AM",
-      date: "Today, Sep 6",
-      avatar:
-        "https://images.unsplash.com/photo-1494790108755-2616b72a32b3?w=40&h=40&fit=crop&crop=face",
-      status: "Pending",
-    },
-    {
-      name: "Michael Chen",
-      time: "10:00 AM",
-      date: "Sep 12",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face",
-      status: "Pending",
-    },
-    {
-      name: "Emma Wilson",
-      time: "10:00 AM",
-      date: "Sep 17",
-      avatar:
-        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face",
-      status: "Pending",
-    },
-    {
-      name: "David Martinez",
-      time: "10:00 AM",
-      date: "Sep 17",
-      avatar:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face",
-      status: "Pending",
-    },
-  ];
+  console.log(dashboardData);
+  const statConfig = {
+    total_consultations: { icon: Users, color: "text-[#E26C29]" },
+    this_month_consultations: { icon: Calendar, color: "text-[#E26C29]" },
+    monthly_revenue: { icon: DollarSign, color: "text-[#E26C29]" },
+  };
 
-  const recentActivities = [
-    {
-      name: "Sarah Johnson",
-      time: "2hr ago",
-      avatar:
-        "https://images.unsplash.com/photo-1494790108755-2616b72a32b3?w=40&h=40&fit=crop&crop=face",
-      status: "Consultation completed",
-      statusColor: "text-green-600",
-    },
-    {
-      name: "Michael Chen",
-      time: "2 days ago",
-      avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face",
-      status: "Consultation completed",
-      statusColor: "text-green-600",
-    },
-    {
-      name: "Emma Wilson",
-      time: "Sep 17",
-      avatar:
-        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face",
-      status: "Consultation completed",
-      statusColor: "text-green-600",
-    },
-    {
-      name: "Sarah Johnson",
-      time: "Sep 17",
-      avatar:
-        "https://images.unsplash.com/photo-1494790108755-2616b72a32b3?w=40&h=40&fit=crop&crop=face",
-      status: "Cancelled",
-      statusColor: "text-red-500",
-    },
-  ];
+  const stats = dashboardData?.stats
+    ? [
+        {
+          label: "Total Consultations",
+          value: dashboardData.stats.total_consultations,
+          icon: statConfig.total_consultations.icon,
+          color: statConfig.total_consultations.color,
+        },
+        {
+          label: "This Month Consultations",
+          value: dashboardData.stats.this_month_consultations,
+          icon: statConfig.this_month_consultations.icon,
+          color: statConfig.this_month_consultations.color,
+        },
+        {
+          label: "Monthly Revenue",
+          value: `$${dashboardData.stats.monthly_revenue}`,
+          icon: statConfig.monthly_revenue.icon,
+          color: statConfig.monthly_revenue.color,
+        },
+      ]
+    : [];
+
+  const upcoming = dashboardData?.upcoming_consultations || [];
+  const recent = dashboardData?.recent_activities || [];
+
+  if (isLoading)
+    return <div className="p-8 text-center">Loading dashboard...</div>;
+  if (isError)
+    return (
+      <div className="p-8 text-center text-red-600">Failed to load data.</div>
+    );
 
   return (
     <div className="">
       <div className="mx-auto">
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          {stats.map((stat, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-lg shadow drop-shadow-lg p-6 border border-gray-200"
-            >
-              <div className="flex items-center justify-between mb-4">
-                <div className="text-xl text-[#383838] font-semibold">
-                  {stat.title}
+          {stats.map((stat, index) => {
+            const Icon = stat.icon;
+            return (
+              <div
+                key={index}
+                className="bg-white rounded-lg shadow drop-shadow-lg p-6 border border-gray-200"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <div className="text-xl text-[#383838] font-semibold">
+                    {stat.label}
+                  </div>
+                  <Icon className={`w-6 h-6 ${stat.color}`} />
                 </div>
-                <stat.icon className={`w-6 h-6 ${stat.color}`} />
+                <div className="text-3xl font-bold text-gray-900 mb-2">
+                  {stat.value}
+                </div>
               </div>
-              <div className="text-3xl font-bold text-gray-900 mb-2">
-                {stat.value}
-              </div>
-              <div className="text-base font-semibold text-gray-500">
-                <span className={`${stat?.color} font-semibold`}>
-                  {stat.change}
-                </span>{" "}
-                from last month
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
-        {/* Main Content Grid */}
+        {/* Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Upcoming Consultations */}
           <div className="bg-[#F9FAFB] p-5 rounded-lg shadow-sm border border-gray-200">
-            <div className="p-6  border-gray-200">
-              <h2 className="text-2xl font-semibold text-gray-900">
+            <div className="p-6 border-gray-200">
+              <h2 className="text-2xl font-semibold text-gray-900 capitalize">
                 Your upcoming consultations
               </h2>
             </div>
             <div className="p-4">
               <div className="space-y-4">
-                {upcomingConsultations.map((consultation, index) => (
+                {upcoming.map((data, i) => (
                   <div
-                    key={index}
+                    key={i}
                     className="flex border bg-white hover:cursor-pointer items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors"
                   >
                     <div className="flex items-center space-x-3">
                       <img
-                        src={consultation.avatar}
-                        alt={consultation.name}
+                        src={data?.patient_image}
+                        alt={data.patient_name}
                         className="w-10 h-10 rounded-full object-cover"
                       />
                       <div>
                         <div className="font-semibold text-gray-900">
-                          {consultation.name}
+                          {data.patient_name}
                         </div>
                         <div className="flex items-center space-x-4 text-sm text-gray-500">
                           <div className="flex items-center space-x-1">
                             <Clock className="w-4 h-4" />
-                            <span>{consultation.time}</span>
+                            <span>
+                              {new Date(
+                                data?.appointment_datetime
+                              ).toLocaleTimeString([], {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              })}
+                            </span>
                           </div>
                           <div className="flex items-center space-x-1">
                             <Calendar className="w-4 h-4" />
-                            <span>{consultation.date}</span>
+                            <span>
+                              {new Date(
+                                data?.appointment_datetime
+                              ).toLocaleDateString([], {
+                                year: "numeric",
+                                month: "short",
+                                day: "numeric",
+                              })}
+                            </span>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div className="text-sm text-orange-500 font-semibold">
-                      {consultation.status}
+                    <div className="text-sm text-orange-500 font-semibold capitalize">
+                      {data?.status}
                     </div>
                   </div>
                 ))}
@@ -180,30 +145,33 @@ export default function ConsultationDashboard() {
             </div>
             <div className="p-6">
               <div className="space-y-4">
-                {recentActivities.map((activity, index) => (
+                {recent?.map((a, i) => (
                   <div
-                    key={index}
+                    key={i}
                     className="flex border bg-white hover:cursor-pointer items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors"
                   >
                     <div className="flex items-center space-x-3">
                       <img
-                        src={activity.avatar}
-                        alt={activity.name}
+                        src={a?.patient_image}
+                        alt={a?.patient_name}
                         className="w-10 h-10 rounded-full object-cover"
                       />
                       <div>
-                        <div className="font-medium text-gray-900">
-                          {activity.name}
+                        <div className="font-medium text-gray-900 mb-2">
+                          {a?.patient_name}
                         </div>
-                        <div className="text-sm text-gray-500">
-                          {activity.time}
+                        <div className="text-sm text-gray-500 space-y-1">
+                          <div className="flex items-center gap-2">
+                            <Clock className="w-4 h-4" />{" "}
+                            <h1>{a?.activity_time}</h1>
+                          </div>
                         </div>
                       </div>
                     </div>
                     <div
-                      className={`text-sm font-medium ${activity.statusColor}`}
+                      className={`text-sm font-medium capitalize ${a.statusColor}`}
                     >
-                      {activity.status}
+                      {a.status}
                     </div>
                   </div>
                 ))}

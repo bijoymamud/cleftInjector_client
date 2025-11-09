@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Link, useLocation, useNavigate } from "react-router";
 import { FaRegUser } from "react-icons/fa6";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { useGetUserProfileQuery } from "@/redux/features/baseApi";
 import {
@@ -24,6 +24,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
+import { useDispatch } from "react-redux";
+import { baseApi } from "@/redux/features/baseApi";
 
 const navigation = [
   { name: "Home", to: "/" },
@@ -34,26 +36,50 @@ const navigation = [
 export function Navbar() {
   const { pathname } = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { data: userProfile, refetch } = useGetUserProfileQuery();
+  const hasToken = localStorage.getItem("access_token");
+
+  // Only fetch profile if token exists
+  const {
+    data: userProfile,
+    isLoading,
+    refetch,
+  } = useGetUserProfileQuery(undefined, {
+    skip: !hasToken,
+  });
+
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   console.log("userProfile:", userProfile);
-  const navigate = useNavigate();
+
+  // Refetch user profile when component mounts or token changes
+  useEffect(() => {
+    if (hasToken) {
+      refetch();
+    }
+  }, [hasToken, refetch]);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
+
   const handleLogOut = () => {
-    console.log("clicked");
+    console.log("Logging out...");
 
+    // Clear localStorage
     localStorage.clear();
-    toast.success("Logged out successfully!");
-    refetch();
 
-    setTimeout(() => {
-      navigate("/sign_in");
-    }, 500);
+    // Clear all RTK Query cache
+    dispatch(baseApi.util.resetApiState());
+
+    toast.success("Logged out successfully!");
+
+    // Close dialog and navigate
+    setShowLogoutDialog(false);
+    navigate("/sign_in");
   };
+
   return (
     <nav className="bg-white shadow-md h-[85px] sticky top-0 z-50">
       <div className="container mx-auto">
@@ -89,16 +115,32 @@ export function Navbar() {
 
           {/* Desktop Right Section */}
           <div className="hidden sm:flex items-center gap-4 justify-end">
-            {userProfile ? (
+            {isLoading ? (
+              <div className="w-[50px] h-[50px] rounded-full bg-gray-200 animate-pulse"></div>
+            ) : userProfile ? (
               <DropdownMenu modal={false}>
                 <DropdownMenuTrigger asChild>
-                  <Avatar className="w-[50px] h-[50px] cursor-pointer">
-                    <AvatarImage src={userProfile?.profile_image} alt="User" />
-                    <AvatarFallback>CN</AvatarFallback>
+                  <Avatar className="w-[50px] h-[50px] cursor-pointer ring-2 ring-orange-200 hover:ring-orange-400 transition-all">
+                    <AvatarImage
+                      src={userProfile?.profile_image}
+                      alt={userProfile?.first_name || "User"}
+                    />
+                    <AvatarFallback className="bg-orange-500 text-white font-semibold">
+                      {userProfile?.first_name?.charAt(0)?.toUpperCase() || "U"}
+                    </AvatarFallback>
                   </Avatar>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-40" align="end">
-                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuContent className="w-56" align="end">
+                  <DropdownMenuLabel>
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-medium leading-none">
+                        {userProfile?.first_name} {userProfile?.last_name}
+                      </p>
+                      <p className="text-xs leading-none text-muted-foreground">
+                        {userProfile?.email}
+                      </p>
+                    </div>
+                  </DropdownMenuLabel>
                   <DropdownMenuGroup>
                     <DropdownMenuItem asChild>
                       <Link
@@ -113,7 +155,7 @@ export function Navbar() {
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem
-                      className="cursor-pointer"
+                      className="cursor-pointer text-red-600 focus:text-red-600"
                       onSelect={() => setShowLogoutDialog(true)}
                     >
                       Logout
@@ -174,20 +216,33 @@ export function Navbar() {
               </Link>
             ))}
             <div className="px-3 py-2 flex justify-end">
-              {userProfile ? (
+              {isLoading ? (
+                <div className="w-[50px] h-[50px] rounded-full bg-gray-200 animate-pulse"></div>
+              ) : userProfile ? (
                 <DropdownMenu modal={false}>
                   <DropdownMenuTrigger asChild>
-                    <Avatar className="w-[50px] h-[50px] cursor-pointer">
+                    <Avatar className="w-[50px] h-[50px] cursor-pointer ring-2 ring-orange-200">
                       <AvatarImage
-                        // src= {}|| "https://github.com/shadcn.png"
                         src={userProfile?.profile_image}
-                        alt="User"
+                        alt={userProfile?.first_name || "User"}
                       />
-                      <AvatarFallback>CN</AvatarFallback>
+                      <AvatarFallback className="bg-orange-500 text-white font-semibold">
+                        {userProfile?.first_name?.charAt(0)?.toUpperCase() ||
+                          "U"}
+                      </AvatarFallback>
                     </Avatar>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-40" align="end">
-                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuContent className="w-56" align="end">
+                    <DropdownMenuLabel>
+                      <div className="flex flex-col space-y-1">
+                        <p className="text-sm font-medium leading-none">
+                          {userProfile?.first_name} {userProfile?.last_name}
+                        </p>
+                        <p className="text-xs leading-none text-muted-foreground">
+                          {userProfile?.email}
+                        </p>
+                      </div>
+                    </DropdownMenuLabel>
                     <DropdownMenuGroup>
                       <DropdownMenuItem asChild>
                         <Link
@@ -203,7 +258,7 @@ export function Navbar() {
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem
-                        className="cursor-pointer"
+                        className="cursor-pointer text-red-600 focus:text-red-600"
                         onSelect={() => {
                           setShowLogoutDialog(true);
                           toggleMobileMenu();
@@ -215,14 +270,24 @@ export function Navbar() {
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
-                <Button
-                  asChild
-                  className="w-full max-w-[200px] bg-gradient-to-r from-[#E26C29] via-[#CD5E1F] to-[#9F5328] text-white hover:from-[#D55F22] hover:via-[#BC541E] hover:to-[#904A24]"
-                >
-                  <Link to="/get-started" onClick={toggleMobileMenu}>
-                    Get Listed
+                <div className="flex flex-col gap-2 w-full">
+                  <Link
+                    to="/sign_in"
+                    onClick={toggleMobileMenu}
+                    className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#E26C29] text-white text-base font-medium hover:bg-[#D55F22] transition-colors duration-200"
+                  >
+                    <FaRegUser size={18} />
+                    Sign In
                   </Link>
-                </Button>
+                  <Link
+                    to="/sign_up"
+                    onClick={toggleMobileMenu}
+                    className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl border-2 border-[#E26C29] text-[#E26C29] text-base font-medium hover:bg-[#E26C29] hover:text-white transition-colors duration-200"
+                  >
+                    <FaRegUser size={18} />
+                    Sign Up
+                  </Link>
+                </div>
               )}
             </div>
           </div>
@@ -233,20 +298,28 @@ export function Navbar() {
       <Dialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Confirm Logout</DialogTitle>
-            <DialogDescription>
+            <DialogTitle className="text-xl font-bold">
+              Confirm Logout
+            </DialogTitle>
+            <DialogDescription className="text-base">
               Are you sure you want to log out of your account?
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter>
+          <DialogFooter className="">
             <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DialogClose>
-            <DialogClose>
-              <Button onClick={handleLogOut} type="submit" asChild>
-                <button className="cursor-pointer">Logout</button>
+              <Button
+                variant="outline"
+                className="w-full sm:w-auto cursor-pointer"
+              >
+                Cancel
               </Button>
             </DialogClose>
+            <Button
+              onClick={handleLogOut}
+              className="bg-red-600 hover:bg-red-700 text-white w-full sm:w-auto cursor-pointer"
+            >
+              Logout
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

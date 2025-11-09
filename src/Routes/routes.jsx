@@ -60,10 +60,7 @@ export const router = createBrowserRouter([
         path: "/book-consultation/:id",
         element: <BookConsultationPage />,
       },
-      // {
-      //   path: "/get-listed",
-      //   element: <GetListedController />,
-      // },
+
       {
         path: "/get-listed",
         element: <GetListHandler />,

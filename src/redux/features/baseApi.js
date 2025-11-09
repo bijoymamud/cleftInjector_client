@@ -26,7 +26,7 @@ export const baseApi = createApi({
         },
     }),
 
-    tagTypes: ["user", "appointment", "patientProfile", "review", "bookingList"],
+    tagTypes: ["user", "appointment", "patientProfile", "review", "bookingList", "consultation"],
 
     endpoints: (builder) => ({
 
@@ -99,9 +99,31 @@ export const baseApi = createApi({
 
         //injector search from home page
         searchInjectorsFromHome: builder.query({
-            query: (search) => `/injector/list/?search=${encodeURIComponent(search)}`,
+            query: (search) => `injector/list/?search=${encodeURIComponent(search)}`,
         }),
 
+
+
+        // implementation baki ache 
+
+
+        // provider section
+
+        //provider dashboard data
+        getDashboardData: builder.query({
+            query: () => "/dashboard/"
+        }),
+
+        //consultation list
+        getAllConsultation: builder.query({
+            query: () => "dashboard/consultations/",
+            providesTags: ["consultation"]
+        }),
+
+        //consultation details
+        getConsultationDetails: builder.query({
+            query: (id) => `dashboard/consultations/${id}`,
+        })
 
 
     }),
@@ -117,5 +139,10 @@ export const {
     useGetPatientDataQuery,
     useSearchInjectorQuery,
     useSearchInjectorsFromHomeQuery,
+
+    //dashboard data
+    useGetDashboardDataQuery,
+    useGetAllConsultationQuery,
+    useGetConsultationDetailsQuery,
 
 } = baseApi

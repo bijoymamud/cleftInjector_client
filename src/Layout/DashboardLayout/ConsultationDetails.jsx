@@ -1,4 +1,10 @@
+import {
+  baseUrlToBackend,
+  useGetConsultationDetailsQuery,
+} from "@/redux/features/baseApi";
 import { Calendar, Mail, Phone, Users } from "lucide-react";
+import { IoIosArrowBack } from "react-icons/io";
+
 import React from "react";
 import { useLocation, useParams } from "react-router";
 
@@ -10,13 +16,29 @@ const ConsultationDetails = () => {
   console.log("consultation data", consultation?.fee);
   console.log(id);
 
+  const { data: consultationDetails } = useGetConsultationDetailsQuery(id);
+  console.log(consultationDetails, "details");
+
   return (
     <div>
-      <h1 className="text-2xl font-semibold text-[#1A1A1A]">
-        Consultation Details
-      </h1>
+      <div>
+        <h1 className="text-2xl font-semibold text-[#1A1A1A]">
+          Consultation Details
+        </h1>
+
+        <div>
+          <button className="flex items-center gap-2 text-lg cursor-pointer bg font-semibold">
+            <IoIosArrowBack size={18} />
+            Back
+          </button>
+        </div>
+      </div>
       <p className="text-[#676767] py-3 text-lg font-medium">
-        Detailed information for {consultation?.name}
+        Detailed information for{" "}
+        <span className="text-tagline text-xl font-semibold">
+          {consultationDetails?.patient_first_name} {""}
+          {consultationDetails?.patient_last_name}
+        </span>
       </p>
 
       <div className="bg-white rounded-lg shadow drop-shadow-md p-10 border border-gray-200 my-10">
@@ -28,16 +50,21 @@ const ConsultationDetails = () => {
         </div>
         <div className="flex items-center gap-6 my-10">
           <img
-            src={consultation?.image}
-            alt=""
+            src={
+              consultationDetails?.injector_image
+                ? `${baseUrlToBackend}${consultationDetails.injector_image}`
+                : "/default-profile.png"
+            }
+            alt={consultationDetails?.patient_first_name}
             className="rounded-full w-[80px] h-[80px] object-cover"
           />
 
           <div>
             <h1 className="text-xl text-[#171717] font-medium">
-              {consultation?.name}
+              {consultationDetails?.patient_first_name} {""}
+              {consultationDetails?.patient_last_name}
             </h1>
-            <p className="text-[#E26C29] font-semibold">
+            <p className="text-[#E26C29] font-semibold capitalize">
               {consultation?.status}
             </p>
           </div>
@@ -50,7 +77,9 @@ const ConsultationDetails = () => {
             <Mail size={20} className="text-[#E26C29]" />
             <div>
               <h1 className="text-[#575757] font-medium">Email</h1>
-              <p className="font-medium">{consultation?.email}</p>
+              <p className="font-medium">
+                {consultationDetails?.patient_email}
+              </p>
             </div>
           </div>
 
@@ -58,7 +87,9 @@ const ConsultationDetails = () => {
             <Phone size={20} className="text-[#E26C29]" />
             <div>
               <h1 className="text-[#575757] font-medium">Phone</h1>
-              <p className="font-medium">{consultation?.phone}</p>
+              <p className="font-medium">
+                {consultationDetails?.patient_phone}
+              </p>
             </div>
           </div>
 
@@ -66,7 +97,9 @@ const ConsultationDetails = () => {
             <Mail size={20} className="text-[#E26C29]" />
             <div>
               <h1 className="text-[#575757] font-medium">Location</h1>
-              <p className="font-medium">{consultation?.location}</p>
+              <p className="font-medium">
+                {consultationDetails?.patient_location || "Los Angels"}
+              </p>
             </div>
           </div>
         </div>
@@ -85,7 +118,9 @@ const ConsultationDetails = () => {
             <div className="flex items-center gap-3">
               <div>
                 <h1 className="text-[#575757] font-medium text-lg">Doctor</h1>
-                <p className="font-medium">{consultation?.name}</p>
+                <p className="font-medium">
+                  {consultationDetails?.injector_name}
+                </p>
               </div>
             </div>
 
@@ -94,7 +129,26 @@ const ConsultationDetails = () => {
                 <h1 className="text-[#575757] font-medium text-lg">
                   Date & Time
                 </h1>
-                <p className="font-medium">{consultation?.time}</p>
+                <p className="font-medium">
+                  {consultationDetails?.appointment_datetime && (
+                    <>
+                      {new Date(
+                        consultationDetails.appointment_datetime
+                      ).toLocaleDateString([], {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      })}{" "}
+                      ,{" "}
+                      {new Date(
+                        consultationDetails.appointment_datetime
+                      ).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </>
+                  )}
+                </p>
               </div>
             </div>
 
@@ -104,7 +158,7 @@ const ConsultationDetails = () => {
                   Consultation Fee
                 </h1>
                 <p className="font-semibold text-[#E26C29] text-lg">
-                  ${consultation?.fee}
+                  ${consultationDetails?.consultation_fee}
                 </p>
               </div>
             </div>
@@ -113,7 +167,7 @@ const ConsultationDetails = () => {
             <h5 className="text-lg font-medium underline text-[#464646]">
               Reason:
             </h5>
-            <p className="py-2">{consultation?.reason}</p>
+            <p className="py-2">{consultationDetails?.reason_for_visit}</p>
           </div>
         </div>
       </div>

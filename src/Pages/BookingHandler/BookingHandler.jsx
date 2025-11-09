@@ -111,7 +111,7 @@ export default function BookConsultationPage() {
               <span className="text-black text-lg">Sarah Johnson</span>
             </CardTitle>
             <div className="flex items-center justify-center gap-8 my-10">
-              {steps.map((step, index) => (
+              {steps?.map((step, index) => (
                 <div key={step.number} className="flex items-center gap-2">
                   <div
                     className={`w-12 h-12 ${

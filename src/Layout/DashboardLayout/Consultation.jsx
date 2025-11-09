@@ -3,6 +3,7 @@ import { Search, Clock, MapPin, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router";
+import { useGetAllConsultationQuery } from "@/redux/features/baseApi";
 
 const consultations = [
   {
@@ -103,6 +104,8 @@ const consultations = [
 
 export default function Consultation() {
   const [activeFilter, setActiveFilter] = useState("All");
+  const { data: consultationData } = useGetAllConsultationQuery();
+  console.log(consultationData, "ccccccccccccc");
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -187,44 +190,63 @@ export default function Consultation() {
           </div>
         </div>
 
-        {/* Consultation List */}
         <div className="space-y-6">
-          {consultations.map((consultation) => (
+          {consultationData?.map((consultation) => (
             <div
               key={consultation.id}
               className="bg-[#E26C290D] cursor-pointer rounded-lg shadow-sm p-4 hover:shadow-md transition-shadow"
             >
               <div className="flex items-start gap-4">
-                {/* Avatar */}
-
                 <img
-                  src={consultation?.image}
-                  alt=""
+                  src={
+                    consultation?.patient_image ||
+                    "https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvczc3LW1ja2luc2V5LTc2MTEtcG9tXzMuanBn.jpg"
+                  }
+                  alt={consultation?.patient_name}
                   className="rounded-full w-[100px] h-[100px] object-cover"
                 />
 
-                {/* Content */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-2">
                     <h3 className="font-semibold text-gray-900 text-xl">
-                      {consultation.name}
+                      {consultation.patient_name}
                     </h3>
                     <span
-                      className={`px-2 py-0.5 rounded-full  text-[14px] font-semibold ${getStatusColor(
-                        consultation.status
-                      )}`}
+                      className={`px-2 py-0.5 capitalize rounded-full text-[14px] font-semibold ${
+                        consultation.status === "pending"
+                          ? "bg-[#E26C29] text-white"
+                          : consultation.status === "confirmed"
+                          ? "bg-green-500 text-white"
+                          : "bg-gray-300 text-gray-700"
+                      }`}
                     >
                       {consultation.status}
                     </span>
                   </div>
                   <div className="flex items-center gap-4 text-sm text-gray-600 mb-2">
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-1 text-sm text-gray-600">
                       <Clock className="w-4 h-4" />
-                      <span>{consultation.time}</span>
+                      <span>
+                        {new Date(
+                          consultation?.appointment_datetime
+                        ).toLocaleDateString([], {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        })}
+                        {" • "}
+                        {new Date(
+                          consultation?.appointment_datetime
+                        ).toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </span>
                     </div>
+
                     <div className="flex items-center gap-1">
                       <MapPin className="w-4 h-4" />
-                      <span>{consultation.step}</span>
+                      <span>{consultation.location || "Los Angels"}</span>
                     </div>
                   </div>
                   <p className="text-base text-[#656464]">
@@ -233,7 +255,6 @@ export default function Consultation() {
                   </p>
                 </div>
 
-                {/* Action Buttons */}
                 <div className="flex items-center gap-2 flex-shrink-0 ">
                   <Link
                     to={`/provider/consultation_details/${consultation?.id}`}
