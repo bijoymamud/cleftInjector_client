@@ -6,11 +6,12 @@ import { Calendar, Mail, Phone, Users } from "lucide-react";
 import { IoIosArrowBack } from "react-icons/io";
 
 import React from "react";
-import { useLocation, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 
 const ConsultationDetails = () => {
   const { id } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const consultation = location?.state;
   console.log("consultation data", consultation?.fee);
@@ -21,13 +22,16 @@ const ConsultationDetails = () => {
 
   return (
     <div>
-      <div>
+      <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold text-[#1A1A1A]">
           Consultation Details
         </h1>
 
         <div>
-          <button className="flex items-center gap-2 text-lg cursor-pointer bg font-semibold">
+          <button
+            onClick={() => navigate(-1)}
+            className="inline-flex items-center justify-center gap-2 whitespace-nowrap px-4 !shadow-md h-10 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-primary/90 bg-gradient-to-r hover:cursor-pointer from-[#cf5a16] to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-full font-semibold  hover:shadow-xl transition-all duration-300 text-lg"
+          >
             <IoIosArrowBack size={18} />
             Back
           </button>

@@ -26,6 +26,8 @@ import {
 import { toast } from "sonner";
 import { useDispatch } from "react-redux";
 import { baseApi } from "@/redux/features/baseApi";
+import { FiUserPlus } from "react-icons/fi";
+import { LuUser } from "react-icons/lu";
 
 const navigation = [
   { name: "Home", to: "/" },
@@ -167,16 +169,16 @@ export function Navbar() {
               <>
                 <Link
                   to="/sign_in"
-                  className="flex items-center gap-2 px-6 py-3 rounded-xl bg-[#E26C29] text-white text-base font-medium hover:bg-[#D55F22] transition-colors duration-200"
+                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap px-6 h-12 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-primary/90 bg-gradient-to-r hover:cursor-pointer  from-[#cf5a16] to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 text-lg"
                 >
-                  <FaRegUser size={18} />
+                  <LuUser className="!h-5 !w-5" />
                   Sign In
                 </Link>
                 <Link
                   to="/sign_up"
-                  className="flex items-center gap-2 px-6 py-3 rounded-xl bg-[#E26C29] text-white text-base font-medium hover:bg-[#D55F22] transition-colors duration-200"
+                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap px-6 h-12 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-primary/90 bg-gradient-to-r hover:cursor-pointer from-[#cf5a16] to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 text-lg"
                 >
-                  <FaRegUser size={18} />
+                  <FiUserPlus className="!h-5 !w-5" />
                   Sign Up
                 </Link>
               </>
@@ -274,7 +276,7 @@ export function Navbar() {
                   <Link
                     to="/sign_in"
                     onClick={toggleMobileMenu}
-                    className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#E26C29] text-white text-base font-medium hover:bg-[#D55F22] transition-colors duration-200"
+                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-primary/90 h-9 has-[>svg]:px-3 bg-gradient-to-r hover:cursor-pointer text-base from-[#cf5a16] to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-full px-6 py-2 font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
                   >
                     <FaRegUser size={18} />
                     Sign In
@@ -282,7 +284,7 @@ export function Navbar() {
                   <Link
                     to="/sign_up"
                     onClick={toggleMobileMenu}
-                    className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl border-2 border-[#E26C29] text-[#E26C29] text-base font-medium hover:bg-[#E26C29] hover:text-white transition-colors duration-200"
+                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-primary/90 h-9 has-[>svg]:px-3 bg-gradient-to-r hover:cursor-pointer text-base from-[#cf5a16] to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-full px-6 py-2 font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
                   >
                     <FaRegUser size={18} />
                     Sign Up

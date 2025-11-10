@@ -18,13 +18,13 @@ const Footer = () => {
 
         <div className="space-x-4 py-3 flex items-center justify-center">
           <Link to="/get-listed">
-            <button className="border cursor-pointer px-10 bg-[#E26C29]  hover:bg-[#cf5a16]hover:text-black text-white border-none py-3 rounded-[12px] font-medium flex items-center gap-2">
+            <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap px-10 h-13 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-primary/90 bg-gradient-to-r hover:cursor-pointer from-[#cf5a16] to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white  font-semibold shadow-lg hover:shadow-xl transition-all duration-300 text-lg rounded-[12px]">
               <FaRegUser size={20} />
               Get Listed
             </button>
           </Link>
           <Link to="/directory">
-            <button className="border border-white text-white cursor-pointer px-10 py-3 rounded-[12px]">
+            <button className="border border-white text-lg text-white cursor-pointer px-10 h-13 rounded-[12px]">
               Brows Directory
             </button>
           </Link>

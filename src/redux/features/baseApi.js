@@ -123,7 +123,34 @@ export const baseApi = createApi({
         //consultation details
         getConsultationDetails: builder.query({
             query: (id) => `dashboard/consultations/${id}`,
-        })
+
+        }),
+
+        //cancel consultation
+        cancelConsultation: builder.mutation({
+            query: ({ id, status }) => ({
+                url: `dashboard/consultations/${id}/update-status/`,
+                method: "PATCH",
+                body: { status }
+            }),
+            invalidatesTags: ["consultation"]
+        }),
+
+        //accept consultation
+        acceptConsultation: builder.mutation({
+            query: ({ id, status }) => ({
+                url: `dashboard/consultations/${id}/update-status/`,
+                method: "PATCH",
+                body: { status }
+            }),
+            invalidatesTags: ["consultation"]
+        }),
+
+        //reviews
+
+        getReviews: builder.query({
+            query: () => "dashboard/reviews"
+        }),
 
 
     }),
@@ -144,5 +171,13 @@ export const {
     useGetDashboardDataQuery,
     useGetAllConsultationQuery,
     useGetConsultationDetailsQuery,
+
+    //cancel consultation
+    useCancelConsultationMutation,
+    //accept consultation
+    useAcceptConsultationMutation,
+
+    useGetReviewsQuery,
+
 
 } = baseApi

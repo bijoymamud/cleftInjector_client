@@ -45,14 +45,14 @@ export default function SignIn() {
       }, 1000);
     } catch (error) {
       console.log(error);
-      const message = error?.error || error?.data?.error || "Login failed";
+      const message = error?.error || error?.data?.detail || "Login failed";
       toast.error(message || "Something went wrong. Please try again.");
     }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex">
-      <Toaster position="top-right" richColors />
+      <Toaster position="bottom-right" richColors />
 
       <div className="hidden lg:flex items-center justify-center w-full lg:basis-8/12 bg-gradient-to-br from-orange-50 to-blue-50">
         <img

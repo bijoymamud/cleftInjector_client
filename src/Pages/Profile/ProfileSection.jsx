@@ -124,7 +124,7 @@ const ProfileSection = ({ setIsPasswordDialogOpen }) => {
 
   return (
     <div>
-      <Toaster />
+      <Toaster position="bottom-right" />
       <div className="space-y-6">
         <Card>
           <CardHeader>
