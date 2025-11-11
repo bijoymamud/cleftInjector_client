@@ -1,10 +1,12 @@
 // import { MoveRight, Upload, Trash2, Plus } from "lucide-react";
-// import { useForm, useFieldArray } from "react-hook-form";
-// import { useState } from "react";
+// import { useForm, useFieldArray, useFormContext } from "react-hook-form";
+// import { useState, useEffect } from "react";
 
 // export const ListingStep4 = ({ onSubmit, onBack, initialData }) => {
-//   const { register, handleSubmit, control } = useForm({
+//   // We re-initialize the form using the hook for full control
+//   const { register, handleSubmit, control, setValue, getValues } = useForm({
 //     defaultValues: initialData || {
+//       // Use the structure that will hold the File object
 //       certifications: [{ title: "", document: null }],
 //     },
 //   });
@@ -13,20 +15,41 @@
 //     control,
 //     name: "certifications",
 //   });
+
+//   // State to hold the display name for uploaded files
 //   const [fileNames, setFileNames] = useState({});
+
+//   // Populate fileNames state on initial data load
+//   useEffect(() => {
+//     if (initialData?.certifications) {
+//       const names = initialData.certifications.reduce((acc, cert, index) => {
+//         if (cert.document instanceof File) {
+//           acc[index] = cert.document.name;
+//         }
+//         return acc;
+//       }, {});
+//       setFileNames(names);
+//     }
+//   }, [initialData]);
 
 //   const handleFileChange = (index, e) => {
 //     const file = e.target.files[0];
 //     if (file) {
-//       setValue(`certifications.${index}.document`, file);
+//       // Use setValue to correctly set the File object in the React Hook Form state
+//       setValue(`certifications.${index}.document`, file, { shouldDirty: true });
 //       setFileNames((prev) => ({ ...prev, [index]: file.name }));
 //     }
 //   };
 
-//   const { setValue } = useForm().control;
+//   // onSubmit will pass the data object which contains the certifications array with File objects.
+//   const onFormSubmit = (data) => {
+//     onSubmit(data);
+//   };
 
 //   return (
 //     <div className="space-y-6">
+//       {/* Wrap the form content with an actual form element if this component handles the submit,
+//           but since we are using handleSubmit(onFormSubmit) on the button, this is fine. */}
 //       <div className="bg-white rounded-lg border border-gray-200 p-6">
 //         <h3 className="text-xl font-semibold text-gray-800 mb-2">
 //           Verification & Documentation
@@ -83,6 +106,7 @@
 //                 <input
 //                   type="file"
 //                   accept=".pdf,.jpg,.png"
+//                   // We use onChange and setValue manually to handle the File object
 //                   onChange={(e) => handleFileChange(index, e)}
 //                   className="hidden"
 //                   id={`file-${index}`}
@@ -129,7 +153,7 @@
 //           Back
 //         </button>
 //         <button
-//           onClick={handleSubmit(onSubmit)}
+//           onClick={handleSubmit(onFormSubmit)}
 //           className="bg-[#E26C29] hover:bg-orange-600 px-8 py-2 rounded-md flex items-center gap-2 text-white text-lg font-semibold"
 //         >
 //           Next <MoveRight />
@@ -140,14 +164,12 @@
 // };
 
 import { MoveRight, Upload, Trash2, Plus } from "lucide-react";
-import { useForm, useFieldArray, useFormContext } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { useState, useEffect } from "react";
 
 export const ListingStep4 = ({ onSubmit, onBack, initialData }) => {
-  // We re-initialize the form using the hook for full control
-  const { register, handleSubmit, control, setValue, getValues } = useForm({
+  const { register, handleSubmit, control, setValue } = useForm({
     defaultValues: initialData || {
-      // Use the structure that will hold the File object
       certifications: [{ title: "", document: null }],
     },
   });
@@ -157,40 +179,56 @@ export const ListingStep4 = ({ onSubmit, onBack, initialData }) => {
     name: "certifications",
   });
 
-  // State to hold the display name for uploaded files
+  // State to track file names for display
   const [fileNames, setFileNames] = useState({});
+  // State to store actual File objects
+  const [fileObjects, setFileObjects] = useState({});
 
-  // Populate fileNames state on initial data load
+  // Load initial data if available
   useEffect(() => {
     if (initialData?.certifications) {
-      const names = initialData.certifications.reduce((acc, cert, index) => {
+      const names = {};
+      const files = {};
+
+      initialData.certifications.forEach((cert, index) => {
         if (cert.document instanceof File) {
-          acc[index] = cert.document.name;
+          names[index] = cert.document.name;
+          files[index] = cert.document;
         }
-        return acc;
-      }, {});
+      });
+
       setFileNames(names);
+      setFileObjects(files);
     }
   }, [initialData]);
 
   const handleFileChange = (index, e) => {
     const file = e.target.files[0];
     if (file) {
-      // Use setValue to correctly set the File object in the React Hook Form state
-      setValue(`certifications.${index}.document`, file, { shouldDirty: true });
+      // Store file in state
+      setFileObjects((prev) => ({ ...prev, [index]: file }));
       setFileNames((prev) => ({ ...prev, [index]: file.name }));
+
+      // Update form value
+      setValue(`certifications.${index}.document`, file, { shouldDirty: true });
     }
   };
 
-  // onSubmit will pass the data object which contains the certifications array with File objects.
   const onFormSubmit = (data) => {
-    onSubmit(data);
+    // Merge file objects with form data
+    const certificationsWithFiles = data.certifications.map((cert, index) => ({
+      ...cert,
+      document: fileObjects[index] || cert.document,
+    }));
+
+    onSubmit({
+      ...data,
+      certifications: certificationsWithFiles,
+    });
   };
 
   return (
     <div className="space-y-6">
-      {/* Wrap the form content with an actual form element if this component handles the submit, 
-          but since we are using handleSubmit(onFormSubmit) on the button, this is fine. */}
       <div className="bg-white rounded-lg border border-gray-200 p-6">
         <h3 className="text-xl font-semibold text-gray-800 mb-2">
           Verification & Documentation
@@ -232,6 +270,11 @@ export const ListingStep4 = ({ onSubmit, onBack, initialData }) => {
                         delete updated[index];
                         return updated;
                       });
+                      setFileObjects((prev) => {
+                        const updated = { ...prev };
+                        delete updated[index];
+                        return updated;
+                      });
                     }}
                     className="ml-2 text-red-500"
                   >
@@ -247,18 +290,17 @@ export const ListingStep4 = ({ onSubmit, onBack, initialData }) => {
                 <input
                   type="file"
                   accept=".pdf,.jpg,.png"
-                  // We use onChange and setValue manually to handle the File object
                   onChange={(e) => handleFileChange(index, e)}
                   className="hidden"
                   id={`file-${index}`}
                 />
                 <label
                   htmlFor={`file-${index}`}
-                  className="border-2 border-dashed rounded-lg p-4 cursor-pointer flex flex-col items-center"
+                  className="border-2 border-dashed rounded-lg p-4 cursor-pointer flex flex-col items-center hover:border-orange-300 transition-colors"
                 >
                   <Upload className="w-10 h-10 text-gray-400 mb-2" />
                   <p className="text-sm text-gray-500">
-                    {fileNames[index] || "Drag & drop or click"}
+                    {fileNames[index] || "Drag & drop or click to upload"}
                   </p>
                 </label>
               </div>
@@ -289,13 +331,13 @@ export const ListingStep4 = ({ onSubmit, onBack, initialData }) => {
       <div className="flex justify-between">
         <button
           onClick={onBack}
-          className="px-8 py-2 rounded-md border border-gray-300 text-lg font-semibold"
+          className="px-8 py-2 rounded-md border border-gray-300 text-lg font-semibold hover:bg-gray-50 transition-colors"
         >
           Back
         </button>
         <button
           onClick={handleSubmit(onFormSubmit)}
-          className="bg-[#E26C29] hover:bg-orange-600 px-8 py-2 rounded-md flex items-center gap-2 text-white text-lg font-semibold"
+          className="bg-[#E26C29] hover:bg-orange-600 px-8 py-2 rounded-md flex items-center gap-2 text-white text-lg font-semibold transition-colors"
         >
           Next <MoveRight />
         </button>

@@ -153,7 +153,7 @@ export default function Consultation() {
             </div>
 
             <div className="flex gap-2 flex-wrap">
-              {["All", "Pending", "Confirmed", "Cancelled"].map((filter) => (
+              {["All", "Pending", "Confirmed", "Completed"].map((filter) => (
                 <Button
                   key={filter}
                   variant={activeFilter === filter ? "default" : "outline"}

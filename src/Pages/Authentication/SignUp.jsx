@@ -54,7 +54,14 @@ export default function SignUp() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex">
-      <Toaster position="top-right" />
+      <Toaster
+        richColors
+        position="bottom-right"
+        toastOptions={{
+          success: { className: "bg-green-600 text-white" },
+          error: { className: "bg-red-600 text-white" },
+        }}
+      />
 
       {/* Left side - Illustration */}
       <div className="hidden lg:flex items-center justify-center w-full basis-8/12">

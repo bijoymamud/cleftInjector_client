@@ -62,7 +62,7 @@ export default function Profile() {
               <Avatar className="w-[250px] h-[250px] rounded-full ">
                 <img
                   src={injectorData?.profile_image}
-                  className="w-full h-full"
+                  className="w-full h-full object-cover"
                 />
               </Avatar>
 
@@ -112,22 +112,9 @@ export default function Profile() {
                   </div>
                 </div>
 
-                {/* <Link
-                  to={`/book-consultation/${injectorData?.id}`}
-                  state={{
-                    availability: injectorAvailability,
-                    injector: injectorinfo,
-                  }}
-                  className="flex gap-3 w-[10px]"
-                >
-                  <Button className="bg-orange-500 hover:bg-orange-600 text-md flex cursor-pointer items-center gap-2">
-                    <Calendar className="w-4 h-4" />
-                    Book Consultation
-                  </Button>
-                </Link> */}
                 <Button
                   onClick={handleConsultationBook}
-                  className="bg-orange-500 hover:bg-orange-600 text-md flex cursor-pointer items-center gap-2"
+                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap h-12 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-primary/90 bg-gradient-to-r hover:cursor-pointer from-[#cf5a16] to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-300 text-lg hover:text-white !px-7 !py-5"
                 >
                   <Calendar className="w-4 h-4" />
                   Book Consultation

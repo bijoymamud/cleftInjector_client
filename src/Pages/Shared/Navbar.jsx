@@ -124,7 +124,7 @@ export function Navbar() {
                 <DropdownMenuTrigger asChild>
                   <Avatar className="w-[50px] h-[50px] cursor-pointer ring-2 ring-orange-200 hover:ring-orange-400 transition-all">
                     <AvatarImage
-                      src={userProfile?.profile_image}
+                      src={userProfile?.profile?.profile_image}
                       alt={userProfile?.first_name || "User"}
                     />
                     <AvatarFallback className="bg-orange-500 text-white font-semibold">
@@ -144,20 +144,24 @@ export function Navbar() {
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuGroup>
+                    <DropdownMenuItem>
+                      {userProfile?.profile?.email}
+                    </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <Link
                         to={
-                          userProfile?.role === "provider"
+                          userProfile?.profile?.role === "provider"
                             ? "/provider/provider_home"
                             : "/user_profile"
                         }
-                        className="cursor-pointer"
+                        className="cursor-pointer font-semibold !text-base"
                       >
                         Profile
                       </Link>
                     </DropdownMenuItem>
+
                     <DropdownMenuItem
-                      className="cursor-pointer text-red-600 focus:text-red-600"
+                      className="cursor-pointer font-semibold !text-base text-red-600 focus:text-red-600"
                       onSelect={() => setShowLogoutDialog(true)}
                     >
                       Logout

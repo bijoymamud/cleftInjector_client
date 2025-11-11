@@ -84,55 +84,61 @@ export default function ConsultationDashboard() {
               </h2>
             </div>
             <div className="p-4">
-              <div className="space-y-4">
-                {upcoming.map((data, i) => (
-                  <div
-                    key={i}
-                    className="flex border bg-white hover:cursor-pointer items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors"
-                  >
-                    <div className="flex items-center space-x-3">
-                      <img
-                        src={data?.patient_image}
-                        alt={data.patient_name}
-                        className="w-10 h-10 rounded-full object-cover"
-                      />
-                      <div>
-                        <div className="font-semibold text-gray-900">
-                          {data.patient_name}
-                        </div>
-                        <div className="flex items-center space-x-4 text-sm text-gray-500">
-                          <div className="flex items-center space-x-1">
-                            <Clock className="w-4 h-4" />
-                            <span>
-                              {new Date(
-                                data?.appointment_datetime
-                              ).toLocaleTimeString([], {
-                                hour: "2-digit",
-                                minute: "2-digit",
-                              })}
-                            </span>
+              {upcoming.length === 0 ? (
+                <div className="text-center text-gray-500 py-10 font-medium">
+                  Currently no consultation in queue
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {upcoming.map((data, i) => (
+                    <div
+                      key={i}
+                      className="flex border bg-white hover:cursor-pointer items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors"
+                    >
+                      <div className="flex items-center space-x-3">
+                        <img
+                          src={data?.patient_image}
+                          alt={data.patient_name}
+                          className="w-10 h-10 rounded-full object-cover"
+                        />
+                        <div>
+                          <div className="font-semibold text-gray-900">
+                            {data.patient_name}
                           </div>
-                          <div className="flex items-center space-x-1">
-                            <Calendar className="w-4 h-4" />
-                            <span>
-                              {new Date(
-                                data?.appointment_datetime
-                              ).toLocaleDateString([], {
-                                year: "numeric",
-                                month: "short",
-                                day: "numeric",
-                              })}
-                            </span>
+                          <div className="flex items-center space-x-4 text-sm text-gray-500">
+                            <div className="flex items-center space-x-1">
+                              <Clock className="w-4 h-4" />
+                              <span>
+                                {new Date(
+                                  data?.appointment_datetime
+                                ).toLocaleTimeString([], {
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                })}
+                              </span>
+                            </div>
+                            <div className="flex items-center space-x-1">
+                              <Calendar className="w-4 h-4" />
+                              <span>
+                                {new Date(
+                                  data?.appointment_datetime
+                                ).toLocaleDateString([], {
+                                  year: "numeric",
+                                  month: "short",
+                                  day: "numeric",
+                                })}
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
+                      <div className="text-sm text-orange-500 font-semibold capitalize">
+                        {data?.status}
+                      </div>
                     </div>
-                    <div className="text-sm text-orange-500 font-semibold capitalize">
-                      {data?.status}
-                    </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 

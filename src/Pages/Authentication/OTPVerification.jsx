@@ -157,7 +157,14 @@ export default function OTPVerification() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex">
-      <Toaster position="top-right" />
+      <Toaster
+        richColors
+        position="bottom-right"
+        toastOptions={{
+          success: { className: "bg-green-600 text-white" },
+          error: { className: "bg-red-600 text-white" },
+        }}
+      />
       <div className="hidden lg:flex items-center justify-center w-full basis-8/12">
         <img
           src="https://i.ibb.co.com/HLmGB8Fx/64e78d2cd51524aaf4f8ce12-64e78d0d294a3db1449d0c31-Do-I-need-identity-theft-protection-lead-image.webp"

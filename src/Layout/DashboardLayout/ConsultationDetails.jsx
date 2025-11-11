@@ -101,9 +101,6 @@ const ConsultationDetails = () => {
             <Mail size={20} className="text-[#E26C29]" />
             <div>
               <h1 className="text-[#575757] font-medium">Location</h1>
-              <p className="font-medium">
-                {consultationDetails?.patient_location || "Los Angels"}
-              </p>
             </div>
           </div>
         </div>
