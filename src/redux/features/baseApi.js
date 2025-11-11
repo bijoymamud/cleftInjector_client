@@ -26,7 +26,7 @@ export const baseApi = createApi({
         },
     }),
 
-    tagTypes: ["user", "appointment", "patientProfile", "review", "bookingList", "consultation"],
+    tagTypes: ["user", "appointment", "patientProfile", "review", "bookingList", "consultation", "injectorProfile"],
 
     endpoints: (builder) => ({
 
@@ -152,6 +152,24 @@ export const baseApi = createApi({
             query: () => "dashboard/reviews"
         }),
 
+        //settings section
+
+        //get providers data
+
+        getProviderProfile: builder.query({
+            query: () => "injector/",
+            providesTags: ["injectorProfile"]
+        }),
+
+        profileSettings: builder.mutation({
+            query: (providerData) => ({
+                url: "injector/settings/",
+                method: "PATCH",
+                body: providerData
+            }),
+            invalidatesTags: ["injectorProfile"]
+        })
+
 
     }),
 })
@@ -178,6 +196,10 @@ export const {
     useAcceptConsultationMutation,
 
     useGetReviewsQuery,
+
+    //settings
+    useGetProviderProfileQuery,
+    useProfileSettingsMutation,
 
 
 } = baseApi

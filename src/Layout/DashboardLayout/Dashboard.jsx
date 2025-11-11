@@ -100,7 +100,7 @@ const Dashboard = () => {
             <div className="flex-1 text-[#1A1A1A] font-bold text-2xl">
               Welcome back,{" "}
               <span className="text-tagline font-bold">
-                {userInfo?.full_name}
+                {userInfo?.profile?.full_name}
               </span>
             </div>
 
@@ -110,7 +110,7 @@ const Dashboard = () => {
                   <Avatar className="!w-12 !h-12">
                     <AvatarImage
                       src={
-                        userInfo?.profile_image ||
+                        userInfo?.profile?.profile_image ||
                         "https://github.com/shadcn.png"
                       }
                       alt="User"
