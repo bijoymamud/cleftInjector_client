@@ -89,7 +89,7 @@ export function Navbar() {
               <img
                 src="https://i.ibb.co.com/tp5FFNsL/Frame-2.png"
                 alt="Logo"
-                className="w-[140px] sm:w-[160px] h-auto"
+                className="w-[140px] sm:w-[160px] h-auto ps-2 md:ps-0"
               />
             </Link>
           </div>
