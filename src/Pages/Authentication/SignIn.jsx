@@ -33,7 +33,7 @@ export default function SignIn() {
       const response = await logIn(userData).unwrap();
       console.log("Success:", response);
 
-      toast.success(response?.data?.message || "Login successful!");
+      toast.success(response?.message || "Login successful!");
 
       localStorage.setItem("access_token", response?.access_token);
       localStorage.setItem("refresh_token", response?.refresh_token);

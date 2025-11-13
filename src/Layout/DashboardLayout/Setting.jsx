@@ -839,7 +839,7 @@ export default function Setting() {
       {/* Profile Picture Section */}
       <div className="bg-white rounded-lg shadow drop-shadow-lg p-6 border border-gray-200 mb-10">
         <div className="flex items-center gap-1 mb-2">
-          <Camera className="w-4 h-4 text-gray-600" />
+          <Camera className="w-5 h-5 text-gray-600" />
           <h2 className="text-lg font-semibold text-gray-900">
             Profile Picture
           </h2>
@@ -853,13 +853,13 @@ export default function Setting() {
             <img
               src={previewImage}
               alt="Profile"
-              className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-md"
+              className="w-28 h-28 rounded-full object-cover border-4 border-white shadow-md"
             />
             <label
               htmlFor="profile-upload"
-              className="absolute bottom-0 right-0 bg-orange-500 text-white p-1.5 rounded-full cursor-pointer hover:bg-orange-600 transition-colors"
+              className="absolute bottom-1 right-2 bg-orange-500 text-white p-1.5 rounded-full cursor-pointer hover:bg-orange-600 transition-colors"
             >
-              <Camera className="w-3 h-3" />
+              <Camera className="w-4 h-4" />
               <input
                 id="profile-upload"
                 type="file"
@@ -1113,10 +1113,8 @@ export default function Setting() {
         </div>
 
         {!editMode.bio ? (
-          // View Mode
           <p className="text-gray-700 leading-relaxed">{userData.bio}</p>
         ) : (
-          // Edit Mode
           <div>
             <textarea
               {...register("bio", {
@@ -1136,7 +1134,6 @@ export default function Setting() {
         )}
       </div>
 
-      {/* Consultation Fee Section */}
       <div className="bg-white rounded-lg shadow drop-shadow-lg p-6 border border-gray-200 mb-10">
         <div className="flex items-center gap-2 mb-4">
           <span className="text-orange-500">
@@ -1156,12 +1153,10 @@ export default function Setting() {
         </div>
 
         {!editMode.fee ? (
-          // View Mode
           <p className="text-3xl font-bold text-gray-900">
             ${userData.consultationFee}
           </p>
         ) : (
-          // Edit Mode
           <div>
             <input
               type="number"
@@ -1183,7 +1178,6 @@ export default function Setting() {
         )}
       </div>
 
-      {/* Save Button - Only show when in edit mode (excluding profile picture) */}
       {(editMode.details || editMode.bio || editMode.fee) && (
         <div className="flex justify-end gap-3">
           <button

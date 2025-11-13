@@ -1,10 +1,11 @@
 import React from "react";
 import { Calendar, Settings, Bell, LogOut } from "lucide-react";
 import { FaRegStar } from "react-icons/fa";
-import { Outlet, NavLink, Link } from "react-router";
+import { Outlet, NavLink, Link, useNavigate } from "react-router";
 import { BiCategory } from "react-icons/bi";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useGetUserProfileQuery } from "@/redux/features/baseApi";
+import { baseApi, useGetUserProfileQuery } from "@/redux/features/baseApi";
+import { useDispatch } from "react-redux";
 
 const Dashboard = () => {
   const sidebarItems = [
@@ -36,11 +37,19 @@ const Dashboard = () => {
   ];
 
   const { data: userInfo } = useGetUserProfileQuery();
-  console.log(userInfo, "dashboard");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleLogOut = () => {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    localStorage.clear();
+    dispatch(baseApi.util.resetApiState());
+    navigate("/sign_in", { replace: true });
+  };
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      {/* Sidebar - Sticky */}
       <div className="w-68 bg-white shadow-sm border-r border-gray-200 flex flex-col sticky top-0 h-screen">
         <div className="p-6">
           <Link to="/">
@@ -85,7 +94,10 @@ const Dashboard = () => {
         </nav>
 
         <div className="p-4 border-t border-gray-200">
-          <button className="flex items-center justify-center gap-3 px-4 py-2 cursor-pointer text-red-600 hover:bg-red-50 rounded-lg w-full text-left">
+          <button
+            onClick={handleLogOut}
+            className="flex items-center justify-center gap-3 px-4 py-2 cursor-pointer text-red-600 hover:bg-red-50 rounded-lg w-full text-left"
+          >
             <LogOut className="w-4 h-4" />
             <span className="text-base font-semibold">Log Out</span>
           </button>

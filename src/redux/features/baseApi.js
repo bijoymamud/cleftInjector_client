@@ -168,7 +168,17 @@ export const baseApi = createApi({
                 body: providerData
             }),
             invalidatesTags: ["injectorProfile"]
-        })
+        }),
+
+
+        //chatbot
+        sendMessage: builder.mutation({
+            query: (body) => ({
+                url: 'api/chat/',
+                method: 'POST',
+                body: body,
+            }),
+        }),
 
 
     }),

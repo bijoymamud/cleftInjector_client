@@ -69,15 +69,12 @@ export function Navbar() {
   const handleLogOut = () => {
     console.log("Logging out...");
 
-    // Clear localStorage
     localStorage.clear();
 
-    // Clear all RTK Query cache
     dispatch(baseApi.util.resetApiState());
 
     toast.success("Logged out successfully!");
 
-    // Close dialog and navigate
     setShowLogoutDialog(false);
     navigate("/sign_in");
   };
