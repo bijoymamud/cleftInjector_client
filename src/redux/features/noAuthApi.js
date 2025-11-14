@@ -8,7 +8,6 @@ export const noAuthApi = createApi({
     }),
     endpoints: (builder) => ({
 
-        //get list of injectors
 
         //getinjectors
         getFeaturedInjectors: builder.query({

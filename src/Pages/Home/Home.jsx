@@ -12,7 +12,6 @@ const Home = () => {
     <section>
       <Banner />
       <Features />
-      {/* <Specialist_Query /> */}
       <Injectors />
       <Testimonials />
       <Faq />

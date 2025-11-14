@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { CiSearch } from "react-icons/ci";
 import { GoSearch } from "react-icons/go";
 import { LuUsers } from "react-icons/lu";
 import { Link } from "react-router";
