@@ -226,8 +226,8 @@ export function Navbar() {
                   <DropdownMenuTrigger asChild>
                     <Avatar className="w-[50px] h-[50px] cursor-pointer ring-2 ring-orange-200">
                       <AvatarImage
-                        src={userProfile?.profile_image}
-                        alt={userProfile?.first_name || "User"}
+                        src={userProfile?.profile?.profile_image}
+                        alt={userProfile?.profile?.first_name || "User"}
                       />
                       <AvatarFallback className="bg-orange-500 text-white font-semibold">
                         {userProfile?.first_name?.charAt(0)?.toUpperCase() ||

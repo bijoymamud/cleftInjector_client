@@ -5,6 +5,7 @@ import Core_values from "./Core_values";
 import Impact from "./Impact";
 import Certification_Process from "./Certification_process";
 import Our_Vision from "./Our_Vision";
+import { Link } from "react-router";
 
 const About_us = () => {
   return (
@@ -49,14 +50,15 @@ const About_us = () => {
               professional excellence, and transparent communication throughout
               the entire treatment journey.
             </p>
-
-            <Button
-              variant="ghost"
-              className="mt-8 w-[250px] py-7 text-white rounded-xl text-lg  bg-[#E26C29]  hover:bg-[#E26C29]/95 cursor-pointer  flex items-center gap-3"
-            >
-              <Search className="h-5 w-5 text-white" />
-              Find a Specialist
-            </Button>
+            <Link to="/directory">
+              <Button
+                variant="ghost"
+                className="mt-8 w-[250px] py-7 text-white rounded-xl text-lg  bg-[#E26C29]  hover:bg-[#E26C29]/95 cursor-pointer  flex items-center gap-3"
+              >
+                <Search className="h-5 w-5 text-white" />
+                Find a Specialist
+              </Button>
+            </Link>
           </div>
 
           <div className="flex justify-center md:justify-end">

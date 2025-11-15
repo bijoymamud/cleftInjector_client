@@ -74,7 +74,7 @@ export default function SignUp() {
         </div>
       </div>
 
-      <div className="flex items-center justify-center w-full basis-6/12">
+      <div className="flex items-center justify-center w-full md:basis-6/12">
         <div className="w-full max-w-lg p-10 shadow-gray-300 shadow-md">
           <div className="mb-8">
             <h1 className="text-3xl text-gray-900 font-semibold text-center mb-2">
@@ -89,7 +89,7 @@ export default function SignUp() {
             <div>
               <label
                 htmlFor="full_name"
-                className="block text-sm font-medium text-label mb-2"
+                className="block text-sm font-semibold text-gray-700 mb-2"
               >
                 Full Name
               </label>
@@ -113,7 +113,7 @@ export default function SignUp() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-label mb-2"
+                className="block text-sm font-semibold text-gray-700 mb-2"
               >
                 E-mail
               </label>
@@ -141,7 +141,7 @@ export default function SignUp() {
             <div>
               <label
                 htmlFor="phone"
-                className="block text-sm font-medium text-label mb-2"
+                className="block text-sm font-semibold text-gray-700 mb-2"
               >
                 Phone Number
               </label>
@@ -165,7 +165,7 @@ export default function SignUp() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-label mb-2"
+                className="block text-sm font-semibold text-gray-700 mb-2"
               >
                 Password
               </label>
@@ -205,7 +205,7 @@ export default function SignUp() {
 
             {/* Role Select with Controller */}
             <div>
-              <label className="block text-sm font-medium text-label mb-2">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
                 Role
               </label>
               <Controller

@@ -62,8 +62,8 @@ export default function SignIn() {
         />
       </div>
 
-      <div className="flex items-center justify-center w-full lg:basis-6/12 p-4">
-        <div className="w-full max-w-lg p-8 sm:p-10 bg-white rounded-2xl shadow-xl">
+      <div className="flex items-center justify-center w-full lg:basis-6/12 md:p-4">
+        <div className="w-full max-w-lg p-8 sm:p-10  rounded-2xl md:shadow-xl">
           <div className="mb-8">
             <h1 className="text-3xl text-gray-900 font-bold text-center mb-2">
               Welcome Back

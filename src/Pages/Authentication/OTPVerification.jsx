@@ -121,7 +121,7 @@ export default function OTPVerification() {
     } catch (error) {
       console.log("Error during resending OTP:", error);
     } finally {
-      setOtpSubmitting(false); // Changed from setIsSubmitting to setOtpSubmitting
+      setOtpSubmitting(false);
     }
   };
 
@@ -174,8 +174,8 @@ export default function OTPVerification() {
       </div>
 
       {/* Right side */}
-      <div className="flex items-center justify-center w-full basis-6/12">
-        <div className="w-full max-w-lg p-10 shadow-gray-300 shadow-md">
+      <div className="flex items-center justify-center w-full md:basis-6/12">
+        <div className="w-full max-w-lg p-10 shadow-gray-300 md:shadow-md">
           <div className="mb-8">
             <button
               onClick={() => navigate(-1)}

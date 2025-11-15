@@ -55,8 +55,8 @@ export default function MailVerification() {
       </div>
 
       {/* Right side - Sign up form */}
-      <div className="  flex items-center justify-center w-full basis-6/12 ">
-        <div className="w-full max-w-lg p-10  shadow-gray-300 shadow-md">
+      <div className="  flex items-center justify-center w-full md:basis-6/12 ">
+        <div className="w-full max-w-lg p-10  shadow-gray-300 md:shadow-md">
           <div className="mb-8">
             <button
               onClick={() => navigate(-1)}
@@ -85,7 +85,7 @@ export default function MailVerification() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-label mb-2"
+                className="block text-sm font-semibold text-gray-700 mb-2"
               >
                 E-mail
               </label>
