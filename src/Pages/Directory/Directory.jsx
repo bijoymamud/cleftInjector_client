@@ -308,8 +308,8 @@ export default function Directory() {
   };
 
   return (
-    <div className="min-h-screen">
-      <div className="relative mb-8 md:mb-14 mt-16 md:mt-24 bg-white rounded-2xl shadow-lg overflow-hidden w-full container mx-auto px-4">
+    <div className="min-h-screen px-3 md:px-0">
+      <div className="relative mb-8 md:mb-14 mt-8 md:mt-24 bg-white rounded-2xl shadow-lg overflow-hidden w-full container mx-auto md:px-0">
         <div
           className="relative h-[40vh] md:h-[50vh] w-full bg-center bg-cover rounded-2xl"
           style={{
@@ -330,7 +330,7 @@ export default function Directory() {
       </div>
 
       {/* Search Form */}
-      <div className="bg-white container mx-auto px-4">
+      <div className="container mx-auto  md:px-0">
         <div className="container mx-auto">
           <div
             onSubmit={handleSubmit(onSubmit)}
@@ -384,7 +384,7 @@ export default function Directory() {
       <div className="w-full h-1 border-b shadow-2xl shadow-orange-500 container mx-auto border-gray-400"></div>
 
       {/* Main Content */}
-      <div className="container mx-auto py-6 md:py-10 px-4">
+      <div className="container mx-auto py-6 md:py-10 md:px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-10">
           {/* Map */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 order-2 lg:order-1">

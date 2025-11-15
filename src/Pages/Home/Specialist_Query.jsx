@@ -49,7 +49,7 @@ const Specialist_Query = () => {
 
       {/* Search Section */}
       <div className="bg-gradient-to-br from-orange-50 via-white to-blue-50 py-8 sm:py-12 md:py-16">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-3">
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-6 sm:mb-8">
               <h2 className="text-2xl sm:text-3xl md:text-[48px] font-bold text-title py-3 md:py-5">

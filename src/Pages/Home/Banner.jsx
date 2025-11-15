@@ -15,10 +15,10 @@ const Banner = () => {
   };
 
   return (
-    <section className="relative flex items-center justify-center md:h-[calc(100vh-80px)] w-full md:px-4 ">
-      <div className="relative bg-white md:rounded-2xl shadow-lg overflow-hidden w-full container">
+    <section className="relative flex items-center justify-center md:h-[calc(100vh-80px)] w-full md:px-4 px-3">
+      <div className="relative bg-white mt-8 md:mt-0 rounded-2xl shadow-lg overflow-hidden w-full container ">
         <div className="relative h-[50vh] sm:h-[60vh] md:h-[70vh] w-full bg-center bg-cover bg-[url('https://i.ibb.co/7xKZw4pS/banner.png')] rounded-2xl">
-          <div className="absolute inset-0 bg-black/65" />
+          <div className="absolute inset-0 bg-black/65  rounded-xl" />
 
           <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-4 sm:px-6 md:px-8">
             <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-4 tracking-wide">

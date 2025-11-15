@@ -1,5 +1,3 @@
-
-
 import React from "react";
 
 const Certification_Process = () => {
@@ -33,7 +31,6 @@ const Certification_Process = () => {
   return (
     <div className="md:py-20">
       <div className="pb-10 md:pb-14">
-        {/* Main Text */}
         <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-10">
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-title text-center leading-tight capitalize">
             Our Certification Process

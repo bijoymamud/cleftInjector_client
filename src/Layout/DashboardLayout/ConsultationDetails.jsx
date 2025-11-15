@@ -2,9 +2,8 @@ import {
   baseUrlToBackend,
   useGetConsultationDetailsQuery,
 } from "@/redux/features/baseApi";
-import { Calendar, Mail, Phone, Users } from "lucide-react";
+import { Calendar, Mail, Phone, Users, MapPin } from "lucide-react";
 import { IoIosArrowBack } from "react-icons/io";
-
 import React from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
 
@@ -14,163 +13,164 @@ const ConsultationDetails = () => {
   const navigate = useNavigate();
 
   const consultation = location?.state;
-  console.log("consultation data", consultation?.fee);
-  console.log(id);
-
   const { data: consultationDetails } = useGetConsultationDetailsQuery(id);
-  console.log(consultationDetails, "details");
+
+  // Helper – format date & time in one place
+  const formatDateTime = (dateStr) => {
+    if (!dateStr) return { date: "—", time: "" };
+    const d = new Date(dateStr);
+    return {
+      date: d.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      }),
+      time: d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+    };
+  };
+  const { date, time } = formatDateTime(
+    consultationDetails?.appointment_datetime
+  );
 
   return (
-    <div>
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-[#1A1A1A]">
-          Consultation Details
-        </h1>
+    <div className=" ">
+      <div>
+        {/* ---------- Header ---------- */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-5">
+          <h1 className="text-xl sm:text-2xl font-semibold text-[#1A1A1A]">
+            Consultation Details
+          </h1>
 
-        <div>
           <button
             onClick={() => navigate(-1)}
-            className="inline-flex items-center justify-center gap-2 whitespace-nowrap px-4 !shadow-md h-10 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-primary/90 bg-gradient-to-r hover:cursor-pointer from-[#cf5a16] to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-full font-semibold  hover:shadow-xl transition-all duration-300 text-lg"
+            className="inline-flex items-center justify-center gap-2 px-5 h-11 rounded-full font-semibold text-white bg-gradient-to-r from-[#cf5a16] to-orange-600 hover:from-orange-600 hover:to-orange-700 shadow-md hover:shadow-xl transition-all duration-300 text-sm sm:text-base"
           >
-            <IoIosArrowBack size={18} />
+            <IoIosArrowBack size={20} />
             Back
           </button>
         </div>
-      </div>
-      <p className="text-[#676767] py-3 text-lg font-medium">
-        Detailed information for{" "}
-        <span className="text-tagline text-xl font-semibold">
-          {consultationDetails?.patient_first_name} {""}
-          {consultationDetails?.patient_last_name}
-        </span>
-      </p>
 
-      <div className="bg-white rounded-lg shadow drop-shadow-md p-10 border border-gray-200 my-10">
-        <div className="flex items-center gap-5">
-          <Users size={24} className="text-[#E26C29]" />
-          <h1 className="text-2xl text-[#171717] font-semibold">
-            Patient Information
-          </h1>
-        </div>
-        <div className="flex items-center gap-6 my-10">
-          <img
-            src={
-              consultationDetails?.injector_image
-                ? `${baseUrlToBackend}${consultationDetails.injector_image}`
-                : "/default-profile.png"
-            }
-            alt={consultationDetails?.patient_first_name}
-            className="rounded-full w-[80px] h-[80px] object-cover"
-          />
+        <p className="text-[#676767] text-base sm:text-lg font-medium mb-6">
+          Detailed information for{" "}
+          <span className="text-orange-600 text-lg sm:text-xl font-semibold">
+            {consultationDetails?.patient_first_name}{" "}
+            {consultationDetails?.patient_last_name}
+          </span>
+        </p>
 
-          <div>
-            <h1 className="text-xl text-[#171717] font-medium">
-              {consultationDetails?.patient_first_name} {""}
-              {consultationDetails?.patient_last_name}
-            </h1>
-            <p className="text-[#E26C29] font-semibold capitalize">
-              {consultation?.status}
-            </p>
+        {/* ---------- Patient Information Card ---------- */}
+        <section className="bg-white rounded-xl shadow-sm border border-gray-200 p-5 sm:p-8 mb-6">
+          <div className="flex items-center gap-3 mb-5">
+            <Users size={22} className="text-[#E26C29]" />
+            <h2 className="text-lg sm:text-xl font-semibold text-[#171717]">
+              Patient Information
+            </h2>
           </div>
-        </div>
 
-        {/* social */}
-
-        <div className="flex items-center justify-between gap-10">
-          <div className="flex items-center gap-3">
-            <Mail size={20} className="text-[#E26C29]" />
-            <div>
-              <h1 className="text-[#575757] font-medium">Email</h1>
-              <p className="font-medium">
-                {consultationDetails?.patient_email}
+          {/* Avatar + Name */}
+          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 mb-6">
+            <img
+              src={
+                consultationDetails?.injector_image
+                  ? `${baseUrlToBackend}${consultationDetails.injector_image}`
+                  : "/default-profile.png"
+              }
+              alt={`${consultationDetails?.patient_first_name} profile`}
+              className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-2 border-orange-100"
+            />
+            <div className="text-center sm:text-left">
+              <h3 className="text-lg sm:text-xl font-medium text-[#171717]">
+                {consultationDetails?.patient_first_name}{" "}
+                {consultationDetails?.patient_last_name}
+              </h3>
+              <p className="text-[#E26C29] font-semibold capitalize text-sm sm:text-base">
+                {consultation?.status || consultationDetails?.status}
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <Phone size={20} className="text-[#E26C29]" />
-            <div>
-              <h1 className="text-[#575757] font-medium">Phone</h1>
-              <p className="font-medium">
-                {consultationDetails?.patient_phone}
+          {/* Contact Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 text-sm">
+            {/* Email */}
+            <div className="flex items-start gap-3">
+              <Mail size={18} className="text-[#E26C29] mt-0.5" />
+              <div>
+                <p className="text-[#575757] font-medium">Email</p>
+                <p className="font-medium text-gray-800 break-all">
+                  {consultationDetails?.patient_email || "—"}
+                </p>
+              </div>
+            </div>
+
+            {/* Phone */}
+            <div className="flex items-start gap-3">
+              <Phone size={18} className="text-[#E26C29] mt-0.5" />
+              <div>
+                <p className="text-[#575757] font-medium">Phone</p>
+                <p className="font-medium text-gray-800">
+                  {consultationDetails?.patient_phone || "—"}
+                </p>
+              </div>
+            </div>
+
+            {/* Location */}
+            <div className="flex items-start gap-3">
+              <MapPin size={18} className="text-[#E26C29] mt-0.5" />
+              <div>
+                <p className="text-[#575757] font-medium">Location</p>
+                <p className="font-medium text-gray-800">
+                  {consultationDetails?.location || "Los Angeles"}
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ---------- Consultation Summary Card ---------- */}
+        <section className="bg-white rounded-xl shadow-sm border border-gray-200 p-5 sm:p-8">
+          <div className="flex items-center gap-3 mb-5">
+            <Calendar size={22} className="text-[#E26C29]" />
+            <h2 className="text-lg sm:text-xl font-semibold text-[#171717]">
+              Consultation Summary
+            </h2>
+          </div>
+
+          <div className="space-y-5">
+            {/* Doctor / Date-Time / Fee */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+              <div>
+                <p className="text-[#575757] font-medium">Doctor</p>
+                <p className="font-medium text-gray-800">
+                  {consultationDetails?.injector_name || "—"}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-[#575757] font-medium">Date &amp; Time</p>
+                <p className="font-medium text-gray-800">
+                  {date && time ? `${date}, ${time}` : "—"}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-[#575757] font-medium">Consultation Fee</p>
+                <p className="font-semibold text-[#E26C29] text-base">
+                  ${consultationDetails?.consultation_fee ?? "0"}
+                </p>
+              </div>
+            </div>
+
+            {/* Reason */}
+            <div className="pt-4 border-t border-gray-100">
+              <h5 className="text-base sm:text-lg font-medium underline text-[#464646] mb-2">
+                Reason for Visit:
+              </h5>
+              <p className="text-gray-700 leading-relaxed">
+                {consultationDetails?.reason_for_visit || "No reason provided."}
               </p>
             </div>
           </div>
-
-          <div className="flex items-center gap-3">
-            <Mail size={20} className="text-[#E26C29]" />
-            <div>
-              <h1 className="text-[#575757] font-medium">Location</h1>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="bg-white rounded-lg shadow drop-shadow-md p-10 border border-gray-200">
-        <div className="flex items-center gap-5">
-          <Calendar size={24} className="text-[#E26C29]" />
-          <h1 className="text-2xl text-[#171717] font-semibold">
-            Consultation Summary
-          </h1>
-        </div>
-
-        <div className="my-10">
-          <div className="flex items-center justify-between gap-10">
-            <div className="flex items-center gap-3">
-              <div>
-                <h1 className="text-[#575757] font-medium text-lg">Doctor</h1>
-                <p className="font-medium">
-                  {consultationDetails?.injector_name}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <div>
-                <h1 className="text-[#575757] font-medium text-lg">
-                  Date & Time
-                </h1>
-                <p className="font-medium">
-                  {consultationDetails?.appointment_datetime && (
-                    <>
-                      {new Date(
-                        consultationDetails.appointment_datetime
-                      ).toLocaleDateString([], {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                      })}{" "}
-                      ,{" "}
-                      {new Date(
-                        consultationDetails.appointment_datetime
-                      ).toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </>
-                  )}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <div>
-                <h1 className="text-[#575757] font-medium text-lg">
-                  Consultation Fee
-                </h1>
-                <p className="font-semibold text-[#E26C29] text-lg">
-                  ${consultationDetails?.consultation_fee}
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="pt-10">
-            <h5 className="text-lg font-medium underline text-[#464646]">
-              Reason:
-            </h5>
-            <p className="py-2">{consultationDetails?.reason_for_visit}</p>
-          </div>
-        </div>
+        </section>
       </div>
     </div>
   );

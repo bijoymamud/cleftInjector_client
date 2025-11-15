@@ -1,5 +1,3 @@
-
-
 import React, { useRef } from "react";
 import { GoLocation } from "react-icons/go";
 import { FaStar } from "react-icons/fa6";
@@ -46,7 +44,7 @@ const Injectors = () => {
       >
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
           <div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-2">
+            <h1 className="text-2xl sm:text-3xl md:text-[48px] font-bold text-title mb-2 sm:mb-3">
               {searchQuery ? "Search Results" : "Featured Injectors"}
             </h1>
             {injectors.length > 0 && (

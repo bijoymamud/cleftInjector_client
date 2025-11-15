@@ -2,18 +2,16 @@ import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import React from "react";
 import Core_values from "./Core_values";
-import Certification_process from "./Impact";
 import Impact from "./Impact";
 import Certification_Process from "./Certification_process";
 import Our_Vision from "./Our_Vision";
 
 const About_us = () => {
   return (
-    <section className="min-h-screen">
-      {/* Hero Section */}
-      <div className="relative md:my-14 my-10 md:mt-24 bg-white rounded-2xl shadow-lg overflow-hidden w-full container mx-auto ">
-        <div className="relative h-[50vh] w-full bg-center bg-cover bg-[url('https://i.ibb.co.com/vxV6j5Xk/Frame-1707482945.jpg')] rounded-2xl">
-          <div className="absolute inset-0 bg-black/60" />
+    <section className="min-h-screen ">
+      <div className="relative md:my-14 my-10 md:mt-24 rounded-2xl overflow-hidden w-full container mx-auto px-3 md:px-0">
+        <div className="relative h-[50vh] w-full  bg-center bg-cover bg-[url('https://i.ibb.co.com/vxV6j5Xk/Frame-1707482945.jpg')] rounded-2xl">
+          <div className="absolute inset-0 bg-black/60 px-3 rounded-2xl md:px-0" />
 
           <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-6">
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-wide">
@@ -27,10 +25,8 @@ const About_us = () => {
         </div>
       </div>
 
-      {/* Mission Section */}
       <div className="bg-[#F2F4F6] md:py-16 px-3 md:px-14 md:my-24 py-10">
         <div className="container mx-auto grid md:grid-cols-2 gap-12 items-center">
-          {/* Text Content */}
           <div>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-title leading-tight">
               Our Mission
@@ -63,7 +59,6 @@ const About_us = () => {
             </Button>
           </div>
 
-          {/* Image */}
           <div className="flex justify-center md:justify-end">
             <img
               src="https://i.ibb.co.com/qFFJwV2T/Rectangle-15.png"

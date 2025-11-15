@@ -78,12 +78,12 @@ export default function ConsultationDashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Upcoming Consultations */}
           <div className="bg-[#F9FAFB] p-5 rounded-lg shadow-sm border border-gray-200">
-            <div className="p-6 border-gray-200">
+            <div className="md:p-6 border-gray-200 pb-5 md:pb-0">
               <h2 className="text-2xl font-semibold text-gray-900 capitalize">
                 Your upcoming consultations
               </h2>
             </div>
-            <div className="p-4">
+            <div className="md:p-6">
               {upcoming.length === 0 ? (
                 <div className="text-center text-gray-500 py-10 font-medium">
                   Currently no consultation in queue
@@ -144,12 +144,12 @@ export default function ConsultationDashboard() {
 
           {/* Recent Activities */}
           <div className="bg-[#F9FAFB] p-5 rounded-lg shadow-sm border border-gray-200">
-            <div className="p-6">
+            <div className="md:p-6 pb-5 md:pb-0">
               <h2 className="text-2xl font-semibold text-gray-900">
                 Recent Activities
               </h2>
             </div>
-            <div className="p-6">
+            <div className="md:p-6">
               <div className="space-y-4">
                 {recent?.map((a, i) => (
                   <div

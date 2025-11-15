@@ -84,42 +84,33 @@ export default function Consultation() {
     return pages;
   };
 
-  //cancel consultation function
   const handleCancelConsultation = async (id) => {
     try {
-      console.log(id);
-
       const response = await cancelConsultation({
-        id: id,
+        id,
         status: "canceled_by_injector",
       }).unwrap();
-
-      console.log(response, "Consultation canceled successfully");
-
       toast.success(response?.message || "Consultation Canceled");
     } catch (error) {
-      console.error("Failed to cancel consultation:", error);
       toast.error(error?.data?.detail || "Error: Try again");
     }
   };
 
-  //accept consultation function
   const handleAcceptConsultation = async (id) => {
     try {
       const response = await acceptConsultation({
-        id: id,
+        id,
         status: "confirmed",
       }).unwrap();
-
-      toast.success(response?.message || "Consultation Canceled");
+      toast.success(response?.message || "Consultation Accepted");
     } catch (error) {
-      toast.error(error?.status || "Error: Try again");
+      toast.error(error?.data?.message || "Error: Try again");
     }
   };
 
   return (
-    <div className="">
-      <div className="container mx-auto">
+    <div className="min-h-screen">
+      <div>
         <Toaster
           richColors
           position="bottom-right"
@@ -128,18 +119,22 @@ export default function Consultation() {
             error: { className: "bg-red-600 text-white" },
           }}
         />
+
+        {/* Header */}
         <div className="mb-6">
-          <h1 className="text-2xl font-semibold text-gray-900 mb-1">
+          <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">
             Consultation Management
           </h1>
-          <p className="text-base text-gray-500">
+          <p className="text-sm sm:text-base text-gray-500 mt-1">
             Manage your patient consultations and bookings
           </p>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm p-4 mb-4">
-          <div className="flex flex-col sm:flex-row items-center gap-4">
-            <div className="flex-1 relative w-full">
+        {/* Search & Filters */}
+        <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
+          <div className="flex flex-col gap-4">
+            {/* Search */}
+            <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
               <Input
                 placeholder="Search by patient name or reason"
@@ -148,11 +143,12 @@ export default function Consultation() {
                   setSearchQuery(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="pl-10 border-gray-200 w-full"
+                className="pl-10 border-gray-300 focus:border-orange-500 h-11 text-sm"
               />
             </div>
 
-            <div className="flex gap-2 flex-wrap">
+            {/* Filter Buttons */}
+            <div className="flex flex-wrap gap-2">
               {["All", "Pending", "Confirmed", "Completed"].map((filter) => (
                 <Button
                   key={filter}
@@ -161,11 +157,11 @@ export default function Consultation() {
                     setActiveFilter(filter);
                     setCurrentPage(1);
                   }}
-                  className={
+                  className={`text-xs sm:text-sm h-9 px-3 sm:px-4 ${
                     activeFilter === filter
-                      ? "bg-orange-500 hover:bg-orange-600 text-white hover:cursor-pointer"
-                      : "hover:bg-gray-100 hover:cursor-pointer"
-                  }
+                      ? "bg-orange-500 hover:bg-orange-600 text-white"
+                      : "hover:bg-gray-100 text-gray-700"
+                  }`}
                 >
                   {filter}
                 </Button>
@@ -175,57 +171,61 @@ export default function Consultation() {
         </div>
 
         {/* Consultation List */}
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           {paginatedData.length === 0 ? (
-            <div className="text-center py-10 text-gray-500">
+            <div className="text-center py-12 text-gray-500 text-sm sm:text-base">
               No consultations found matching your criteria.
             </div>
           ) : (
             paginatedData.map((consultation) => (
               <div
                 key={consultation.id}
-                className="bg-[#E26C290D] cursor-pointer rounded-lg shadow-sm p-4 hover:shadow-md transition-shadow"
+                className="bg-orange-50/50 border border-orange-100 rounded-xl p-4 shadow-sm hover:shadow transition-shadow"
               >
-                <div className="flex items-start gap-4">
+                <div className="flex flex-col sm:flex-row gap-4">
+                  {/* Patient Image */}
                   <img
                     src={
                       consultation?.patient_image ||
                       "https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvczc3LW1ja2luc2V5LTc2MTEtcG9tXzMuanBn.jpg"
                     }
                     alt={consultation?.patient_name}
-                    className="rounded-full w-[100px] h-[100px] object-cover"
+                    className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover flex-shrink-0 mx-auto sm:mx-0"
                   />
 
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-2">
-                      <h3 className="font-semibold text-gray-900 text-xl truncate">
+                  {/* Content */}
+                  <div className="flex-1 min-w-0 text-center sm:text-left">
+                    {/* Name + Status */}
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
+                      <h3 className="font-semibold text-gray-900 text-lg truncate">
                         {consultation.patient_name}
                       </h3>
                       <span
-                        className={`px-2 py-0.5 capitalize rounded-full text-[14px] font-semibold ${
+                        className={`px-2 py-1 capitalize rounded-full text-xs font-medium w-fit mx-auto sm:mx-0 ${
                           consultation.status === "pending"
-                            ? "bg-[#E26C29] text-white"
+                            ? "bg-orange-500 text-white"
                             : consultation.status === "confirmed"
                             ? "bg-green-500 text-white"
                             : consultation.status === "cancelled"
-                            ? "bg-gray-300 text-gray-700"
-                            : "bg-gray-200 text-gray-600"
+                            ? "bg-gray-400 text-white"
+                            : "bg-gray-300 text-gray-700"
                         }`}
                       >
                         {consultation.status}
                       </span>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 text-sm text-gray-600 mb-2">
-                      <div className="flex items-center gap-1">
-                        <Clock className="w-4 h-4" />
+                    {/* Date & Location */}
+                    <div className="flex flex-col sm:flex-row gap-3 text-xs sm:text-sm text-gray-600 mb-3">
+                      <div className="flex items-center justify-center sm:justify-start gap-1">
+                        <Clock className="w-3.5 h-3.5" />
                         <span>
                           {new Date(
                             consultation?.appointment_datetime
-                          ).toLocaleDateString([], {
-                            year: "numeric",
+                          ).toLocaleDateString("en-US", {
                             month: "short",
                             day: "numeric",
+                            year: "numeric",
                           })}{" "}
                           •{" "}
                           {new Date(
@@ -236,28 +236,32 @@ export default function Consultation() {
                           })}
                         </span>
                       </div>
-
-                      <div className="flex items-center gap-1">
-                        <MapPin className="w-4 h-4" />
+                      <div className="flex items-center justify-center sm:justify-start gap-1">
+                        <MapPin className="w-3.5 h-3.5" />
                         <span>{consultation.location || "Los Angeles"}</span>
                       </div>
                     </div>
 
-                    <p className="text-base text-[#656464]">
-                      Reason:{" "}
-                      <span className="text-black">{consultation.reason}</span>
+                    {/* Reason */}
+                    <p className="text-sm text-gray-700">
+                      <span className="font-medium">Reason:</span>{" "}
+                      <span className="text-gray-900">
+                        {consultation.reason}
+                      </span>
                     </p>
                   </div>
 
-                  <div className="flex flex-col sm:flex-row items-center gap-2 flex-shrink-0">
+                  {/* Action Buttons */}
+                  <div className="flex flex-row sm:flex-col gap-2 justify-center sm:justify-start mt-3 sm:mt-0">
                     <Link
                       to={`/provider/consultation_details/${consultation?.id}`}
                       state={consultation}
+                      className="flex-1 sm:flex-initial"
                     >
                       <Button
                         variant="outline"
                         size="sm"
-                        className="text-orange-500 hover:text-orange-600 hover:bg-orange-50 border-orange-500"
+                        className="w-full text-xs h-9 border-orange-500 text-orange-600 hover:bg-orange-50"
                       >
                         View Details
                       </Button>
@@ -270,7 +274,7 @@ export default function Consultation() {
                             handleAcceptConsultation(consultation?.id)
                           }
                           size="sm"
-                          className="bg-orange-500 hover:bg-orange-600 text-white hover:cursor-pointer"
+                          className="w-full text-xs h-9 bg-orange-500 hover:bg-orange-600 text-white"
                         >
                           Accept
                         </Button>
@@ -280,7 +284,7 @@ export default function Consultation() {
                           }
                           size="sm"
                           variant="outline"
-                          className="text-red-500 cursor-pointer border-red-200 hover:bg-red-50"
+                          className="w-full text-xs h-9 text-red-600 border-red-300 hover:bg-red-50"
                         >
                           Cancel
                         </Button>
@@ -293,62 +297,65 @@ export default function Consultation() {
           )}
         </div>
 
+        {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-center gap-2 mt-10 flex-wrap">
-            {/* Prev Button */}
-            <Button
-              variant="outline"
-              size="icon"
-              className="w-8 h-8 rounded-full"
-              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-              disabled={currentPage === 1}
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </Button>
+          <div className="flex flex-col items-center gap-3 mt-8">
+            <div className="flex items-center justify-center gap-1 flex-wrap">
+              <Button
+                variant="outline"
+                size="icon"
+                className="w-9 h-9 rounded-full"
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </Button>
 
-            {/* Page Numbers */}
-            {getPageNumbers().map((page, idx) =>
-              page === "..." ? (
-                <span key={`ellipsis-${idx}`} className="text-gray-400 px-2">
-                  ...
-                </span>
-              ) : (
-                <Button
-                  key={page}
-                  variant="outline"
-                  size="sm"
-                  className={`w-8 h-8 rounded-full ${
-                    currentPage === page
-                      ? "bg-orange-500 text-white hover:bg-orange-600"
-                      : "hover:bg-gray-100"
-                  }`}
-                  onClick={() => setCurrentPage(page)}
-                >
-                  {page}
-                </Button>
-              )
-            )}
+              {getPageNumbers().map((page, idx) =>
+                page === "..." ? (
+                  <span
+                    key={`ellipsis-${idx}`}
+                    className="px-2 text-gray-500 text-sm"
+                  >
+                    ...
+                  </span>
+                ) : (
+                  <Button
+                    key={page}
+                    variant="outline"
+                    size="sm"
+                    className={`w-9 h-9 rounded-full text-sm ${
+                      currentPage === page
+                        ? "bg-orange-500 text-white hover:bg-orange-600"
+                        : "hover:bg-gray-100"
+                    }`}
+                    onClick={() => setCurrentPage(page)}
+                  >
+                    {page}
+                  </Button>
+                )
+              )}
 
-            {/* Next Button */}
-            <Button
-              variant="outline"
-              size="icon"
-              className="w-8 h-8 rounded-full"
-              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-              disabled={currentPage === totalPages}
-            >
-              <ChevronRight className="w-4 h-4" />
-            </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                className="w-9 h-9 rounded-full"
+                onClick={() =>
+                  setCurrentPage((p) => Math.min(totalPages, p + 1))
+                }
+                disabled={currentPage === totalPages}
+              >
+                <ChevronRight className="w-4 h-4" />
+              </Button>
+            </div>
+
+            {/* Result Count */}
+            <p className="text-xs sm:text-sm text-gray-500">
+              Showing {(currentPage - 1) * PAGE_SIZE + 1} to{" "}
+              {Math.min(currentPage * PAGE_SIZE, totalItems)} of {totalItems}{" "}
+              results
+            </p>
           </div>
-        )}
-
-        {/* Optional: Show result count */}
-        {totalItems > 0 && (
-          <p className="text-center text-sm text-gray-500 mt-4">
-            Showing {(currentPage - 1) * PAGE_SIZE + 1} to{" "}
-            {Math.min(currentPage * PAGE_SIZE, totalItems)} of {totalItems}{" "}
-            results
-          </p>
         )}
       </div>
     </div>

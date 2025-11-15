@@ -31,9 +31,9 @@ const Features = () => {
         backgroundImage: "url('https://i.ibb.co/tMHnwxVt/Group-60-1.png')",
       }}
     >
-      <div className="relative container mx-auto bg-white/90 backdrop-blur-sm rounded-2xl overflow-hidden flex items-center justify-center">
+      <div className="relative container mx-auto  rounded-2xl overflow-hidden flex items-center justify-center">
         <div className="relative h-auto w-full">
-          <div className="relative z-10 flex flex-col items-center justify-center text-center md:px-10 px-2 py-10 md:py-16">
+          <div className="relative z-10 flex flex-col items-center justify-center text-center md:px-10 py-10 md:py-16">
             <p className="text-tagline text-lg sm:text-xl md:text-[24px]">
               About CleftInject
             </p>
