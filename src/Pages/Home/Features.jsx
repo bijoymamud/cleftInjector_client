@@ -33,7 +33,7 @@ const Features = () => {
     >
       <div className="relative container mx-auto  rounded-2xl overflow-hidden flex items-center justify-center">
         <div className="relative h-auto w-full">
-          <div className="relative z-10 flex flex-col items-center justify-center text-center md:px-10 py-10 md:py-16">
+          <div className="relative z-10 flex flex-col items-center justify-center text-center  py-10 md:py-16">
             <p className="text-tagline text-lg sm:text-xl md:text-[24px]">
               About CleftInject
             </p>

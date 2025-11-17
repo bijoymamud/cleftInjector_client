@@ -21,7 +21,6 @@ export const ChatInterface = ({ isOpen, onClose }) => {
   const typingIntervalRef = useRef(null);
   const chatContainerRef = useRef(null);
 
-  // Auto-scroll to bottom
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({
       behavior: "smooth",
@@ -33,21 +32,18 @@ export const ChatInterface = ({ isOpen, onClose }) => {
     scrollToBottom();
   }, [messages, isTyping, typingText]);
 
-  // Cleanup typing interval
   useEffect(() => {
     return () => {
       if (typingIntervalRef.current) clearInterval(typingIntervalRef.current);
     };
   }, []);
 
-  // Focus input when opened
   useEffect(() => {
     if (isOpen && inputRef.current) {
       setTimeout(() => inputRef.current?.focus(), 300);
     }
   }, [isOpen]);
 
-  // Typing animation effect
   const typeMessage = (fullText, messageId) => {
     const words = fullText.split(" ");
     let currentIndex = 0;
@@ -142,7 +138,6 @@ export const ChatInterface = ({ isOpen, onClose }) => {
 
   return (
     <>
-      {/* Backdrop for mobile */}
       <div
         className="fixed inset-0 bg-black/50 z-40 md:hidden"
         onClick={onClose}

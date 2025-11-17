@@ -40,7 +40,7 @@ const Injectors = () => {
       <div
         id="search_results"
         ref={resultsRef}
-        className="container mx-auto py-12 sm:py-16 md:py-20 px-4"
+        className="container mx-auto py-12 sm:py-16 md:py-20 px-4 md:px-0"
       >
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
           <div>

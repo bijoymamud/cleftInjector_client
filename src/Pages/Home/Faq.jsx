@@ -66,12 +66,12 @@ const FAQAccordion = () => {
           >
             <button
               onClick={() => toggleItem(item.id)}
-              className="w-full px-4 sm:px-5 md:px-6 py-4 sm:py-5 text-left flex items-center justify-between hover:bg-gray-50 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-[#FF792C] focus:ring-inset rounded-lg"
+              className="w-full px-4 sm:px-5 md:px-6 cursor-pointer py-4 sm:py-5 text-left flex items-center justify-between hover:bg-gray-50 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-[#FF792C] focus:ring-inset rounded-lg"
               aria-expanded={openItem === item.id}
               aria-controls={`content-${item.id}`}
             >
-              <div className="flex items-center">
-                <span className="text-gray-900 text-base sm:text-lg font-medium leading-relaxed pr-3 sm:pr-4">
+              <div className="flex items-center ">
+                <span className="text-title md:!text-[20px]  text-base font-medium md:font-semibold  leading-relaxed pr-3 sm:pr-4">
                   {item.question}
                 </span>
               </div>

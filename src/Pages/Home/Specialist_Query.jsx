@@ -38,10 +38,10 @@ const Specialist_Query = () => {
     <section>
       {/* Banner */}
       <div
-        className="relative w-full mb-8 sm:mb-12 md:mb-16 h-[300px] sm:h-[400px] md:h-[600px] bg-cover bg-center"
+        className="relative w-full  h-[200px]  md:h-[600px] bg-cover bg-center"
         style={{
           backgroundImage:
-            "url('https://i.ibb.co.com/Cpk19K6z/Rectangle-34624394.png')",
+            "url('https://i.ibb.co.com/MynhVqZM/augmentation-improvement-lips-professional-salon.jpg')",
         }}
       >
         <div className="absolute inset-0 flex items-center justify-center"></div>
@@ -55,7 +55,7 @@ const Specialist_Query = () => {
               <h2 className="text-2xl sm:text-3xl md:text-[48px] font-bold text-title py-3 md:py-5">
                 Find Your Specialist
               </h2>
-              <p className="text-label text-base md:text-xl w-11/12 md:w-8/12">
+              <p className="text-label md:mx-auto text-base md:text-xl w-11/12 md:w-8/12">
                 Search our comprehensive directory of certified cleft lip
                 injection specialists
               </p>
